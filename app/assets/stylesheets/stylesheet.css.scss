@@ -1,0 +1,41 @@
+/* universal */
+
+header {
+  background-color: #E6E6E6;
+}
+
+/* homepage header */
+
+#logo {
+  margin: 1% 0 1% 1%
+}
+
+/* homepage login */
+
+#homepage_container {
+  width: 100%;
+  text-align: center;
+  overflow-y: hidden;
+  background-color: #fff;
+  img {
+    height: 50px;
+  }
+}
+
+#facebook_login_container {
+  width: 45%;
+  float: left;
+}
+
+#facebook_login {
+  float: right;
+}
+
+#twitter_login_container {
+  width: 45%;
+  float: right;
+}
+
+#twitter_login {
+  float: left;
+}

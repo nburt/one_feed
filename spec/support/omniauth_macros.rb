@@ -12,7 +12,14 @@ module OmniauthMacros
       'credentials' => {
         'token' => 'mock_token',
         'secret' => 'mock_secret'
+      },
+      'extra' => {
+        'access_token' => access_token_struct.new(1, 2)
       }
     }
+  end
+
+  def access_token_struct
+    Struct.new(:secret, :token)
   end
 end

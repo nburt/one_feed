@@ -23,6 +23,6 @@ feature 'Homepage with login' do
     OmniAuth.config.mock_auth[:twitter] = :invalid
     visit '/'
     click_link 'twitter_login_link'
-    expect(page).to have_content 'Authorization failed.'
+    expect(page).to have_content 'Authentication failed.'
   end
 end

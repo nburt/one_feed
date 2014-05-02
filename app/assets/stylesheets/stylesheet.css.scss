@@ -4,21 +4,48 @@ header {
   background-color: #E6E6E6;
 }
 
+body {
+  font-family: Libre Baskerville;
+}
+
 /* homepage header */
 
 #logo {
-  margin: 1% 0 1% 2%
+  margin: 1% 0 1% 2%;
+}
+
+nav {
+  float: right;
+  margin-top: 1.9%;
+  margin-right: 2%;
+  li {
+    list-style: none;
+    margin-right: 2%;
+    a {
+      text-decoration: none;
+      color: #00b80c;
+      font-size: 1.25em;
+    }
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 /* homepage login */
 
-#homepage_container {
+#login_container {
   width: 100%;
   text-align: center;
   overflow-y: hidden;
   background-color: #fff;
   img {
     height: 50px;
+  }
+  a {
+    text-decoration: none;
+    color: #000;
   }
 }
 
@@ -43,4 +70,12 @@ header {
 #auth_failure {
   color: #FF0000;
   text-align: center;
+}
+
+/* Feed */
+
+#feed_container {
+  h1 {
+    text-align: center;
+  }
 }

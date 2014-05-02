@@ -14,6 +14,7 @@ feature 'Homepage with login' do
     visit '/'
     mock_auth_hash
     click_link 'twitter_login_link'
+    expect(page).to have_content 'My Feed'
     click_link 'Logout'
     expect(page).to have_content 'Login with Twitter'
   end

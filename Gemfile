@@ -4,7 +4,10 @@ ruby '2.1.1'
 gem 'omniauth-twitter', '~> 1.0.1'
 gem 'rails', '4.1.0'
 gem 'pg', '~> 0.17.1'
-gem 'rails_12factor', '~> 0.0.2'
+
+group :production do
+  gem 'rails_12factor', '~> 0.0.2'
+end
 
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'

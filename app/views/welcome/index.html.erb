@@ -1,9 +1,4 @@
-<div id="homepage_container">
-  <% if current_user %>
-    <h1>Welcome!</h1>
-
-    <h3><a href="/destroy">Logout</a></h3>
-  <% else %>
+<div id="login_container">
     <% if @failure %>
       <p id="auth_failure">Authorization failed.</p>
     <% end %>
@@ -12,15 +7,14 @@
 
     <div id="facebook_login_container">
       <div id="facebook_login">
-        <h3>Login with Facebook</h3>
+        <a href="auth/facebook"><h3>Login with Facebook</h3></a>
         <a href="/auth/facebook" id="facebook_login_link"><img src="<%= asset_url("FB-f-Logo__blue_50.png") %>"></a>
       </div>
     </div>
     <div id="twitter_login_container">
       <div id="twitter_login">
-        <h3>Login with Twitter</h3>
+        <a href="auth/twitter"><h3>Login with Twitter</h3></a>
         <a href="/auth/twitter" id="twitter_login_link"><img src="<%= asset_url("Twitter_logo_blue.png") %>"></a>
       </div>
     </div>
-  <% end %>
 </div>

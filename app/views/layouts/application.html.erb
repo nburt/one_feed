@@ -2,16 +2,24 @@
 <html>
 <head>
   <title>OneFeed</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <header>
   <a href="/"><img id="logo" src="<%= asset_url("one_feed_logo.png") %>" alt="OneFeed Logo"></a>
+  <nav>
+    <ul>
+      <% if current_user %>
+        <li><a href="/destroy">Logout</a></li>
+      <% end %>
+    </ul>
+  </nav>
 </header>
 <div class="container">
-<%= yield %>
+  <%= yield %>
 </div>
 </body>
 </html>

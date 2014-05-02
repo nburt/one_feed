@@ -7,7 +7,7 @@ header {
 /* homepage header */
 
 #logo {
-  margin: 1% 0 1% 1%
+  margin: 1% 0 1% 2%
 }
 
 /* homepage login */
@@ -38,4 +38,9 @@ header {
 
 #twitter_login {
   float: left;
+}
+
+#auth_failure {
+  color: #FF0000;
+  text-align: center;
 }

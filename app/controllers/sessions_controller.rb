@@ -15,4 +15,5 @@ class SessionsController < ApplicationController
   def failure
     redirect_to root_url, flash: {:auth_failure => "Authentication failed."}
   end
+
 end

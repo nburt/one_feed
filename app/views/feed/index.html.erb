@@ -1,3 +1,29 @@
 <div id="feed_container">
   <h1>My Feed</h1>
+
+  <div id="tweet_container">
+    <% @timeline.each do |tweet| %>
+      <div id="individual_post">
+        <div id="network_logo">
+          <img id="twitter_stream_logo" src="<%= asset_url("Twitter_logo_blue.png") %>">
+        </div>
+        <div id="post_main">
+          <div id="post_header">
+            <img id="user_profile_picture" src="<%= tweet.user.profile_image_url_https %>">
+            <span id="post_info"><a href="<%= tweet.user.url %>"><%= tweet.user.name %></a> @<%= tweet.user.screen_name %> <%= tweet.created_at %> </span>
+          </div>
+          <div id="post_content">
+            <p><%= tweet.text %></p>
+
+            <div id="post_stats">
+              <p>
+                Retweets: <%= tweet.retweet_count %> Favorites: <%= tweet.favorite_count %>
+                <a href="https://twitter.com/<%= tweet.user.screen_name %>/status/<%= tweet.id %>">View on Twitter</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>

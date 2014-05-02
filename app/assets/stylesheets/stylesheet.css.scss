@@ -11,13 +11,17 @@ body {
 /* homepage header */
 
 #logo {
-  margin: 1% 0 1% 2%;
+  margin: 1% auto;
+}
+
+#header_content {
+  width: 90%;
+  margin: auto;
 }
 
 nav {
   float: right;
   margin-top: 1.9%;
-  margin-right: 2%;
   li {
     list-style: none;
     margin-right: 2%;
@@ -75,7 +79,20 @@ nav {
 /* Feed */
 
 #feed_container {
+  width: 90%;
+  margin: auto;
   h1 {
     text-align: center;
+  }
+}
+
+#twitter_stream_logo {
+  height: 30px;
+}
+
+#individual_post {
+  a {
+    text-decoration: none;
+    color: #00b80c;
   }
 }

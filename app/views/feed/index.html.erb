@@ -1,3 +1,4 @@
+<% require './lib/time_formatter' %>
 <div id="feed_container">
   <h1>My Feed</h1>
 
@@ -13,7 +14,7 @@
             <ul>
               <li><a href="<%= tweet.user.url %>"><%= tweet.user.name %></a></li>
               <li>@<%= tweet.user.screen_name %></li>
-              <li><%= tweet.created_at %></li>
+              <li><%= TimeFormatter.new(tweet.created_at).format %></li>
             </ul>
           </div>
           <div id="post_content">
@@ -23,7 +24,9 @@
               <ul>
                 <li>Retweets: <%= tweet.retweet_count %></li>
                 <li>Favorites: <%= tweet.favorite_count %></li>
-                <li><a href="https://twitter.com/<%= tweet.user.screen_name %>/status/<%= tweet.id %>">View on Twitter</a></li>
+                <li>
+                  <a href="https://twitter.com/<%= tweet.user.screen_name %>/status/<%= tweet.id %>">View on Twitter</a>
+                </li>
               </ul>
             </div>
           </div>

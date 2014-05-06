@@ -1,4 +1,3 @@
-<% require './lib/time_formatter' %>
 <div id="feed_container">
   <h1>My Feed</h1>
 
@@ -14,7 +13,7 @@
             <ul>
               <li><a href="<%= tweet.user.url %>"><%= tweet.user.name %></a></li>
               <li>@<%= tweet.user.screen_name %></li>
-              <li><%= TimeFormatter.new(tweet.created_at).format %></li>
+              <li><%= time_ago_in_words(tweet.created_at) %> ago</li>
             </ul>
           </div>
           <div id="post_content">

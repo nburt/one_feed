@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/nburt/one_feed.svg?branch=master)](https://travis-ci.org/nburt/one_feed)
+[![Code Climate](https://codeclimate.com/github/nburt/one_feed.png)](https://codeclimate.com/github/nburt/one_feed)
 
 OneFeed is an app that combines multiple social media networks into one feed.
 

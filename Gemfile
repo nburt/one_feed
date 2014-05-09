@@ -5,6 +5,7 @@ gem 'omniauth-twitter', '~> 1.0.1'
 gem 'twitter', '~> 5.8.0'
 gem 'rails', '4.1.0'
 gem 'pg', '~> 0.17.1'
+gem 'bcrypt', '~> 3.1.7'
 
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'

@@ -6,13 +6,14 @@ class WelcomeController < ApplicationController
   def index
     if current_user
 
-      user = User.find(session[:user_id])
+      #user = User.find(session[:user_id])
 
-      client = user.configure_twitter(user.access_token, user.access_token_secret)
+      #client = user.configure_twitter(user.access_token, user.access_token_secret)
 
-      @timeline = client.home_timeline
+      #@timeline = client.home_timeline
 
-      render 'feed/index'
+      #render 'feed/index'
+      render 'welcome/index'
     else
       render 'welcome/index'
     end

@@ -1,8 +1,7 @@
 class User < ActiveRecord::Base
 
-  validates :provider, presence: true
-  validates :uid, presence: true
-  validates :name, presence: true
+  validates :email, presence: true
+  validates :password, presence: true
 
   def self.update_or_create_with_omniauth(auth)
     user = where(provider: auth["provider"], uid: auth["uid"]).first_or_initialize

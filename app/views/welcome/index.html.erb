@@ -1,7 +1,16 @@
 <div id="login_container">
   <p id="auth_failure"><%= flash[:auth_failure] %></p>
 
-  <h1>Get Started</h1>
+  <% if current_user %>
+    <h1>Welcome to OneFeed</h1>
+  <% else %>
+    <h1>Get Started</h1>
+    <div id="onefeed_registration_container">
+      <div id="onefeed_registration">
+        <a href="/register">Register with OneFeed</a>
+      </div>
+    </div>
+  <% end %>
 
   <div id="facebook_login_container">
     <div id="facebook_login">

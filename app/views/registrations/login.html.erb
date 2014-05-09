@@ -1,0 +1,13 @@
+<h1>Login with OneFeed</h1>
+
+<p id="login_failure"><%= flash[:login_failure] %></p>
+
+<%= form_for @User, url: {action: "login"} do |f| %>
+  <%= f.label :email %>
+  <%= f.email_field :email %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+
+  <%= f.submit :Register %>
+<% end %>

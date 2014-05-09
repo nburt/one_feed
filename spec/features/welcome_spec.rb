@@ -18,6 +18,20 @@ feature 'Homepage with login' do
     expect(page).to have_content 'Welcome to OneFeed'
   end
 
+  scenario 'user can logout and log back in without re-registering' do
+    visit '/'
+    click_link 'Register with OneFeed'
+    fill_in 'user[email]', :with => 'nate@email.com'
+    fill_in 'user[password]', :with => 'password'
+    click_button 'Register'
+    click_link 'Logout'
+    click_link 'Login with OneFeed'
+    fill_in 'user[email]', :with => 'nate@email.com'
+    fill_in 'user[password]', :with => 'password'
+    click_button 'Register'
+    expect(page).to have_content 'Welcome to OneFeed'
+  end
+
   scenario 'user can visit homepage and will see text' do
     visit '/'
     within 'header' do

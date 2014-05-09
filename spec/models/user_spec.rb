@@ -56,8 +56,8 @@ describe User do
 
   describe 'rendering Tweets in the feed' do
     it 'can configure TWitter::REST:Client' do
-      user = User.new
-      client = user.configure_twitter(ENV['TWITTER_ACCESS_TOKEN'], ENV['TWITTER_ACCESS_TOKEN_SECRET'])
+      provider = Provider.new
+      client = provider.configure_twitter(ENV['TWITTER_ACCESS_TOKEN'], ENV['TWITTER_ACCESS_TOKEN_SECRET'])
       expect(client.access_token).to eq ENV['TWITTER_ACCESS_TOKEN']
       expect(client.access_token_secret).to eq ENV['TWITTER_ACCESS_SECRET']
     end

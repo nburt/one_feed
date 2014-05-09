@@ -7,23 +7,19 @@ feature 'Homepage with login' do
 
     stub_request(:get, 'https://api.twitter.com/1.1/statuses/home_timeline.json').
       to_return(body: File.read(File.expand_path("./spec/support/timeline.json")))
-  end
 
-  scenario 'user can register with OneFeed' do
     visit '/'
     click_link 'Register with OneFeed'
     fill_in 'user[email]', :with => 'nate@email.com'
     fill_in 'user[password]', :with => 'password'
     click_button 'Register'
+  end
+
+  scenario 'user can register with OneFeed' do
     expect(page).to have_content 'Welcome to OneFeed'
   end
 
   scenario 'user can logout and log back in without re-registering' do
-    visit '/'
-    click_link 'Register with OneFeed'
-    fill_in 'user[email]', :with => 'nate@email.com'
-    fill_in 'user[password]', :with => 'password'
-    click_button 'Register'
     click_link 'Logout'
     click_link 'Login with OneFeed'
     fill_in 'user[email]', :with => 'nate@email.com'
@@ -34,6 +30,7 @@ feature 'Homepage with login' do
 
   scenario 'user can visit homepage and will see text' do
     visit '/'
+    click_link 'Logout'
     within 'header' do
       click_link 'OneFeed'
     end

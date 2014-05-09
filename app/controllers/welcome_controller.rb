@@ -1,7 +1,4 @@
 class WelcomeController < ApplicationController
-  require 'twitter'
-
-  rescue_from Twitter::Error::Forbidden, with: :redirect_to_twitter_auth
 
   def index
     render 'welcome/index'

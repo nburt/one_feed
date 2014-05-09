@@ -16,12 +16,12 @@ class RegistrationsController < ApplicationController
 
   def logged_in
     user = User.find_by :email => params[:user][:email]
-    if user.nil?
-      session[:user_id] = nil
-      redirect_to login_path, flash: {:login_failure => "Invalid email or password"}
-    else
+    if user.present? && user.authenticate(params[:user][:password])
       session[:user_id] = user.id
       redirect_to root_url
+    else
+      session[:user_id] = nil
+      redirect_to login_path, flash: {:login_failure => "Invalid email or password"}
     end
   end
 

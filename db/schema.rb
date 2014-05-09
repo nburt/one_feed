@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20140509145225) do
     t.string   "access_token"
     t.string   "access_token_secret"
     t.string   "email"
-    t.string   "password"
+    t.string   "password_digest"
   end
 
 end

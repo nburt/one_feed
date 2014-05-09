@@ -38,8 +38,8 @@ feature 'Homepage with login' do
       click_link 'OneFeed'
     end
     expect(page).to have_content 'Get Started'
-    expect(page).to have_content 'Login with Facebook'
-    expect(page).to have_content 'Login with Twitter'
+    expect(page).to have_content 'Register with OneFeed'
+    expect(page).to have_content 'Login with OneFeed'
   end
 
   context 'old tests', pending: true do

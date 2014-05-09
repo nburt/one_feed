@@ -4,8 +4,10 @@ class User < ActiveRecord::Base
 
   validates :email, presence: true
 
-  def self.update_or_create_with_omniauth(auth)
-    user = where(provider: auth["provider"], uid: auth["uid"]).first_or_initialize
+  def self.update_with_omniauth(id, auth)
+    user = User.find(id)
+    Provider.new
+    provider.user_id = user.id
     user.provider = auth["provider"]
     user.uid = auth["uid"]
     user.name = auth["info"]["name"]

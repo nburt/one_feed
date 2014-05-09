@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   post '/users', to: 'registrations#create'
   get '/login', to: 'registrations#login'
   post '/login', to: 'registrations#logged_in'
-
-  get '/auth/:provider/callback', to: 'sessions#create'
   get '/destroy', to: 'sessions#destroy'
-  get '/auth/failure', to: 'sessions#failure'
+  get '/feed', to: 'feed#index'
+
+  get '/auth/:provider/callback', to: 'twitter_registration#create'
+  get '/auth/failure', to: 'twitter_registration#failure'
 end

@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 20140509145225) do
     t.datetime "updated_at"
     t.string   "access_token"
     t.string   "access_token_secret"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
     t.string   "email"
     t.string   "password_digest"
   end

@@ -2,7 +2,7 @@
 
 <p id="login_failure"><%= flash[:login_failure] %></p>
 
-<%= form_for @User, url: {action: "login"} do |f| %>
+<%= form_for @User do |f| %>
   <%= f.label :email %>
   <%= f.email_field :email %>
 

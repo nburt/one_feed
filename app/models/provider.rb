@@ -1,5 +1,14 @@
 class Provider < ActiveRecord::Base
 
+  validates :provider, presence: true
+  validates :uid, presence: true
+
+  belongs_to :user
+
+  def self.by_name(name)
+    where(provider: name)
+  end
+
   def self.update_or_create_with_omniauth(id, auth)
     provider = where(provider: auth["provider"], uid: auth["uid"]).first_or_initialize
     provider.provider = auth["provider"]

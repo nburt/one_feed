@@ -39,22 +39,23 @@ feature 'Homepage with login' do
     expect(page).to have_content 'Login with OneFeed'
   end
 
-  context 'old tests', pending: true do
-    scenario 'a user can login with Twitter and logout' do
-      visit '/'
-      mock_auth_hash
-      click_link 'twitter_login_link'
-      expect(page).to have_content 'My Feed'
-      expect(page).to have_content 'Gillmor Gang Live'
-      click_link 'Logout'
-      expect(page).to have_content 'Login with Twitter'
-    end
+  scenario 'a user can associate a Twitter account' do
+    mock_auth_hash
+    click_link 'twitter_login_link'
+    expect(page).to have_content 'My Feed'
+    expect(page).to have_content 'Gillmor Gang Live'
+  end
 
-    scenario 'it can handle authentication errors' do
-      OmniAuth.config.mock_auth[:twitter] = :invalid
-      visit '/'
-      click_link 'twitter_login_link'
-      expect(page).to have_content 'Authentication failed.'
-    end
+  scenario 'a user can dissociate a Twitter account' do
+    pending
+    click_link 'Unlink Twitter account'
+    expect(page).to have_css '#twitter_login_link'
+  end
+
+  scenario 'it can handle authentication errors' do
+    OmniAuth.config.mock_auth[:twitter] = :invalid
+    visit '/'
+    click_link 'twitter_login_link'
+    expect(page).to have_content 'Authentication failed.'
   end
 end

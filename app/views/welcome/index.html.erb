@@ -1,33 +1,13 @@
 <div id="login_container">
-  <p id="auth_failure"><%= flash[:auth_failure] %></p>
-
-  <% if current_user %>
-    <h1>Welcome to OneFeed</h1>
-
-    <div id="facebook_login_container">
-      <div id="facebook_login">
-        <a href="/auth/facebook"><h3>Login with Facebook</h3></a>
-        <a href="/auth/facebook" id="facebook_login_link"><img src="<%= asset_url("FB-f-Logo__blue_50.png") %>"></a>
-      </div>
+  <h1>Get Started</h1>
+  <div id="onefeed_registration_container">
+    <div id="onefeed_registration">
+      <a href="/register">Register with OneFeed</a>
     </div>
-    <div id="twitter_login_container">
-      <div id="twitter_login">
-        <a href="/auth/twitter"><h3>Login with Twitter</h3></a>
-        <a href="/auth/twitter" id="twitter_login_link"><img src="<%= asset_url("Twitter_logo_blue.png") %>"></a>
-      </div>
+  </div>
+  <div id="onefeed_login_container">
+    <div id="onefeed_login">
+      <a href="/login">Login with OneFeed</a>
     </div>
-  <% else %>
-    <h1>Get Started</h1>
-
-    <div id="onefeed_registration_container">
-      <div id="onefeed_registration">
-        <a href="/register">Register with OneFeed</a>
-      </div>
-    </div>
-    <div id="onefeed_login_container">
-      <div id="onefeed_login">
-        <a href="/login">Login with OneFeed</a>
-      </div>
-    </div>
-  <% end %>
+  </div>
 </div>

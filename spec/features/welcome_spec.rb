@@ -9,34 +9,32 @@ feature 'Homepage with login' do
       to_return(body: File.read(File.expand_path("./spec/support/timeline.json")))
 
     visit '/'
-    click_link 'Register with OneFeed'
-    fill_in 'user[email]', :with => 'nate@email.com'
-    fill_in 'user[password]', :with => 'password'
-    click_button 'Register'
-  end
-
-  scenario 'user can register with OneFeed' do
-    expect(page).to have_content 'Link Twitter'
+    within 'div#onefeed_registration' do
+      fill_in 'user[email]', :with => 'nate@email.com'
+      fill_in 'user[password]', :with => 'password'
+      click_button 'Sign Up'
+    end
   end
 
   scenario 'user can logout and log back in without re-registering' do
-    click_link 'Logout'
-    click_link 'Login with OneFeed'
-    fill_in 'user[email]', :with => 'nate@email.com'
-    fill_in 'user[password]', :with => 'password'
-    click_button 'Register'
+    expect(page).to have_content 'Link Twitter'
+    click_link 'Sign Out'
+    within 'div#onefeed_login_container' do
+      fill_in 'user[email]', :with => 'nate@email.com'
+      fill_in 'user[password]', :with => 'password'
+      click_button 'Sign In'
+    end
     expect(page).to have_content 'Link Twitter'
   end
 
-  scenario 'user can visit homepage and will see text' do
-    visit '/'
-    click_link 'Logout'
-    within 'header' do
-      click_link 'OneFeed'
+  scenario 'a user cannot login with incorrect credentials' do
+    click_link 'Sign Out'
+    within 'div#onefeed_login_container' do
+      fill_in 'user[email]', :with => 'nate@email.com'
+      fill_in 'user[password]', :with => 'password1'
+      click_button 'Sign In'
     end
-    expect(page).to have_content 'Get Started'
-    expect(page).to have_content 'Register with OneFeed'
-    expect(page).to have_content 'Login with OneFeed'
+    expect(page).to have_content 'Invalid email or password'
   end
 
   scenario 'a user can associate a Twitter account' do

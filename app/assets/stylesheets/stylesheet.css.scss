@@ -76,35 +76,53 @@ nav {
     text-decoration: none;
     color: #000;
   }
-}
-
-#onefeed_registration_container {
-  margin-top: 2.5em;
-  width: 45%;
-  float: right;
-  #onefeed_registration {
-    float: left;
-    font-size: 1.25em;
-    a:hover {
-      color: $logo-green;
-    }
-  }
-}
-
-#onefeed_login_container {
-  margin-top: 2.5em;
-  width: 45%;
-  float: left;
-  #onefeed_login {
+  #onefeed_registration_container {
+    text-align: left;
+    width: 45%;
     float: right;
-    font-size: 1.25em;
-    a:hover {
-      color: $logo-green;
+    #onefeed_registration {
+      float: left;
+      font-size: 1.25em;
+      a:hover {
+        color: $logo-green;
+      }
     }
   }
+  #onefeed_login_container {
+    text-align: left;
+    width: 45%;
+    float: left;
+    #onefeed_login {
+      float: right;
+      font-size: 1.25em;
+      a:hover {
+        color: $logo-green;
+      }
+    }
+  }
+  input {
+    display: block;
+    border: none;
+    border-radius: 5px;
+    margin: .25em 0 1em 0;
+    height: 1.5em;
+    width: 17.5em;
+  }
+  .homepage_form_button {
+    input {
+      background-color: $logo-green;
+      width: 5em;
+      height: 2em;
+      input:hover {
+        color: $white;
+      }
+    }
+  }
+
 }
 
-#auth_failure {
+#auth_failure,
+#login_failure {
   color: $error_message_red;
   text-align: center;
 }

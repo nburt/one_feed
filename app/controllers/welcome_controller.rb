@@ -4,6 +4,7 @@ class WelcomeController < ApplicationController
     if current_user
       render action: 'feed'
     else
+      @User = User.new
       render action: 'index'
     end
   end

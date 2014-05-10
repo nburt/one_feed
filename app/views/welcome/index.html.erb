@@ -1,13 +1,38 @@
 <div id="login_container">
   <h1>Get Started</h1>
+
   <div id="onefeed_registration_container">
     <div id="onefeed_registration">
-      <a href="/register">Register with OneFeed</a>
+      <h3>Sign Up with OneFeed</h3>
+      <%= form_for @User, :url => {:controller => "registrations", :action => "create"} do |f| %>
+        <%= f.label :email %>
+        <%= f.email_field :email %>
+
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+
+        <div class="homepage_form_button">
+          <%= f.submit "Sign Up" %>
+        </div>
+      <% end %>
     </div>
   </div>
   <div id="onefeed_login_container">
     <div id="onefeed_login">
-      <a href="/login">Login with OneFeed</a>
+      <h3>Sign In with OneFeed</h3>
+
+      <p id="login_failure"><%= flash[:login_failure] %></p>
+      <%= form_for @User, :url => {:controller => "sessions", :action => "create"} do |f| %>
+        <%= f.label :email %>
+        <%= f.email_field :email %>
+
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+
+        <div class="homepage_form_button">
+          <%= f.submit "Sign In" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

@@ -1,9 +1,5 @@
 class SessionsController < ApplicationController
 
-  def new
-    @User = User.new
-  end
-
   def create
     user = User.find_by :email => params[:user][:email]
     if user.present? && user.authenticate(params[:user][:password])
@@ -11,7 +7,7 @@ class SessionsController < ApplicationController
       redirect_to root_url
     else
       session[:user_id] = nil
-      redirect_to login_path, flash: {:login_failure => "Invalid email or password"}
+      redirect_to root_url, flash: {:login_failure => "Invalid email or password"}
     end
   end
 

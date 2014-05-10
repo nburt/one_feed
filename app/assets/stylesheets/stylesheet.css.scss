@@ -40,11 +40,30 @@ nav {
 
 /* homepage login */
 
+#accounts_container {
+  margin: 3em 0 3em 3em;
+  background-color: #fff;
+  width: 20%;
+  min-height: 32em;
+  float: left;
+  text-align: center;
+  overflow-y: hidden;
+  img {
+    height: 50px;
+  }
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  #twitter_login_container {
+    margin-top: 2.5em;
+  }
+}
+
 #login_container {
   width: 100%;
   text-align: center;
   overflow-y: hidden;
-  background-color: #E6E6E6;
   img {
     height: 50px;
   }
@@ -54,22 +73,30 @@ nav {
   }
 }
 
-#facebook_login_container {
-  width: 45%;
-  float: left;
-}
-
-#facebook_login {
-  float: right;
-}
-
-#twitter_login_container {
+#onefeed_registration_container {
+  margin-top: 2.5em;
   width: 45%;
   float: right;
+  #onefeed_registration {
+    float: left;
+    font-size: 1.25em;
+    a:hover {
+      color: #00b80c;
+    }
+  }
 }
 
-#twitter_login {
+#onefeed_login_container {
+  margin-top: 2.5em;
+  width: 45%;
   float: left;
+  #onefeed_login {
+    float: right;
+    font-size: 1.25em;
+    a:hover {
+      color: #00b80c;
+    }
+  }
 }
 
 #auth_failure {
@@ -80,11 +107,9 @@ nav {
 /* Feed */
 
 #feed_container {
-  width: 90%;
-  margin: 0 auto 5em;
-  h1 {
-    text-align: center;
-  }
+  width: 70%;
+  float: right;
+  margin: 3em 3em 3em 0;
 }
 
 #network_logo {
@@ -97,11 +122,13 @@ nav {
 
 #post_container {
   background-color: #fff;
+  min-height: 32em;
 }
 
 #individual_post {
-  padding: .75em;
+  padding: 2.5em;
   border-bottom: 1px solid #E6E6E6;
+  border-bottom-width: .5em;
   a {
     text-decoration: none;
     color: #00b80c;
@@ -142,4 +169,11 @@ nav {
 
 #post_content {
   clear: both;
+}
+
+#empty_feed {
+  margin-top: 0;
+  padding: 1.8em;
+  text-align: center;
+  font-size: 1.25em;
 }

@@ -16,7 +16,7 @@ feature 'Homepage with login' do
   end
 
   scenario 'user can register with OneFeed' do
-    expect(page).to have_content 'Welcome to OneFeed'
+    expect(page).to have_content 'Link Twitter'
   end
 
   scenario 'user can logout and log back in without re-registering' do
@@ -25,7 +25,7 @@ feature 'Homepage with login' do
     fill_in 'user[email]', :with => 'nate@email.com'
     fill_in 'user[password]', :with => 'password'
     click_button 'Register'
-    expect(page).to have_content 'Welcome to OneFeed'
+    expect(page).to have_content 'Link Twitter'
   end
 
   scenario 'user can visit homepage and will see text' do

@@ -1,12 +1,17 @@
 /* universal */
 
+$white: #fff;
+$background-gray: #E6E6E6;
+$logo-green: #00b80c;
+$error_message_red: #FF0000;
+
 header {
-  background-color: #fff;
+  background-color: $white;
 }
 
 body {
   font-family: Libre Baskerville;
-  background-color: #E6E6E6;
+  background-color: $background-gray;
 }
 
 /* homepage header */
@@ -28,7 +33,7 @@ nav {
     margin-right: 2%;
     a {
       text-decoration: none;
-      color: #00b80c;
+      color: $logo-green;
       font-size: 1.25em;
     }
   }
@@ -42,7 +47,7 @@ nav {
 
 #accounts_container {
   margin: 3em 0 3em 3em;
-  background-color: #fff;
+  background-color: $white;
   width: 20%;
   min-height: 32em;
   float: left;
@@ -81,7 +86,7 @@ nav {
     float: left;
     font-size: 1.25em;
     a:hover {
-      color: #00b80c;
+      color: $logo-green;
     }
   }
 }
@@ -94,13 +99,13 @@ nav {
     float: right;
     font-size: 1.25em;
     a:hover {
-      color: #00b80c;
+      color: $logo-green;
     }
   }
 }
 
 #auth_failure {
-  color: #FF0000;
+  color: $error_message_red;
   text-align: center;
 }
 
@@ -121,17 +126,17 @@ nav {
 }
 
 #post_container {
-  background-color: #fff;
+  background-color: $white;
   min-height: 32em;
 }
 
 #individual_post {
   padding: 2.5em;
-  border-bottom: 1px solid #E6E6E6;
+  border-bottom: 1px solid $background-gray;
   border-bottom-width: .5em;
   a {
     text-decoration: none;
-    color: #00b80c;
+    color: $logo-green;
   }
 }
 

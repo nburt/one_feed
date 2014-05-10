@@ -15,8 +15,8 @@ OneFeed is an app that allows registered users to link their social media accoun
 
 Here is an example for Twitter:
 
-TWITTER_API_KEY=<your Twitter app's API key>  
-TWITTER_API_SECRET=<your Twitter app's API secret>
+TWITTER_API_KEY=\<your Twitter app's API key\>  
+TWITTER_API_SECRET=\<your Twitter app's API secret\>
 
 The `.env` is ignored by git, see the `.gitignore` file.
 

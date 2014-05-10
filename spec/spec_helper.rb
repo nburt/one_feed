@@ -18,3 +18,8 @@ RSpec.configure do |config|
 end
 
 OmniAuth.config.test_mode = true
+
+require 'database_cleaner'
+
+DatabaseCleaner.strategy = :truncation
+

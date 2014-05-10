@@ -22,6 +22,7 @@ end
 group :test do
   gem 'capybara', '~> 2.2.1'
   gem 'webmock', '~> 1.17.4'
+  gem 'database_cleaner', '~> 1.2.0'
 end
 
 group :production do

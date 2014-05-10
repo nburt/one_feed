@@ -47,6 +47,7 @@ GEM
     coffee-script-source (1.7.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
+    database_cleaner (1.2.0)
     diff-lcs (1.2.5)
     equalizer (0.0.9)
     erubis (2.7.0)
@@ -186,6 +187,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   capybara (~> 2.2.1)
   coffee-rails (~> 4.0.0)
+  database_cleaner (~> 1.2.0)
   jbuilder (~> 2.0)
   jquery-rails
   omniauth-twitter (~> 1.0.1)

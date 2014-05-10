@@ -42,7 +42,7 @@ feature 'Homepage with login' do
   scenario 'a user can associate a Twitter account' do
     mock_auth_hash
     click_link 'twitter_login_link'
-    expect(page).to have_content 'My Feed'
+    expect(page).to have_content 'Link Twitter'
     expect(page).to have_content 'Gillmor Gang Live'
   end
 

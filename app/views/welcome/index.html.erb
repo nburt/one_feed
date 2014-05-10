@@ -4,7 +4,13 @@
   <div id="onefeed_registration_container">
     <div id="onefeed_registration">
       <h3>Sign Up with OneFeed</h3>
-      <%= form_for @User, :url => {:controller => "registrations", :action => "create"} do |f| %>
+      <% if @user.errors.present? %>
+        <% @user.errors.full_messages.each do |message| %>
+          <p><%= message %></p>
+        <% end %>
+        <br>
+      <% end %>
+      <%= form_for @user, :url => {:controller => "registrations", :action => "create"} do |f| %>
         <%= f.label :email %>
         <%= f.email_field :email %>
 
@@ -22,7 +28,7 @@
       <h3>Sign In with OneFeed</h3>
 
       <p id="login_failure"><%= flash[:login_failure] %></p>
-      <%= form_for @User, :url => {:controller => "sessions", :action => "create"} do |f| %>
+      <%= form_for @user, :url => {:controller => "sessions", :action => "create"} do |f| %>
         <%= f.label :email %>
         <%= f.email_field :email %>
 

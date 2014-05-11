@@ -1,5 +1,6 @@
 <div id="accounts_container">
   <p id="auth_failure"><%= flash[:auth_failure] %></p>
+
   <div id="twitter_login_container">
     <div id="twitter_login">
       <a href="/auth/twitter"><h3>Link Twitter</h3></a>
@@ -12,11 +13,33 @@
       <a href="/auth/facebook" id="facebook_login_link"><img src="<%= asset_url("FB-f-Logo__blue_50.png") %>"></a>
     </div>
   </div>
+  <div id="instagram_login_container">
+    <div id="instagram_login">
+      <a href="/auth/instagram"><h3>Link Instagram</h3></a>
+      <a href="/auth/instagram" id="instagram_login_link"><img src="<%= asset_url("Instagram_Icon_Large.png") %>"></a>
+    </div>
+  </div>
 </div>
 <div id="feed_container">
   <% if current_user_has_provider?('twitter') %>
     <%= render partial: 'feed_items', locals: {timeline: twitter_timeline} %>
   <% else %>
     <%= render partial: 'feed_items', locals: {timeline: nil} %>
+  <% end %>
+  <% if current_user_has_provider?('instagram') %>
+    <% instagram_timeline.each do |post| %>
+      <img src="<%= post["user"]["profile_picture"] %>">
+
+      <p><a href="http://www.instagram.com/<%= post["user"]["username"] %>"><%= post["user"]["username"] %></a></p>
+      <img src="<%= post["images"]["thumbnail"]["url"] %>">
+      <% if post["caption"] != nil %>
+        <p><%= post["caption"]["text"] %></p>
+      <% end %>
+      <p><a href="<%= post["link"] %>">View on Instagram</a></p>
+      <ul>
+        <li>Comments: <%= post["comments"]["count"] %></li>
+        <li>Likes: <%= post["likes"]["count"] %></li>
+      </ul>
+    <% end %>
   <% end %>
 </div>

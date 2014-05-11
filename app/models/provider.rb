@@ -13,8 +13,18 @@ class Provider < ActiveRecord::Base
     provider = where(provider: auth["provider"], uid: auth["uid"]).first_or_initialize
     provider.provider = auth["provider"]
     provider.uid = auth["uid"]
-    provider.twitter_access_token = auth["extra"]["access_token"].token
-    provider.twitter_access_token_secret = auth["extra"]["access_token"].secret
+    provider.access_token = auth["extra"]["access_token"].token
+    provider.access_token_secret = auth["extra"]["access_token"].secret
+    provider.user_id = id
+    provider.save!
+    provider
+  end
+
+  def self.update_or_create_with_instagram_omniauth(id, auth)
+    provider = where(provider: auth["provider"]).first_or_initialize
+    provider.provider = auth["provider"]
+    provider.uid = auth["uid"]
+    provider.access_token = auth["credentials"]["token"]
     provider.user_id = id
     provider.save!
     provider

@@ -5,8 +5,14 @@ module ApplicationHelper
   end
 
   def twitter_timeline
-    provider = current_user.providers.first
-    client = provider.configure_twitter(provider.twitter_access_token, provider.twitter_access_token_secret)
+    provider = current_user.providers.find_by(provider: 'twitter')
+    client = provider.configure_twitter(provider.access_token, provider.access_token_secret)
     client.home_timeline
+  end
+
+  def instagram_timeline
+    provider = current_user.providers.find_by(provider: 'instagram')
+    instagram_api = InstagramApi.new(provider.access_token)
+    @instagram_timeline = instagram_api.timeline
   end
 end

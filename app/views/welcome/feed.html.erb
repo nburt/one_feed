@@ -31,7 +31,8 @@
       <img src="<%= post["user"]["profile_picture"] %>">
 
       <p><a href="http://www.instagram.com/<%= post["user"]["username"] %>"><%= post["user"]["username"] %></a></p>
-      <img src="<%= post["images"]["thumbnail"]["url"] %>">
+      <p><%= time_ago_in_words(Time.at(post["created_time"].to_i)) %> ago</p>
+      <img src="<%= post["images"]["low_resolution"]["url"] %>">
       <% if post["caption"] != nil %>
         <p><%= post["caption"]["text"] %></p>
       <% end %>
@@ -39,6 +40,14 @@
       <ul>
         <li>Comments: <%= post["comments"]["count"] %></li>
         <li>Likes: <%= post["likes"]["count"] %></li>
+        <% if post["comments"]["count"] > 0 %>
+          <% post["comments"]["data"].each do |comment| %>
+            <li><%= comment["text"] %></li>
+            <li>
+              <a href="http://www.instagram.com/<%= comment["from"]["username"] %>"><%= comment["from"]["username"] %></a>
+            </li>
+          <% end %>
+        <% end %>
       </ul>
     <% end %>
   <% end %>

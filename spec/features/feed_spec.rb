@@ -47,4 +47,7 @@ feature 'can display feeds from various social media accounts' do
     expect(page).to have_content 'Link Instagram'
     expect(page).to have_content 'The girls #pumped #herewego'
   end
+
+  scenario 'a user can dissociate an Instagram account'
+
 end

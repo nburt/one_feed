@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   validates :email, presence: true, uniqueness: true
 
-  has_many :providers, dependent: :destroy
+  has_many :tokens, dependent: :destroy
 
 end
 

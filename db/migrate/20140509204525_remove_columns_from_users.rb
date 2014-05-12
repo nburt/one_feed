@@ -5,5 +5,5 @@ class RemoveColumnsFromUsers < ActiveRecord::Migration
     remove_column :users, :name, :string
     remove_column :users, :access_token, :string
     remove_column :users, :access_token_secret, :string
-  endq
+  end
 end

@@ -1,5 +1,5 @@
 <div id="post_container">
-  <% if timeline != nil %>
+  <% if timeline.empty? == false %>
     <% timeline.each do |tweet| %>
       <div id="individual_post">
         <div id="network_logo">

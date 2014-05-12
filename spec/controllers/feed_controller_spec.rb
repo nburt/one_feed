@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-
-describe WelcomeController do
+describe FeedController do
 
   let(:user) { User.create!(:email => 'nate@example.com', :password => 'password') }
 

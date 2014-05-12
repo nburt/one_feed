@@ -21,13 +21,13 @@
   </div>
 </div>
 <div id="feed_container">
-  <% if current_user_has_provider?('twitter') %>
-    <%= render partial: 'feed_items', locals: {timeline: twitter_timeline} %>
+  <% if @twitter_timeline %>
+    <%= render partial: 'welcome/feed_items', locals: {timeline: @twitter_timeline} %>
   <% else %>
-    <%= render partial: 'feed_items', locals: {timeline: nil} %>
+    <%= render partial: 'welcome/feed_items', locals: {timeline: nil} %>
   <% end %>
-  <% if current_user_has_provider?('instagram') %>
-    <% instagram_timeline.each do |post| %>
+  <% if @instagram_timeline %>
+    <% @instagram_timeline.each do |post| %>
       <img src="<%= post["user"]["profile_picture"] %>">
 
       <p><a href="http://www.instagram.com/<%= post["user"]["username"] %>"><%= post["user"]["username"] %></a></p>

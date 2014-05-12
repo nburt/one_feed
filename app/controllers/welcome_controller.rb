@@ -2,7 +2,7 @@ class WelcomeController < ApplicationController
 
   def index
     if current_user
-      render action: 'feed'
+      redirect_to feed_path
     else
       @user = User.new
       render action: 'index'

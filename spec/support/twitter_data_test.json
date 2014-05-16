@@ -25,6 +25,11 @@
     "text": "some tweet",
     "retweet_count": "1",
     "favorite_count": "1",
-    "id": "1234"
+    "id": "1234",
+    "media": [
+      {
+        "media_url": "http://twitter.com"
+      }
+    ]
   }
 ]

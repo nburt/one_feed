@@ -13,7 +13,7 @@ class TimelineConcatenator
       new_timeline << instagram_data if instagram_data.present?
     end
 
-    new_timeline.sort_by {|x| x["created_time"]}.reverse
+    new_timeline.sort_by { |x| x["created_time"] }.reverse
   end
 
   private
@@ -30,6 +30,9 @@ class TimelineConcatenator
     twitter_hash["retweet_count"] = post["retweet_count"]
     twitter_hash["favorite_count"] = post["favorite_count"]
     twitter_hash["link_to_tweet"] = "https://twitter.com/#{post["user"]["screen_name"]}/status/#{post["id"]}"
+    if post["media"].present?
+      twitter_hash["tweet_image"] = post["media"][0]["media_url"]
+    end
     twitter_hash
   end
 

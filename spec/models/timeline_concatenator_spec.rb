@@ -59,6 +59,7 @@ describe TimelineConcatenator do
                                                                                 "retweet_count" => "1",
                                                                                 "favorite_count" => "1",
                                                                                 "link_to_tweet" => "https://twitter.com/burt/status/1234",
+                                                                                "tweet_image" => "http://twitter.com",
                                                                               },
                                                                               {
                                                                                 "provider" => "instagram",

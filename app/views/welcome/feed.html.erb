@@ -16,8 +16,12 @@
               </ul>
             </div>
             <div class="post_content">
-              <p><%= post["tweet_text"] %></p>
-
+              <ul>
+                <li><%= post["tweet_text"] %></li>
+                <% if post["tweet_image"].present? %>
+                  <li><img src="<%= post["tweet_image"] %>"/></li>
+                <% end %>
+              </ul>
               <div class="post_stats">
                 <ul>
                   <li>Retweets: <%= post["retweet_count"] %></li>

@@ -5,9 +5,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
-  rescue_from Twitter::Error::Forbidden, with: :redirect_to_twitter_auth
-  rescue_from Twitter::Error::Unauthorized, with: :redirect_to_twitter_auth
-
   private
 
   def current_user

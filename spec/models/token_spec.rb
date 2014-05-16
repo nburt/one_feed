@@ -20,6 +20,9 @@ describe Token do
       expect(token).to_not be_valid
     end
 
+    it 'has its valid flag set' do
+      expect(token.is_valid?).to be_true
+    end
   end
 
   describe 'rendering Tweets in the feed' do

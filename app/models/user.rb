@@ -6,5 +6,10 @@ class User < ActiveRecord::Base
 
   has_many :tokens, dependent: :destroy
 
+
+  def validate_tokens!
+    tokens.each(&:validate_token!)
+  end
+
 end
 

@@ -1,11 +1,11 @@
 <div id="feed_container">
   <% unless @unauthed_accounts.empty? %>
     <div class="unauthed_accounts">
-      <h4>The access token for the following accounts have expired. Please click the below links to reauthorize the
+      <h4>The access tokens for the following accounts have expired. Please click the below links to reauthorize the
         accounts.</h4>
       <ul>
         <% @unauthed_accounts.each do |account| %>
-          <li><%= account %>: <a href="/auth/<%= account.downcase %>">Click here to reauthorize <%= account %></a></li>
+          <li><%= account.provider.capitalize %>: <a href="/auth/<%= account.provider %>">Click here to reauthorize</a></li>
         <% end %>
       </ul>
     </div>
@@ -93,7 +93,7 @@
 
       <% end %>
     <% end %>
-  <% else %>
+  <% elsif @timeline.blank? && @unauthed_accounts.empty? %>
     <div id="empty_feed_container">
       <p id="empty_feed">Click one of the below links or visit "Account Settings" to link an account and get started.</p>
       <div class="network_container">

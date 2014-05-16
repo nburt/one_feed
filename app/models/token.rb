@@ -5,8 +5,16 @@ class Token < ActiveRecord::Base
 
   belongs_to :user
 
+  after_initialize on: :create do
+    self.is_valid = true
+  end
+
   def self.by_name(name)
     where(provider: name)
+  end
+
+  def self.invalid
+    where(is_valid: false)
   end
 
   def self.update_or_create_with_omniauth(id, auth)
@@ -16,6 +24,7 @@ class Token < ActiveRecord::Base
     token.access_token = auth["extra"]["access_token"].token
     token.access_token_secret = auth["extra"]["access_token"].secret
     token.user_id = id
+    token.is_valid = true
     token.save!
     token
   end
@@ -26,6 +35,7 @@ class Token < ActiveRecord::Base
     token.uid = auth["uid"]
     token.access_token = auth["credentials"]["token"]
     token.user_id = id
+    token.is_valid = true
     token.save!
     token
   end
@@ -38,6 +48,10 @@ class Token < ActiveRecord::Base
       config.access_token_secret = access_token_secret
     end
     client
+  end
+
+  def validate_token!
+    update_column :is_valid, "#{provider.titleize}Validator".constantize.new(self).valid?
   end
 
 end

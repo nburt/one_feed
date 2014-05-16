@@ -57,7 +57,7 @@ feature 'can display feeds from various social media accounts' do
   scenario 'a user can login without associating a social media account' do
     expect(page).to have_content 'Account Settings'
     expect(page).to have_content 'Sign Out'
-    expect(page).to have_content 'Click on account settings to link one of your social media accounts and get started.'
+    expect(page).to have_content 'Click one of the below links or visit "Account Settings" to link an account and get started.'
   end
 
   scenario 'a user can dissociate an Instagram account'

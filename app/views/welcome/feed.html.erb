@@ -1,5 +1,5 @@
 <div id="feed_container">
-  <% if @unauthed_accounts.present? %>
+  <% unless @unauthed_accounts.empty? %>
     <div class="unauthed_accounts">
       <h4>The access token for the following accounts have expired. Please click the below links to reauthorize the
         accounts.</h4>

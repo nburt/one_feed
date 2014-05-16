@@ -14,6 +14,7 @@ class Feed
         accounts << 'Instagram'
       end
     end
+    accounts
   end
 
   def posts

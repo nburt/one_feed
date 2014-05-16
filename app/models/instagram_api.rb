@@ -34,6 +34,8 @@ class InstagramApi
     def authed?
       if @response.status == 400
         false
+      else
+        true
       end
     end
   end

@@ -21,34 +21,83 @@
   </div>
 </div>
 <div id="feed_container">
-  <% if @twitter_timeline %>
-    <%= render partial: 'welcome/feed_items', locals: {timeline: @twitter_timeline} %>
-  <% else %>
-    <%= render partial: 'welcome/feed_items', locals: {timeline: nil} %>
-  <% end %>
-  <% if @instagram_timeline %>
-    <% @instagram_timeline.each do |post| %>
-      <img src="<%= post["user"]["profile_picture"] %>">
+  <% @timeline.each do |post| %>
+    <% if post["provider"] == "twitter" %>
+      <div class="individual_post">
+        <div class="network_logo">
+          <img class="provider_logo" src="<%= asset_url("Twitter_logo_blue.png") %>">
+        </div>
+        <div class="post_main">
+          <div class="post_header">
+            <img class="user_profile_picture" src="<%= post["profile_picture"] %>">
+            <ul>
+              <li><a href="<%= post["user_url"] %>"><%= post["user_name"] %></a></li>
+              <li>@<%= post["screen_name"] %></li>
+              <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
+            </ul>
+          </div>
+          <div class="post_content">
+            <p><%= post["tweet_text"] %></p>
 
-      <p><a href="http://www.instagram.com/<%= post["user"]["username"] %>"><%= post["user"]["username"] %></a></p>
-      <p><%= time_ago_in_words(Time.at(post["created_time"].to_i)) %> ago</p>
-      <img src="<%= post["images"]["low_resolution"]["url"] %>">
-      <% if post["caption"] != nil %>
-        <p><%= post["caption"]["text"] %></p>
-      <% end %>
-      <p><a href="<%= post["link"] %>">View on Instagram</a></p>
-      <ul>
-        <li>Comments: <%= post["comments"]["count"] %></li>
-        <li>Likes: <%= post["likes"]["count"] %></li>
-        <% if post["comments"]["count"] > 0 %>
-          <% post["comments"]["data"].each do |comment| %>
-            <li><%= comment["text"] %></li>
-            <li>
-              <a href="http://www.instagram.com/<%= comment["from"]["username"] %>"><%= comment["from"]["username"] %></a>
-            </li>
-          <% end %>
-        <% end %>
-      </ul>
+            <div class="post_stats">
+              <ul>
+                <li>Retweets: <%= post["retweet_count"] %></li>
+                <li>Favorites: <%= post["favorite_count"] %></li>
+                <li>
+                  <a href="<%= post["link_to_tweet"] %>">View on Twitter</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% elsif post["provider"] == "instagram" %>
+      <div class="individual_post">
+        <div class="network_logo">
+          <img class="provider_logo" src="<%= asset_url("Instagram_Icon_Large.png") %>">
+        </div>
+        <div class="post_main">
+          <div class="post_header">
+            <img class="user_profile_picture" src="<%= post["profile_picture"] %>">
+            <ul>
+              <li><a href="<%= post["user_url"] %>">@<%= post["username"] %></a></li>
+              <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
+            </ul>
+          </div>
+          <div class="post_content">
+            <ul>
+              <li><img src="<%= post["low_resolution_image_url"] %>"></li>
+              <% if post["caption_text"] != nil %>
+                <li><%= post["caption_text"] %></li>
+              <% end %>
+            </ul>
+            <div class="post_stats">
+              <ul>
+                <li>Comments: <%= post["comments_count"] %></li>
+                <li>Likes: <%= post["likes_count"] %></li>
+                <li>
+                  <a href="<%= post["link_to_post"] %>">View on Instagram</a>
+                </li>
+              </ul>
+            </div>
+            <% if post["comments_count"] > 0 %>
+              <div class="post_comments">
+                <ul>
+                  <% post["comments"].each do |comment| %>
+                    <li class="commenter_profile_picture"><img src="<%= comment["from"]["profile_picture"] %>"></li>
+                    <li class="commenter_username">
+                      <a href="http://www.instagram.com/<%= comment["from"]["username"] %>"><%= comment["from"]["username"] %></a>
+                    </li>
+                    <li><%= comment["text"] %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <p id="empty_feed">Link one of your social media accounts to get started.</p>
     <% end %>
   <% end %>
 </div>

@@ -1,0 +1,30 @@
+[
+  {
+    "user": {
+      "profile_image_url_https": "http://twitter.com",
+      "name": "Nate",
+      "url": "http://twitter.com",
+      "screen_name": "nate",
+      "is_translator": "true"
+    },
+    "created_at": "Wed Mar 08 01:27:09 +0000 2007",
+    "text": "some tweet",
+    "retweet_count": "1",
+    "favorite_count": "1",
+    "id": "1234"
+  },
+  {
+    "user": {
+      "profile_image_url_https": "http://twitter.com",
+      "name": "Burt",
+      "url": "http://twitter.com",
+      "screen_name": "burt",
+      "is_translator": "true"
+    },
+    "created_at": "Wed Mar 07 01:27:09 +0000 2007",
+    "text": "some tweet",
+    "retweet_count": "1",
+    "favorite_count": "1",
+    "id": "1234"
+  }
+]

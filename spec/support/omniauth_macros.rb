@@ -36,4 +36,5 @@ module OmniauthMacros
   def access_token_struct
     Struct.new(:secret, :token)
   end
+
 end

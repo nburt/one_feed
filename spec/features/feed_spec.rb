@@ -41,7 +41,7 @@ feature 'can display feeds from various social media accounts' do
     visit '/'
     click_link 'Account Settings'
     click_link 'Link Accounts'
-    click_link 'twitter_login_link'
+    silence_omniauth {click_link 'twitter_login_link'}
     expect(page).to have_content 'Authentication failed.'
   end
 

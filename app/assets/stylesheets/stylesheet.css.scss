@@ -7,11 +7,24 @@ $error_message_red: #FF0000;
 
 header {
   background-color: $white;
+  overflow: hidden;
 }
 
 body {
   font-family: Libre Baskerville;
   background-color: $background-gray;
+}
+
+.content_container {
+  text-align: center;
+  padding: 3em 10em;
+  img {
+    height: 50px;
+  }
+  a {
+    text-decoration: none;
+    color: $logo-green;
+  }
 }
 
 /* homepage header */
@@ -20,18 +33,17 @@ body {
   margin: 1% auto;
 }
 
-#header_content {
-  width: 90%;
-  margin: auto;
+.header_content {
+  padding: 0 3em;
 }
 
 nav {
   float: right;
-  margin-top: 1.9%;
+  margin-top: 1.5em;
   li {
+    display: inline-block;
     list-style: none;
-    margin-right: 2%;
-    width: 7.5em  ;
+    padding: 0 .5em;
     a {
       text-decoration: none;
       color: $logo-green;
@@ -46,25 +58,7 @@ nav {
 
 /* homepage login */
 
-#accounts_container {
-  margin: 3em 0 3em 3em;
-  background-color: $white;
-  width: 20%;
-  min-height: 32em;
-  float: left;
-  text-align: center;
-  overflow-y: hidden;
-  img {
-    height: 50px;
-  }
-  a {
-    text-decoration: none;
-    color: #000;
-  }
-  #twitter_login_container {
-    margin-top: 2.5em;
-  }
-}
+
 
 #login_container {
   width: 100%;
@@ -123,7 +117,6 @@ nav {
       }
     }
   }
-
 }
 
 #auth_failure,
@@ -135,9 +128,7 @@ nav {
 /* Feed */
 
 #feed_container {
-  width: 70%;
-  float: right;
-  margin: 3em 3em 3em 0;
+  text-align: left;
 }
 
 .network_logo {
@@ -229,4 +220,27 @@ nav {
     display: inline-block;
     margin-left: 1em;
   }
+}
+
+/* accounts */
+
+#account_settings_container {
+  font-size: 1.5em;
+}
+
+.network_container {
+  display: inline-block;
+  .network_login {
+    padding: 0 2em;
+    font-size: 1.5em;
+    img {
+      margin-top: 1em;
+    }
+  }
+}
+
+#empty_feed_container {
+  background-color: $white;
+  padding: 2.5em;
+  text-align: center;
 }

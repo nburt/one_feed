@@ -8,4 +8,10 @@ Rails.application.routes.draw do
   get '/auth/instagram/callback', to: 'instagram_registration#create'
   get '/auth/twitter/callback', to: 'twitter_registration#create'
   get '/auth/failure', to: 'twitter_registration#failure'
+
+  resources :accounts do
+    member do
+      get 'settings'
+    end
+  end
 end

@@ -23,8 +23,10 @@ feature 'can display feeds from various social media accounts' do
 
   scenario 'a user can associate a Twitter account' do
     mock_auth_hash
+    click_link 'Account Settings'
+    click_link 'Link Accounts'
     click_link 'twitter_login_link'
-    expect(page).to have_content 'Link Twitter'
+    expect(page).to have_content 'Account Settings'
     expect(page).to have_content 'Gillmor Gang Live'
   end
 
@@ -37,15 +39,25 @@ feature 'can display feeds from various social media accounts' do
   scenario 'it can handle authentication errors' do
     OmniAuth.config.mock_auth[:twitter] = :invalid
     visit '/'
+    click_link 'Account Settings'
+    click_link 'Link Accounts'
     click_link 'twitter_login_link'
     expect(page).to have_content 'Authentication failed.'
   end
 
   scenario 'a user can associate an Instagram account' do
     mock_auth_hash
+    click_link 'Account Settings'
+    click_link 'Link Accounts'
     click_link 'instagram_login_link'
-    expect(page).to have_content 'Link Instagram'
+    expect(page).to have_content 'Account Settings'
     expect(page).to have_content 'The girls #pumped #herewego'
+  end
+
+  scenario 'a user can login without associating a social media account' do
+    expect(page).to have_content 'Account Settings'
+    expect(page).to have_content 'Sign Out'
+    expect(page).to have_content 'Click on account settings to link one of your social media accounts and get started.'
   end
 
   scenario 'a user can dissociate an Instagram account'

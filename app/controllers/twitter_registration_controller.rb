@@ -8,7 +8,7 @@ class TwitterRegistrationController < ApplicationController
   end
 
   def failure
-    redirect_to '/', flash: {:auth_failure => "Authentication failed."}
+    redirect_to settings_account_path(session[:user_id]), flash: {:auth_failure => "Authentication failed."}
   end
 
 end

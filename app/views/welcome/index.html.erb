@@ -1,15 +1,16 @@
 <div id="login_container">
   <h1>Get Started</h1>
-
+  <p class="login_failure"><%= flash[:login_failure] %></p>
+  <% if @user.errors.present? %>
+    <% @user.errors.full_messages.each do |message| %>
+      <p class="login_failure"><%= message %></p>
+    <% end %>
+  <% end %>
   <div id="onefeed_registration_container">
     <div id="onefeed_registration">
-      <h3>Sign Up with OneFeed</h3>
-      <% if @user.errors.present? %>
-        <% @user.errors.full_messages.each do |message| %>
-          <p><%= message %></p>
-        <% end %>
-        <br>
-      <% end %>
+      <div id="registration_header_container">
+        <h3>Sign Up with OneFeed</h3>
+      </div>
       <%= form_for @user, :url => {:controller => "registrations", :action => "create"} do |f| %>
         <%= f.label :email %>
         <%= f.email_field :email %>
@@ -25,9 +26,9 @@
   </div>
   <div id="onefeed_login_container">
     <div id="onefeed_login">
-      <h3>Sign In with OneFeed</h3>
-
-      <p id="login_failure"><%= flash[:login_failure] %></p>
+      <div id="login_header_container">
+        <h3>Sign In with OneFeed</h3>
+      </div>
       <%= form_for @user, :url => {:controller => "sessions", :action => "create"} do |f| %>
         <%= f.label :email %>
         <%= f.email_field :email %>

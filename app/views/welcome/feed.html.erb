@@ -19,9 +19,9 @@
           </div>
           <div class="post_main">
             <div class="post_header">
-              <img class="user_profile_picture" src="<%= post["profile_picture"] %>">
               <ul>
-                <li><a href="<%= post["user_url"] %>"><%= post["user_name"] %></a></li>
+                <li><a href="<%= post["user_url"] %>" target="_blank"><img class="user_profile_picture" src="<%= post["profile_picture"] %>"></a></li>
+                <li><a href="<%= post["user_url"] %>" target="_blank"><%= post["user_name"] %></a></li>
                 <li>@<%= post["screen_name"] %></li>
                 <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
               </ul>
@@ -38,7 +38,7 @@
                   <li>Retweets: <%= post["retweet_count"] %></li>
                   <li>Favorites: <%= post["favorite_count"] %></li>
                   <li>
-                    <a href="<%= post["link_to_tweet"] %>">View on Twitter</a>
+                    <a href="<%= post["link_to_tweet"] %>" target="_blank">View on Twitter</a>
                   </li>
                 </ul>
               </div>
@@ -52,9 +52,9 @@
           </div>
           <div class="post_main">
             <div class="post_header">
-              <img class="user_profile_picture" src="<%= post["profile_picture"] %>">
+              <a href="<%= post["user_url"] %>" target="_blank"><img class="user_profile_picture" src="<%= post["profile_picture"] %>"></a>
               <ul>
-                <li><a href="<%= post["user_url"] %>">@<%= post["username"] %></a></li>
+                <li><a href="<%= post["user_url"] %>" target="_blank">@<%= post["username"] %></a></li>
                 <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
               </ul>
             </div>
@@ -70,7 +70,7 @@
                   <li>Comments: <%= post["comments_count"] %></li>
                   <li>Likes: <%= post["likes_count"] %></li>
                   <li>
-                    <a href="<%= post["link_to_post"] %>">View on Instagram</a>
+                    <a href="<%= post["link_to_post"] %>" target="_blank">View on Instagram</a>
                   </li>
                 </ul>
               </div>
@@ -80,7 +80,7 @@
                     <% post["comments"].each do |comment| %>
                       <li class="commenter_profile_picture"><img src="<%= comment["from"]["profile_picture"] %>"></li>
                       <li class="commenter_username">
-                        <a href="http://www.instagram.com/<%= comment["from"]["username"] %>"><%= comment["from"]["username"] %></a>
+                        <a href="http://www.instagram.com/<%= comment["from"]["username"] %>" target="_blank"><%= comment["from"]["username"] %></a>
                       </li>
                       <li><%= comment["text"] %></li>
                     <% end %>

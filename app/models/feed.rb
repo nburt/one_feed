@@ -28,6 +28,7 @@ class Feed
   private
 
   def get_twitter_timeline
+    twitter_timeline = []
     token = @current_user.tokens.find_by(provider: 'twitter')
     client = token.configure_twitter(token.access_token, token.access_token_secret)
     begin

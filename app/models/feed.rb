@@ -1,5 +1,7 @@
 class Feed
 
+  include ApplicationHelper
+
   def initialize(current_user)
     @current_user = current_user
   end
@@ -10,12 +12,12 @@ class Feed
 
   def posts
     twitter_timeline = []
-    if current_user_has_provider?('twitter')
+    if current_user_has_provider?('twitter', @current_user)
       twitter_timeline = get_twitter_timeline
     end
 
     instagram_timeline = []
-    if current_user_has_provider?('instagram')
+    if current_user_has_provider?('instagram', @current_user)
       instagram_timeline = get_instagram_timeline
     end
 
@@ -43,10 +45,6 @@ class Feed
     instagram_api = InstagramApi.new(token.access_token)
     timeline = instagram_api.get_timeline
     timeline.posts
-  end
-
-  def current_user_has_provider?(provider)
-    @current_user.tokens.by_name(provider).any?
   end
 
   def report_twitter_error

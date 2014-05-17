@@ -3,19 +3,31 @@
 <div class="network_links_container">
   <div class="network_container">
     <div class="network_login">
-      <a href="/auth/twitter">Link Twitter</a><br>
+      <% if current_user && current_user_has_provider?('twitter') %>
+        <a href="/auth/twitter">Relink Twitter</a><br>
+      <% else %>
+        <a href="/auth/twitter">Link Twitter</a><br>
+      <% end %>
       <a href="/auth/twitter" id="twitter_login_link"><img src="<%= asset_url("Twitter_logo_blue.png") %>"></a>
     </div>
   </div>
   <div class="network_container">
     <div class="network_login">
-      <a href="/auth/facebook">Link Facebook</a><br>
+      <% if current_user && current_user_has_provider?('facebook') %>
+        <a href="/auth/facebook">Relink Facebook</a><br>
+      <% else %>
+        <a href="/auth/facebook">Link Facebook</a><br>
+      <% end %>
       <a href="/auth/facebook" id="facebook_login_link"><img src="<%= asset_url("FB-f-Logo__blue_50.png") %>"></a>
     </div>
   </div>
   <div class="network_container">
     <div class="network_login">
-      <a href="/auth/instagram">Link Instagram</a><br>
+      <% if current_user && current_user_has_provider?('instagram') %>
+        <a href="/auth/instagram">Relink Instagram</a><br>
+      <% else %>
+        <a href="/auth/instagram">Link Instagram</a><br>
+      <% end %>
       <a href="/auth/instagram" id="instagram_login_link"><img src="<%= asset_url("Instagram_Icon_Large.png") %>"></a>
     </div>
   </div>

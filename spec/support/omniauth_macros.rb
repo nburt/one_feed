@@ -31,6 +31,22 @@ module OmniauthMacros
         'access_token' => access_token_struct.new(1, 2)
       }
     }
+    OmniAuth.config.mock_auth[:facebook] = {
+      'provider' => 'facebook',
+      'uid' => '123545',
+      'info' => {
+        'name' => 'mockuser',
+        'image' => 'mock_user_thumbnail_url'
+      },
+      'credentials' => {
+        'token' => 'mock_token',
+        'secret' => 'mock_secret',
+        'expires_at' => Time.now
+      },
+      'extra' => {
+        'access_token' => access_token_struct.new(1, 2)
+      }
+    }
   end
 
   def access_token_struct

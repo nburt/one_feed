@@ -30,12 +30,6 @@ feature 'can display feeds from various social media accounts' do
     expect(page).to have_content 'Gillmor Gang Live'
   end
 
-  scenario 'a user can dissociate a Twitter account' do
-    pending
-    click_link 'Unlink Twitter account'
-    expect(page).to have_css '#twitter_login_link'
-  end
-
   scenario 'it can handle authentication errors' do
     OmniAuth.config.mock_auth[:twitter] = :invalid
     visit '/'
@@ -60,6 +54,14 @@ feature 'can display feeds from various social media accounts' do
     expect(page).to have_content 'Click one of the below links or visit "Account Settings" to link an account and get started.'
   end
 
-  scenario 'a user can dissociate an Instagram account'
+  scenario 'a user can associate a Facebook account' do
+    mock_auth_hash
+    click_link 'Account Settings'
+    click_link 'Link Accounts'
+    click_link 'facebook_login_link'
+    click_link 'Account Settings'
+    click_link 'Link Accounts'
+    expect(page).to have_content 'Relink Facebook'
+  end
 
 end

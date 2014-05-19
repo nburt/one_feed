@@ -29,6 +29,17 @@ class Token < ActiveRecord::Base
     token
   end
 
+  def self.update_or_create_with_facebook_omniauth(id, auth)
+    token = where(provider: auth["provider"]).first_or_initialize
+    token.provider = auth["provider"]
+    token.uid = auth["uid"]
+    token.access_token = auth["credentials"]["token"]
+    token.user_id = id
+    token.is_valid = true
+    token.save!
+    token
+  end
+
   def self.update_or_create_with_instagram_omniauth(id, auth)
     token = where(provider: auth["provider"]).first_or_initialize
     token.provider = auth["provider"]

@@ -13,6 +13,9 @@ feature 'can display feeds from various social media accounts' do
     stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token').
       to_return(body: File.read(File.expand_path('./spec/support/instagram_timeline.json')))
 
+    stub_request(:get, 'https://graph.facebook.com/me/home?access_token=mock_token').
+      to_return(body: File.read(File.expand_path('./spec/support/facebook_timeline.json')))
+
     visit '/'
     within 'div#onefeed_registration' do
       fill_in 'user[email]', :with => 'nate@email.com'
@@ -54,14 +57,13 @@ feature 'can display feeds from various social media accounts' do
     expect(page).to have_content 'Click one of the below links or visit "Account Settings" to link an account and get started.'
   end
 
-  scenario 'a user can associate a Facebook account' do
+  scenario 'a user can associate a Facebook account and view recent posts in their feed' do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'
     click_link 'facebook_login_link'
-    click_link 'Account Settings'
-    click_link 'Link Accounts'
-    expect(page).to have_content 'Relink Facebook'
+    expect(page).to have_content 'Account Settings'
+    expect(page).to have_content 'Any good food in San Fran?'
   end
 
 end

@@ -21,11 +21,27 @@ class Feed
       instagram_timeline = get_instagram_timeline
     end
 
+    @facebook_timeline = []
+    if current_user_has_provider?('facebook', @current_user)
+      @facebook_timeline = get_facebook_timeline
+    end
+
     timeline_concatenator = TimelineConcatenator.new
     timeline_concatenator.merge(twitter_timeline, instagram_timeline)
   end
 
+  def facebook_posts
+    @facebook_timeline
+  end
+
   private
+
+  def get_facebook_timeline
+    token = @current_user.tokens.find_by(provider: 'facebook')
+    facebook_api = FacebookApi.new(token.access_token)
+    timeline = facebook_api.get_timeline
+    timeline.posts
+  end
 
   def get_twitter_timeline
     twitter_timeline = []

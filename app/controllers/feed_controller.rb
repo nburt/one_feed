@@ -6,6 +6,7 @@ class FeedController < ApplicationController
     feed = Feed.new(current_user)
     @timeline = feed.posts
     @unauthed_accounts = feed.unauthed_accounts
+    @facebook_posts = feed.facebook_posts
 
     render 'welcome/feed'
   end

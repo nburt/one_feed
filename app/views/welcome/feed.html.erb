@@ -5,7 +5,8 @@
         accounts.</h4>
       <ul>
         <% @unauthed_accounts.each do |account| %>
-          <li><%= account.provider.capitalize %>: <a href="/auth/<%= account.provider %>">Click here to reauthorize</a></li>
+          <li><%= account.provider.capitalize %>: <a href="/auth/<%= account.provider %>">Click here to reauthorize</a>
+          </li>
         <% end %>
       </ul>
     </div>
@@ -20,7 +21,9 @@
           <div class="post_main">
             <div class="post_header">
               <ul>
-                <li><a href="<%= post["user_url"] %>" target="_blank"><img class="user_profile_picture" src="<%= post["profile_picture"] %>"></a></li>
+                <li>
+                  <a href="<%= post["user_url"] %>" target="_blank"><img class="user_profile_picture" src="<%= post["profile_picture"] %>"></a>
+                </li>
                 <li><a href="<%= post["user_url"] %>" target="_blank"><%= post["user_name"] %></a></li>
                 <li>@<%= post["screen_name"] %></li>
                 <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
@@ -93,27 +96,68 @@
 
       <% end %>
     <% end %>
-  <% elsif @timeline.blank? && @unauthed_accounts.empty? %>
-    <div id="empty_feed_container">
-      <p id="empty_feed">Click one of the below links or visit "Account Settings" to link an account and get started.</p>
-      <div class="network_container">
-        <div class="network_login">
-          <a href="/auth/twitter">Link Twitter</a><br>
-          <a href="/auth/twitter" id="twitter_login_link"><img src="<%= asset_url("Twitter_logo_blue.png") %>"></a>
+    <% if @facebook_posts.present? %>
+      <% @facebook_posts.each do |post| %>
+        <div class="individual_post">
+          <div class="network_logo">
+            <img id="facebook_stream_logo" src="<%= asset_url("FB-f-Logo__blue_50.png") %>">
+          </div>
+          <div class="post_main">
+            <div class="post_header">
+              <ul>
+                <li><%= post["from"]["name"] %></li>
+                <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
+              </ul>
+            </div>
+            <div class="post_content">
+              <ul>
+                <% if post["story"] != nil %>
+                  <li><%= post["story"] %></p></li>
+                <% end %>
+                <% if post["picture"] != nil %>
+                  <li><img src="<%= post["picture"] %>"></li>
+                <% end %>
+                <% if post["message"] != nil %>
+                  <li>"<%= post["message"] %>"</li>
+                <% end %>
+              </ul>
+              <div class="post_stats">
+                <ul>
+                  <% if post["actions"] != nil %>
+                    <li>
+                      <a href="<%= post["actions"][0]["link"] %>">View on Facebook</a>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% elsif @timeline.blank? && @unauthed_accounts.empty? %>
+      <div id="empty_feed_container">
+        <p id="empty_feed">Click one of the below links or visit "Account Settings" to link an account and get
+          started.</p>
+
+        <div class="network_container">
+          <div class="network_login">
+            <a href="/auth/twitter">Link Twitter</a><br>
+            <a href="/auth/twitter" id="twitter_login_link"><img src="<%= asset_url("Twitter_logo_blue.png") %>"></a>
+          </div>
+        </div>
+        <div class="network_container">
+          <div class="network_login">
+            <a href="/auth/facebook">Link Facebook</a><br>
+            <a href="/auth/facebook" id="facebook_login_link"><img src="<%= asset_url("FB-f-Logo__blue_50.png") %>"></a>
+          </div>
+        </div>
+        <div class="network_container">
+          <div class="network_login">
+            <a href="/auth/instagram">Link Instagram</a><br>
+            <a href="/auth/instagram" id="instagram_login_link"><img src="<%= asset_url("Instagram_Icon_Large.png") %>"></a>
+          </div>
         </div>
       </div>
-      <div class="network_container">
-        <div class="network_login">
-          <a href="/auth/facebook">Link Facebook</a><br>
-          <a href="/auth/facebook" id="facebook_login_link"><img src="<%= asset_url("FB-f-Logo__blue_50.png") %>"></a>
-        </div>
-      </div>
-      <div class="network_container">
-        <div class="network_login">
-          <a href="/auth/instagram">Link Instagram</a><br>
-          <a href="/auth/instagram" id="instagram_login_link"><img src="<%= asset_url("Instagram_Icon_Large.png") %>"></a>
-        </div>
-      </div>
-    </div>
+    <% end %>
   <% end %>
 </div>

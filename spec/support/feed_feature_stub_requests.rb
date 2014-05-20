@@ -109,6 +109,12 @@ module FeedFeatureStubs
 
     stub_request(:get, 'https://graph.facebook.com/10202055803224824/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_39.json'))
+
+    stub_request(:get, 'https://graph.facebook.com/10202055803224824/picture?redirect=false').
+      to_return(:body => File.read('./spec/support/facebook/picture_response_40.json'))
+
+    stub_request(:get, 'https://graph.facebook.com/10201747824447839/picture?redirect=false').
+      to_return(:body => File.read('./spec/support/facebook/picture_response_41.json'))
   end
 
 end

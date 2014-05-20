@@ -6,7 +6,7 @@
     <div class="post_header">
       <ul>
         <li><img src="<%= post["from"]["profile_picture"] %>"></li>
-        <li><a href="<%= post["link_to_profile"] %>"><%= post["from"]["name"] %></a></li>
+        <li><a href="<%= post["from"]["link_to_profile"] %>"><%= post["from"]["name"] %></a></li>
         <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
       </ul>
     </div>
@@ -17,15 +17,41 @@
         <li><img src="<%= post["image"]["original_sized_image"] if post["image"] != nil %>"></li>
         <li><%= post["caption_text"] %></li>
       </ul>
+      <% if post["story_tags"] != nil %>
+        <ul>
+          <% post["story_tags"].each do |story_tag| %>
+            <li><a href="<%= story_tag[0][0]["link_to_profile"] %>"><%= story_tag[0][0]["name"] %></a></li>
+          <% end %>
+          <li>were tagged in this post.</li>
+        </ul>
+      <% end %>
       <div class="post_stats">
         <ul>
           <li>Comments: <%= post["comments_count"] %></li>
           <li>Likes: <%= post["likes_count"] %></li>
-            <li>
-              <a href="<%= post["link_to_post"] if post["link_to_post"] != nil %>">View on Facebook</a>
-            </li>
+          <% if post["shares_count"] != nil %>
+            <li>Shares: <%= post["shares_count"] %></li>
+          <% end %>
+          <li>
+            <a href="<%= post["link_to_post"] if post["link_to_post"] != nil %>">View on Facebook</a>
+          </li>
         </ul>
       </div>
+      <% if post["comments_count"] > 0 %>
+        <div class="post_comments">
+          <ul>
+            <% post["comments"].each do |comment| %>
+              <li class="commenter_profile_picture"><img src="<%= comment["from"]["profile_picture"] %>"></li>
+              <li class="commenter_username">
+                <a href="<%= comment["from"]["link_to_profile"] %>" target="_blank"><%= comment["from"]["name"] %></a>
+              </li>
+              <li><%= time_ago_in_words(comment["created_time"]) %> ago</li>
+              <li><%= comment["message"] %></li>
+              <li>Likes: <%= comment["like_count"] %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

@@ -31,14 +31,19 @@ class TimelineConcatenator
 
     image_hash = {}
     image_hash["original_sized_image"] = facebook_original_size_image(facebook_post["picture"]) if facebook_post["picture"] != nil
-    image_hash["caption_text"] = facebook_post["description"] if facebook_post["description"] != nil
 
     facebook_hash = {}
     facebook_hash["provider"] = "facebook"
     facebook_hash["created_time"] = "#{Time.parse(facebook_post["created_time"])}"
     facebook_hash["from"] = from_hash
+    facebook_hash["to"] = get_to_hash(facebook_post["to"]) if facebook_post["to"] != nil
     facebook_hash["image"] = image_hash if image_hash != {}
     facebook_hash["message"] = facebook_post["message"] if facebook_post["message"] != nil
+    facebook_hash["message_tags"] = facebook_message_tags(facebook_post["message_tags"]) if facebook_post["message_tags"] != nil
+    facebook_hash["article_name"] = facebook_post["name"] if facebook_post["name"] != nil
+    facebook_hash["article_link"] = facebook_post["link"] if facebook_post["link"] != nil
+    facebook_hash["description"] = facebook_post["description"] if facebook_post["description"] != nil
+    facebook_hash["caption_text"] = facebook_post["caption"] if facebook_post["caption"] != nil
     facebook_hash["story"] = facebook_post["story"] if facebook_post["story"] != nil
     if facebook_post["likes"] != nil
       facebook_hash["likes_count"] = facebook_post["likes"]["data"].count
@@ -53,10 +58,23 @@ class TimelineConcatenator
     facebook_hash["comments"] = facebook_comments(facebook_post["comments"]["data"]) if facebook_post["comments"] != nil
     facebook_hash["story_tags"] = facebook_story_tags(facebook_post["story_tags"]) if facebook_post["story_tags"] != nil
     facebook_hash["application_name"] = facebook_post["application"]["name"] if facebook_post["application"] != nil
-    facebook_hash["link_to_post"] = facebook_post["link"] if facebook_post["link"] != nil
+    facebook_hash["link_to_post"] = facebook_post["actions"][0]["link"] if facebook_post["actions"] != nil
     facebook_hash["status_type"] = facebook_post["status_type"] if facebook_post["status_type"] != nil
     facebook_hash["shares_count"] = facebook_post["shares"]["count"] if facebook_post["shares"] != nil
     facebook_hash
+  end
+
+  def get_to_hash(to_data)
+    to_array = []
+
+    to_data["data"].each do |person|
+      to_hash = {}
+      to_hash["profile_picture"] = FacebookApi.user_profile_picture(person["id"])
+      to_hash["name"] = person["name"]
+      to_hash["link_to_profile"] = "https://www.facebook.com/app_scoped_user_id/#{person["id"]}"
+      to_array << to_hash
+    end
+    to_array
   end
 
   def facebook_story_tags(story_tags)
@@ -72,6 +90,21 @@ class TimelineConcatenator
       story_tags_hash["#{offset}"] = individual_tag_array
     end
     story_tags_hash
+  end
+
+  def facebook_message_tags(message_tags)
+    message_tags_hash = {}
+
+    message_tags.each do |offset, tag_info|
+      individual_tag_hash = {}
+      individual_tag_hash["name"] = tag_info[0]["name"]
+      individual_tag_hash["link_to_profile"] = "https://www.facebook.com/app_scoped_user_id/#{tag_info[0]["id"]}"
+      individual_tag_array = []
+      individual_tag_array << individual_tag_hash
+
+      message_tags_hash["#{offset}"] = individual_tag_array
+    end
+    message_tags_hash
   end
 
   def facebook_comments(comment_data)

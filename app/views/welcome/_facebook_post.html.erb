@@ -20,7 +20,10 @@
       <% if post["story_tags"] != nil %>
         <ul>
           <% post["story_tags"].each do |story_tag| %>
-            <li><a href="<%= story_tag[0][0]["link_to_profile"] %>"><%= story_tag[0][0]["name"] %></a></li>
+            <li>
+              <% story_tag.each do |tag| %></li>
+                <li><a href="<%= tag[0]["link_to_profile"] %>"><%= tag[0]["name"] %></a></li>
+              <% end %>
           <% end %>
           <li>were tagged in this post.</li>
         </ul>

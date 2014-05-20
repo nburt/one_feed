@@ -3,18 +3,8 @@ require 'spec_helper'
 feature 'can display feeds from various social media accounts' do
 
   before do
-    stub_request(:post, 'https://api.twitter.com/oauth2/token')
 
-    stub_request(:get, 'https://api.twitter.com/1.1/statuses/home_timeline.json').
-      to_return(body: File.read(File.expand_path('./spec/support/twitter_timeline.json')))
-
-    stub_request(:post, 'https://api.instagram.com/oauth2/token')
-
-    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token').
-      to_return(body: File.read(File.expand_path('./spec/support/instagram_timeline.json')))
-
-    stub_request(:get, 'https://graph.facebook.com/me/home?access_token=mock_token').
-      to_return(body: File.read(File.expand_path('./spec/support/facebook_timeline.json')))
+    insert_feed_feature_stubs
 
     visit '/'
     within 'div#onefeed_registration' do

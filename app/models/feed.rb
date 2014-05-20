@@ -21,17 +21,13 @@ class Feed
       instagram_timeline = get_instagram_timeline
     end
 
-    @facebook_timeline = []
+    facebook_timeline = []
     if current_user_has_provider?('facebook', @current_user)
-      @facebook_timeline = get_facebook_timeline
+      facebook_timeline = get_facebook_timeline
     end
 
     timeline_concatenator = TimelineConcatenator.new
-    timeline_concatenator.merge(twitter_timeline, instagram_timeline)
-  end
-
-  def facebook_posts
-    @facebook_timeline
+    timeline_concatenator.merge(twitter_timeline, instagram_timeline, facebook_timeline)
   end
 
   private

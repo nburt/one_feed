@@ -10,6 +10,11 @@ class FacebookApi
     )
   end
 
+  def self.facebook_user_profile_picture(user_id)
+    response = Faraday.get("https://graph.facebook.com/#{user_id}/picture?redirect=false")
+    JSON.parse(response.body)["data"]["url"]
+  end
+
   class FacebookResponse
     def initialize(response)
       @response = response

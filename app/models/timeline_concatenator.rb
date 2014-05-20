@@ -25,7 +25,7 @@ class TimelineConcatenator
 
   def create_facebook_hash(facebook_post)
     from_hash = {}
-    from_hash["profile_picture"] = FacebookApi.facebook_user_profile_picture(facebook_post["from"]["id"])
+    from_hash["profile_picture"] = FacebookApi.user_profile_picture(facebook_post["from"]["id"])
     from_hash["name"] = facebook_post["from"]["name"]
     from_hash["link_to_profile"] = "https://www.facebook.com/app_scoped_user_id/#{facebook_post["from"]["id"]}"
 
@@ -82,7 +82,7 @@ class TimelineConcatenator
       comment_from_hash = {}
       comment_from_hash["name"] = comment["from"]["name"]
       comment_from_hash["link_to_profile"] = "https://www.facebook.com/app_scoped_user_id/#{comment["from"]["id"]}"
-      comment_from_hash["profile_picture"] = FacebookApi.facebook_user_profile_picture(comment["from"]["id"])
+      comment_from_hash["profile_picture"] = FacebookApi.user_profile_picture(comment["from"]["id"])
 
       comment_hash = {}
       comment_hash["from"] = comment_from_hash

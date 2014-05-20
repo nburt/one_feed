@@ -18,7 +18,7 @@ describe InstagramApi do
     expect(timeline.success?).to eq true
   end
 
-  it 'will return false if the users\'s token is no longer valid' do
+  it 'will return an empty array if the users\'s token is no longer valid' do
     stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token').
       to_return(status: 400)
     instagram_api = InstagramApi.new('mock_token')

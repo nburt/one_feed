@@ -18,7 +18,7 @@
       <% elsif post["provider"] == "instagram" %>
         <%= render partial: "welcome/instagram_post", locals: {post: post} %>
       <% elsif post["provider"] == "facebook" %>
-        <%= render partial: "welcome/facebook_post", locals: {post: post} %>
+        <%= render partial: "welcome/facebook_post", locals: {post: post, to_from_profile_hash: @to_from_profile_hash, comments_profile_hash: @comments_profile_hash} %>
       <% end %>
     <% end %>
   <% elsif @timeline.blank? && @unauthed_accounts.empty? %>

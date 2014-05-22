@@ -6,8 +6,8 @@ class FacebookValidator
 
   def valid?
     facebook_api = FacebookApi.new(@token.access_token)
-    timeline = facebook_api.get_timeline
-    timeline.authed?
+    facebook_api.timeline
+    facebook_api.authed?
   end
 
 end

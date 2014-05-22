@@ -25,7 +25,6 @@ describe Feed do
 
     it 'will return a list of unauthed accounts' do
       feed = Feed.new(user)
-      #binding.pry
       expect(feed.unauthed_accounts.map { |account| account.provider }).to eq ['instagram', 'twitter']
     end
 

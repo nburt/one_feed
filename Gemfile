@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.1'
 
+gem 'typhoeus', '~> 0.6.8'
 gem 'omniauth-facebook', '~> 1.6.0'
 gem 'omniauth-twitter', '~> 1.0.1'
 gem 'twitter', '~> 5.8.0'

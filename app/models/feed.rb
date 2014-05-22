@@ -2,6 +2,8 @@ class Feed
 
   include ApplicationHelper
 
+  attr_reader :to_from_profile_hash, :comments_profile_hash
+
   def initialize(current_user)
     @current_user = current_user
   end
@@ -35,8 +37,10 @@ class Feed
   def get_facebook_timeline
     token = @current_user.tokens.find_by(provider: 'facebook')
     facebook_api = FacebookApi.new(token.access_token)
-    timeline = facebook_api.get_timeline
-    timeline.posts
+    facebook_api.timeline
+    @to_from_profile_hash = facebook_api.to_from_profile_hash
+    @comments_profile_hash = facebook_api.comments_profile_hash
+    facebook_api.posts
   end
 
   def get_twitter_timeline

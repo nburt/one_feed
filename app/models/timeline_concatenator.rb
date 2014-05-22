@@ -24,10 +24,11 @@ class TimelineConcatenator
   private
 
   def create_facebook_hash(facebook_post)
-    from_hash = {}
-    from_hash["profile_picture"] = FacebookApi.user_profile_picture(facebook_post["from"]["id"])
-    from_hash["name"] = facebook_post["from"]["name"]
-    from_hash["link_to_profile"] = "https://www.facebook.com/app_scoped_user_id/#{facebook_post["from"]["id"]}"
+    from_hash = {
+      "name" => facebook_post["from"]["name"],
+      "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/#{facebook_post["from"]["id"]}",
+      "id" => facebook_post["from"]["id"]
+    }
 
     image_hash = {}
     image_hash["original_sized_image"] = facebook_original_size_image(facebook_post["picture"]) if facebook_post["picture"] != nil
@@ -55,7 +56,6 @@ class TimelineConcatenator
     else
       facebook_hash["comments_count"] = 0
     end
-    facebook_hash["comments"] = facebook_comments(facebook_post["comments"]["data"]) if facebook_post["comments"] != nil
     facebook_hash["story_tags"] = facebook_story_tags(facebook_post["story_tags"]) if facebook_post["story_tags"] != nil
     facebook_hash["application_name"] = facebook_post["application"]["name"] if facebook_post["application"] != nil
     facebook_hash["link_to_post"] = facebook_post["actions"][0]["link"] if facebook_post["actions"] != nil
@@ -68,10 +68,11 @@ class TimelineConcatenator
     to_array = []
 
     to_data["data"].each do |person|
-      to_hash = {}
-      to_hash["profile_picture"] = FacebookApi.user_profile_picture(person["id"])
-      to_hash["name"] = person["name"]
-      to_hash["link_to_profile"] = "https://www.facebook.com/app_scoped_user_id/#{person["id"]}"
+      to_hash = {
+        "name" => person["name"],
+        "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/#{person["id"]}",
+        "id" => person["id"]
+      }
       to_array << to_hash
     end
     to_array
@@ -105,27 +106,6 @@ class TimelineConcatenator
       message_tags_hash["#{offset}"] = individual_tag_array
     end
     message_tags_hash
-  end
-
-  def facebook_comments(comment_data)
-
-    comments_array = []
-
-    comment_data.each do |comment|
-      comment_from_hash = {}
-      comment_from_hash["name"] = comment["from"]["name"]
-      comment_from_hash["link_to_profile"] = "https://www.facebook.com/app_scoped_user_id/#{comment["from"]["id"]}"
-      comment_from_hash["profile_picture"] = FacebookApi.user_profile_picture(comment["from"]["id"])
-
-      comment_hash = {}
-      comment_hash["from"] = comment_from_hash
-      comment_hash["message"] = comment["message"]
-      comment_hash["created_time"] = "#{Time.parse(comment["created_time"])}"
-      comment_hash["like_count"] = comment["like_count"]
-
-      comments_array << comment_hash
-    end
-    comments_array
   end
 
   def facebook_original_size_image(small_image)

@@ -5,7 +5,9 @@
   <div class="post_main">
     <div class="post_header">
       <ul>
-        <li><img src="<%= post["from"]["profile_picture"] %>"></li>
+        <% if to_from_profile_hash.has_key?(post["from"]["id"]) %>
+          <li><img src="<%= to_from_profile_hash[post["from"]["id"]] %>"></li>
+        <% end %>
         <li><a href="<%= post["from"]["link_to_profile"] %>"><%= post["from"]["name"] %></a></li>
         <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
       </ul>
@@ -40,11 +42,11 @@
           </li>
         </ul>
       </div>
-      <% if post["comments_count"] > 0 %>
+      <% if post["comments"] != nil %>
         <div class="post_comments">
           <ul>
             <% post["comments"].each do |comment| %>
-              <li class="commenter_profile_picture"><img src="<%= comment["from"]["profile_picture"] %>"></li>
+              <li class="commenter_profile_picture"><img src="<%= comments_profile_hash[comment["from"]["id"]] %>"></li>
               <li class="commenter_username">
                 <a href="<%= comment["from"]["link_to_profile"] %>" target="_blank"><%= comment["from"]["name"] %></a>
               </li>

@@ -41,15 +41,15 @@ describe TimelineConcatenator do
                              "provider" => "facebook",
                              "created_time" => "2014-05-18 17:59:03 -0600",
                              "from" => {
-                               "profile_picture" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/c4.0.50.50/p50x50/168443_1598497770546_7035689_s.jpg",
                                "name" => "Nicole Santilli",
                                "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/10202055803224824",
+                               "id" => "10202055803224824",
                              },
                              "to" => [
                                {
-                                 "profile_picture" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc1/t1.0-1/c23.7.85.85/s50x50/1004839_10200235318356132_628077184_s.jpg",
                                  "name" => "Caroline Pappas",
                                  "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/10201747824447839",
+                                 "id" => "10201747824447839",
                                }
                              ],
                              "image" => {
@@ -77,9 +77,9 @@ describe TimelineConcatenator do
                              "provider" => "facebook",
                              "created_time" => "2014-05-18 17:47:10 -0600",
                              "from" => {
-                               "profile_picture" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg",
                                "name" => "Ben Entenza Quam",
                                "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/10203694030092980",
+                               "id" => "10203694030092980",
                              },
                              "image" => {
                                "original_sized_image" => "https://fbcdn-photos-b-a.akamaihd.net/hphotos-ak-prn2/t1.0-0/10390958_10203693748445939_321853996747520377_o.jpg",
@@ -111,9 +111,9 @@ describe TimelineConcatenator do
                              "provider" => "facebook",
                              "created_time" => "2014-05-18 17:24:46 -0600",
                              "from" => {
-                               "profile_picture" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c0.0.50.50/p50x50/10342915_2482379853933_2019125027865883654_t.jpg",
                                "name" => "Sophie Bober",
                                "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/2497151503215",
+                               "id" => "2497151503215",
                              },
                              "image" => {
                                "original_sized_image" => "https://fbcdn-photos-h-a.akamaihd.net/hphotos-ak-ash4/t1.0-0/10360683_10152122444571009_588035940768276969_o.jpg",
@@ -143,9 +143,9 @@ describe TimelineConcatenator do
                              "provider" => "facebook",
                              "created_time" => "2014-05-18 15:49:57 -0600",
                              "from" => {
-                               "profile_picture" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/p50x50/10001515_2625709645378_611197295_t.jpg",
                                "name" => "Alexandra Leigh",
                                "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/2667146361270",
+                               "id" => "2667146361270",
                              },
                              "image" => {
                                "original_sized_image" => "https://fbcdn-photos-h-a.akamaihd.net/hphotos-ak-frc1/t1.0-0/10246610_2666936716029_2211264266589992336_o.jpg",
@@ -161,9 +161,9 @@ describe TimelineConcatenator do
                              "provider" => "facebook",
                              "created_time" => "2014-05-18 15:41:10 -0600",
                              "from" => {
-                               "profile_picture" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/c9.9.112.112/s50x50/5342_10201448883526759_1732651731_s.jpg",
                                "name" => "Michael Wolff",
                                "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/10204036212008354",
+                               "id" => "10204036212008354",
                              },
                              "image" => {
                                "original_sized_image" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c8.7.95.95/p111x111/1174568_562847380417292_887241655_a.jpg",
@@ -193,35 +193,13 @@ describe TimelineConcatenator do
                              "provider" => "facebook",
                              "created_time" => "2014-05-18 15:29:54 -0600",
                              "from" => {
-                               "profile_picture" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c9.9.112.112/s50x50/562835_4671351136921_529669596_s.jpg",
                                "name" => "Tom Cantwell",
                                "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/10202029985566360",
+                               "id" => "10202029985566360",
                              },
                              "message" => "Any good food in San Fran?",
                              "likes_count" => 1,
                              "comments_count" => 2,
-                             "comments" => [
-                               {
-                                 "from" => {
-                                   "name" => "Jon Turner",
-                                   "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/10152831000093574",
-                                   "profile_picture" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/c2.0.50.50/p50x50/10367723_10152814518023574_7761080589494120194_s.jpg",
-                                 },
-                                 "message" => "China town",
-                                 "created_time" => "2014-05-18 15:58:01 -0600",
-                                 "like_count" => 0,
-                               },
-                               {
-                                 "from" => {
-                                   "name" => "Wayne Roxann Blackmer",
-                                   "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/667644649949344",
-                                   "profile_picture" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c9.9.112.112/s50x50/553464_428457843868027_1363898235_s.jpg",
-                                 },
-                                 "message" => "Rice a roni ...lmao",
-                                 "created_time" => "2014-05-18 15:58:59 -0600",
-                                 "like_count" => 2,
-                               }
-                             ],
                              "application_name" => "Facebook for iPhone",
                              "link_to_post" => "https://www.facebook.com/1087890173/posts/10202029328989946",
                              "status_type" => "mobile_status_update",

@@ -2,14 +2,11 @@ class Feed
 
   include ApplicationHelper
 
-  attr_reader :poster_recipient_profile_hash, :commenter_profile_hash
+  attr_reader :poster_recipient_profile_hash, :commenter_profile_hash, :unauthed_accounts
 
   def initialize(current_user)
     @current_user = current_user
-  end
-
-  def unauthed_accounts
-    @current_user.tokens.invalid
+    @unauthed_accounts = []
   end
 
   def posts
@@ -38,6 +35,9 @@ class Feed
     token = @current_user.tokens.find_by(provider: 'facebook')
     facebook_api = FacebookApi.new(token.access_token)
     facebook_api.timeline
+    unless facebook_api.success?
+      @unauthed_accounts << "facebook"
+    end
     @poster_recipient_profile_hash = facebook_api.poster_recipient_profile_hash
     @commenter_profile_hash = facebook_api.commenter_profile_hash
     facebook_api.posts
@@ -50,9 +50,9 @@ class Feed
     begin
       twitter_timeline = client.home_timeline
     rescue Twitter::Error::Forbidden
-      report_twitter_error
+      @unauthed_accounts << "twitter"
     rescue Twitter::Error::Unauthorized
-      report_twitter_error
+      @unauthed_accounts << "twitter"
     end
     twitter_timeline
   end
@@ -61,11 +61,10 @@ class Feed
     token = @current_user.tokens.find_by(provider: 'instagram')
     instagram_api = InstagramApi.new(token.access_token)
     timeline = instagram_api.get_timeline
+    unless timeline.success?
+      @unauthed_accounts << "instagram"
+    end
     timeline.posts
-  end
-
-  def report_twitter_error
-    @twitter_fail = true
   end
 
 end

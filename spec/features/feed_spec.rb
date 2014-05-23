@@ -1,9 +1,8 @@
 require 'spec_helper'
 
-feature 'can display feeds from various social media accounts' do
+feature 'can display feeds from various social media accounts', js: true do
 
   before do
-
     insert_feed_feature_stubs
 
     visit '/'
@@ -24,12 +23,15 @@ feature 'can display feeds from various social media accounts' do
   end
 
   scenario 'it can handle authentication errors' do
-    OmniAuth.config.mock_auth[:twitter] = :invalid
-    visit '/'
-    click_link 'Account Settings'
-    click_link 'Link Accounts'
-    silence_omniauth {click_link 'twitter_login_link'}
-    expect(page).to have_content 'Authentication failed.'
+    silence_omniauth do
+      OmniAuth.config.mock_auth[:twitter] = :invalid
+      visit '/'
+
+      click_link 'Account Settings'
+      click_link 'Link Accounts'
+      click_link 'twitter_login_link'
+      expect(page).to have_content 'Authentication failed.'
+    end
   end
 
   scenario 'a user can associate an Instagram account' do

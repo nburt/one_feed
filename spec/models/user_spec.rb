@@ -5,7 +5,6 @@ describe User do
   describe 'registration' do
 
     before do
-      DatabaseCleaner.clean
       @user = User.create!(:email => 'nate@example.com', :password => 'password')
     end
 

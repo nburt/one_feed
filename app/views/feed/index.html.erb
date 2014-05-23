@@ -1,0 +1,14 @@
+<div id="feed_content">
+  <div class="individual_post">
+    <%= image_tag "ajax-loader.gif" %>
+    <p>Loading...</p>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function () {
+    $.get("/feed_content").success(function (response) {
+      $("#feed_content").html(response)
+    })
+  });
+</script>

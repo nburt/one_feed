@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe TimelineConcatenator do
 
-  let(:twitter_data) { JSON.parse(File.read("./spec/support/twitter_data_test.json")) }
-  let(:instagram_data) { JSON.parse(File.read("./spec/support/instagram_data_test.json")) }
-  let(:facebook_data) { JSON.parse(File.read("./spec/support/facebook_data_test.json")) }
+  let(:twitter_data) { Oj.load(File.read("./spec/support/twitter_data_test.json")) }
+  let(:instagram_data) { Oj.load(File.read("./spec/support/instagram_data_test.json")) }
+  let(:facebook_data) { Oj.load(File.read("./spec/support/facebook_data_test.json")) }
 
   it 'should merge timelines, rename time keys to all be created_time, and sort them by date' do
     stub_request(:get, "https://graph.facebook.com/10203694030092980/picture?redirect=false").

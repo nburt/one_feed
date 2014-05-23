@@ -1,3 +1,5 @@
+require 'oj'
+
 class FacebookApi
 
   attr_reader :poster_recipient_profile_hash, :commenter_profile_hash, :posts
@@ -16,7 +18,7 @@ class FacebookApi
       @response = response
       if success?
 
-        body = JSON.parse(@response.body)
+        body = Oj.load(@response.body)
         @posts = body["data"]
 
         commenter_ids = get_commenter_ids
@@ -27,7 +29,7 @@ class FacebookApi
           to_from_picture_request = Typhoeus::Request.new("https://graph.facebook.com/#{poster_recipient_id}/picture?redirect=false")
           to_from_picture_request.on_complete do |poster_recipient_response|
             @poster_recipient_response = poster_recipient_response
-            @poster_recipient_profile_hash[poster_recipient_id] = JSON.parse(@poster_recipient_response.body)["data"]["url"]
+            @poster_recipient_profile_hash[poster_recipient_id] = Oj.load(@poster_recipient_response.body)["data"]["url"]
           end
           hydra.queue to_from_picture_request
         end
@@ -37,7 +39,7 @@ class FacebookApi
           comment_picture_request = Typhoeus::Request.new("https://graph.facebook.com/#{commenter_id}/picture?redirect=false")
           comment_picture_request.on_complete do |commenter_response|
             @commenter_response = commenter_response
-            @commenter_profile_hash[commenter_id] = JSON.parse(@commenter_response.body)["data"]["url"]
+            @commenter_profile_hash[commenter_id] = Oj.load(@commenter_response.body)["data"]["url"]
           end
           hydra.queue comment_picture_request
         end

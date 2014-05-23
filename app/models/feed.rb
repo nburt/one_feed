@@ -2,7 +2,7 @@ class Feed
 
   include ApplicationHelper
 
-  attr_reader :to_from_profile_hash, :comments_profile_hash
+  attr_reader :poster_recipient_profile_hash, :commenter_profile_hash
 
   def initialize(current_user)
     @current_user = current_user
@@ -38,8 +38,8 @@ class Feed
     token = @current_user.tokens.find_by(provider: 'facebook')
     facebook_api = FacebookApi.new(token.access_token)
     facebook_api.timeline
-    @to_from_profile_hash = facebook_api.to_from_profile_hash
-    @comments_profile_hash = facebook_api.comments_profile_hash
+    @poster_recipient_profile_hash = facebook_api.poster_recipient_profile_hash
+    @commenter_profile_hash = facebook_api.commenter_profile_hash
     facebook_api.posts
   end
 

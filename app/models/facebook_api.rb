@@ -1,11 +1,11 @@
 class FacebookApi
 
-  attr_reader :to_from_profile_hash, :comments_profile_hash, :posts
+  attr_reader :poster_recipient_profile_hash, :commenter_profile_hash, :posts
 
   def initialize(access_token)
     @access_token = access_token
-    @comments_profile_hash = {}
-    @to_from_profile_hash = {}
+    @commenter_profile_hash = {}
+    @poster_recipient_profile_hash = {}
   end
 
   def timeline
@@ -15,40 +15,29 @@ class FacebookApi
     feed_request.on_complete do |response|
       @response = response
       if success?
-        comment_ids = []
+
         body = JSON.parse(@response.body)
         @posts = body["data"]
 
-        @posts.each do |post|
-          if post["comments"]
-            comments = post["comments"]["data"]
-            comments.each do |comment|
-              comment_ids << comment["from"]["id"]
-            end
-          end
-        end
+        commenter_ids = get_commenter_ids
 
-        to_from_ids = []
-        @posts.each do |post|
-          to_from_ids << post["from"]["id"] if post["from"] != nil && post["from"]["id"] != nil
-          to_from_ids << post["to"]["id"] if post["to"] != nil && post["to"]["id"] != nil
-        end
+        poster_recipient_ids = get_poster_recipient_ids
 
-        to_from_ids.each do |to_from_id|
-          to_from_picture_request = Typhoeus::Request.new("https://graph.facebook.com/#{to_from_id}/picture?redirect=false")
-          to_from_picture_request.on_complete do |to_from_response|
-            @to_from_response = to_from_response
-            @to_from_profile_hash[to_from_id] = JSON.parse(@to_from_response.body)["data"]["url"]
+        poster_recipient_ids.each do |poster_recipient_id|
+          to_from_picture_request = Typhoeus::Request.new("https://graph.facebook.com/#{poster_recipient_id}/picture?redirect=false")
+          to_from_picture_request.on_complete do |poster_recipient_response|
+            @poster_recipient_response = poster_recipient_response
+            @poster_recipient_profile_hash[poster_recipient_id] = JSON.parse(@poster_recipient_response.body)["data"]["url"]
           end
           hydra.queue to_from_picture_request
         end
 
 
-        comment_ids.each do |comment_id|
-          comment_picture_request = Typhoeus::Request.new("https://graph.facebook.com/#{comment_id}/picture?redirect=false")
-          comment_picture_request.on_complete do |comments_response|
-            @comments_response = comments_response
-            @comments_profile_hash[comment_id] = JSON.parse(@comments_response.body)["data"]["url"]
+        commenter_ids.each do |commenter_id|
+          comment_picture_request = Typhoeus::Request.new("https://graph.facebook.com/#{commenter_id}/picture?redirect=false")
+          comment_picture_request.on_complete do |commenter_response|
+            @commenter_response = commenter_response
+            @commenter_profile_hash[commenter_id] = JSON.parse(@commenter_response.body)["data"]["url"]
           end
           hydra.queue comment_picture_request
         end
@@ -75,6 +64,30 @@ class FacebookApi
     else
       true
     end
+  end
+
+  private
+
+  def get_commenter_ids
+    commenter_ids = []
+    @posts.each do |post|
+      if post["comments"]
+        comments = post["comments"]["data"]
+        comments.each do |comment|
+          commenter_ids << comment["from"]["id"]
+        end
+      end
+    end
+    commenter_ids
+  end
+
+  def get_poster_recipient_ids
+    poster_recipient_ids = []
+    @posts.each do |post|
+      poster_recipient_ids << post["from"]["id"] if post["from"] != nil && post["from"]["id"] != nil
+      poster_recipient_ids << post["to"]["id"] if post["to"] != nil && post["to"]["id"] != nil
+    end
+    poster_recipient_ids
   end
 
 end

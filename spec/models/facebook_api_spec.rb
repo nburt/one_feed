@@ -41,7 +41,7 @@ describe FacebookApi do
 
     facebook_api = FacebookApi.new('mock_token')
     timeline = facebook_api.timeline
-    expect(facebook_api.to_from_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
+    expect(facebook_api.poster_recipient_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
   end
 
   it 'will return a commenter\'s profile picture' do
@@ -52,7 +52,7 @@ describe FacebookApi do
 
     facebook_api = FacebookApi.new('mock_token')
     timeline = facebook_api.timeline
-    expect(facebook_api.comments_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
+    expect(facebook_api.commenter_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
   end
 
 end

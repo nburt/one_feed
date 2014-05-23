@@ -18,14 +18,12 @@ describe Feed do
       twitter_token = Token.create!(:provider => 'twitter', :uid => '1237981238', :user_id => user.id, :access_token => nil, :access_token_secret => nil)
       instagram_token = Token.create!(:provider => 'instagram', :uid => '234234876', :user_id => user.id, :access_token => nil)
       mock_auth_hash
-      twitter_token.validate_token!
-      instagram_token.validate_token!
-
     end
 
     it 'will return a list of unauthed accounts' do
       feed = Feed.new(user)
-      expect(feed.unauthed_accounts.map { |account| account.provider }).to eq ['instagram', 'twitter']
+      feed.posts
+      expect(feed.unauthed_accounts).to eq ['twitter', 'instagram']
     end
 
   end

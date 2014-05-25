@@ -32,7 +32,7 @@ body {
 /* header and navbar */
 
 #logo {
-  margin: 1% auto;
+  margin: .75em auto 0;
 }
 
 .header_content {
@@ -41,11 +41,16 @@ body {
 
 nav {
   float: right;
-  margin-top: 1.5em;
+  margin-top: .5em;
+  #logged_in_nav {
+    li {
+      margin-top: 1.3em;
+    }
+  }
   li {
     display: inline-block;
     list-style: none;
-    padding: 0 .5em;
+    padding: 0 0 0 .7em;
     a {
       text-decoration: none;
       font-size: 1em;
@@ -61,10 +66,45 @@ nav {
   }
 }
 
+#onefeed_login {
+  li {
+    display: inline-block;
+    list-style: none;
+    padding: 0 .5em;
+    a:hover {
+      color: $logo-green;
+    }
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  form {
+    font-size: .8em;
+  }
+  input {
+    border: 1px ridge $background-gray;
+    border-radius: 5px;
+    margin: .25em 0 0 0;
+    height: 2em;
+    width: 15em;
+    font-size: .8em;
+  }
+  .homepage_form_button {
+    input:hover {
+      color: $logo-green;
+    }
+    input {
+      background-color: $white;
+      width: 5em;
+      height: 2em;
+    }
+  }
+}
+
 /* homepage login */
 
 #login_container {
-  width: 100%;
   text-align: center;
   overflow-y: hidden;
   img {
@@ -75,11 +115,8 @@ nav {
     color: #000;
   }
   #onefeed_registration_container {
-    text-align: left;
-    width: 45%;
-    float: right;
     #onefeed_registration {
-      float: left;
+      padding: 0 15.2em;
       font-size: 1.25em;
       p {
         color: $error_message_red;
@@ -87,40 +124,34 @@ nav {
       }
       #registration_header_container {
         text-align: center;
+        h3 {
+          margin-bottom: 1.75em;
+        }
       }
-    }
-  }
-  #onefeed_login_container {
-    text-align: left;
-    width: 45%;
-    float: left;
-    #onefeed_login {
-      float: right;
-      font-size: 1.25em;
-      a:hover {
-        color: $logo-green;
+      form {
+        input {
+          display: block;
+          border: none;
+          border-radius: 5px;
+          margin: .5em 0 1.23em 0;
+          height: 1.5em;
+          width: 17.5em;
+        }
+        .homepage_form_button {
+          input:hover {
+            color: $logo-green;
+          }
+          input {
+            background-color: $white;
+            width: 5em;
+            height: 2em;
+          }
+        }
+        text-align: left;
+        label {
+          margin-bottom: 5em;
+        }
       }
-      #login_header_container {
-        text-align: center;
-      }
-    }
-  }
-  input {
-    display: block;
-    border: none;
-    border-radius: 5px;
-    margin: .25em 0 1em 0;
-    height: 1.5em;
-    width: 17.5em;
-  }
-  .homepage_form_button {
-    input:hover {
-      color: $logo-green;
-    }
-    input {
-      background-color: $white;
-      width: 5em;
-      height: 2em;
     }
   }
 }

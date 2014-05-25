@@ -6,18 +6,43 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
   <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville' rel='stylesheet' type='text/css'>
+  <%= favicon_link_tag 'favicon.ico' %>
 </head>
 <body>
 <header>
   <div class="header_content">
     <a href="/"><img id="logo" src="<%= asset_url("one_feed_logo.png") %>" alt="OneFeed Logo"></a>
     <nav>
-      <ul>
-        <% if session[:user_id] != nil %>
-          <li><%= link_to 'Account Settings', account_path(session[:user_id]) %></li>
-          <li><a href="/destroy">Sign Out</a></li>
-        <% end %>
-      </ul>
+      <% if session[:user_id] != nil %>
+        <ul>
+          <div id="logged_in_nav">
+            <li><%= link_to 'Account Settings', account_path(session[:user_id]) %></li>
+            <li><a href="/destroy">Sign Out</a></li>
+          </div>
+        </ul>
+      <% else %>
+        <div id="onefeed_login">
+          <ul>
+            <%= form_for @user, :url => {:controller => "sessions", :action => "create"} do |f| %>
+              <li>
+                <%= f.label :email %>
+                <div class="login_form_fields">
+                  <%= f.email_field :email %>
+                </div>
+              </li>
+              <li>
+                <%= f.label :password %>
+                <div class="login_form_fields">
+                  <%= f.password_field :password %>
+                </div>
+              </li>
+              <li>
+                <div class="homepage_form_button"><%= f.submit "Sign In" %></div>
+              </li>
+            <% end %>
+        </div>
+        </ul>
+      <% end %>
     </nav>
   </div>
 </header>

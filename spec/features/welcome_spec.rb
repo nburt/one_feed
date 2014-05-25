@@ -14,7 +14,7 @@ feature 'Homepage with login' do
   scenario 'user can logout and log back in without re-registering' do
     expect(page).to have_content 'Account Settings'
     click_link 'Sign Out'
-    within 'div#onefeed_login_container' do
+    within 'header' do
       fill_in 'user[email]', :with => 'nate@email.com'
       fill_in 'user[password]', :with => 'password'
       click_button 'Sign In'
@@ -24,7 +24,7 @@ feature 'Homepage with login' do
 
   scenario 'a user cannot login with incorrect credentials' do
     click_link 'Sign Out'
-    within 'div#onefeed_login_container' do
+    within 'header' do
       fill_in 'user[email]', :with => 'nate@email.com'
       fill_in 'user[password]', :with => 'password1'
       click_button 'Sign In'

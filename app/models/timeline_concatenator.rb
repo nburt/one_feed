@@ -59,13 +59,14 @@ class TimelineConcatenator
     facebook_hash["story_tags"] = facebook_story_tags(facebook_post["story_tags"]) if facebook_post["story_tags"] != nil
     facebook_hash["application_name"] = facebook_post["application"]["name"] if facebook_post["application"] != nil
     facebook_hash["link_to_post"] = facebook_post["actions"][0]["link"] if facebook_post["actions"] != nil
+    facebook_hash["type"] = facebook_post["type"] if facebook_post["type"] != nil
     facebook_hash["status_type"] = facebook_post["status_type"] if facebook_post["status_type"] != nil
     facebook_hash["shares_count"] = facebook_post["shares"]["count"] if facebook_post["shares"] != nil
     facebook_hash
   end
 
   def get_to_hash(to_data)
-    to_array = []
+    to_hash = {}
 
     to_data["data"].each do |person|
       to_hash = {
@@ -73,22 +74,19 @@ class TimelineConcatenator
         "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/#{person["id"]}",
         "id" => person["id"]
       }
-      to_array << to_hash
     end
-    to_array
+    to_hash
   end
 
   def facebook_story_tags(story_tags)
-    story_tags_hash = {}
+    story_tags_hash = []
 
-    story_tags.each do |offset, tag_info|
-      individual_tag_hash = {}
-      individual_tag_hash["name"] = tag_info[0]["name"]
-      individual_tag_hash["link_to_profile"] = "https://www.facebook.com/app_scoped_user_id/#{tag_info[0]["id"]}"
-      individual_tag_array = []
-      individual_tag_array << individual_tag_hash
-
-      story_tags_hash["#{offset}"] = individual_tag_array
+    story_tags.each do |_, tag_info|
+      individual_tag_hash = {
+        "name" => tag_info[0]["name"],
+        "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/#{tag_info[0]["id"]}"
+      }
+      story_tags_hash << individual_tag_hash
     end
     story_tags_hash
   end

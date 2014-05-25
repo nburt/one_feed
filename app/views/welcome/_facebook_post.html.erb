@@ -8,26 +8,42 @@
         <% if poster_recipient_profile_hash.has_key?(post["from"]["id"]) %>
           <li><img src="<%= poster_recipient_profile_hash[post["from"]["id"]] %>"></li>
         <% end %>
-        <li><a href="<%= post["from"]["link_to_profile"] %>"><%= post["from"]["name"] %></a></li>
+        <li><%= link_to post["from"]["name"], post["from"]["link_to_profile"] %></li>
+        <% if post["to"] != nil %>
+          <li><%= image_tag("arrow.png", :class => "arrow_image") %></li>
+          <li><%= link_to post["to"]["name"], post["to"]["link_to_profile"] %></li>
+        <% end %>
         <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
       </ul>
     </div>
     <div class="post_content">
       <ul>
-        <li><%= post["story"] if post["story"] != nil %></p></li>
-        <li><%= post["message"] if post["message"] != nil %></li>
-        <li><img src="<%= post["image"]["original_sized_image"] if post["image"] != nil %>"></li>
-        <li><%= post["caption_text"] %></li>
+        <% if post["story"] != nil %>
+          <li><%= post["story"] %></p></li>
+        <% end %>
+        <% if post["message"] != nil %>
+          <li><%= post["message"] %></li>
+        <% end %>
+        <% if post["image"] != nil %>
+          <li><img src="<%= post["image"]["original_sized_image"] %>"></li>
+        <% end %>
+        <% if post["caption_text"] %>
+          <li><%= post["caption_text"] %></li>
+        <% end %>
+        <% if post["article_link"] != nil && post["type"] == "link" %>
+          <li><%= link_to "link", post["article_link"] %></li>
+        <% end %>
       </ul>
       <% if post["story_tags"] != nil %>
         <ul>
           <% post["story_tags"].each do |story_tag| %>
-            <li>
-              <% story_tag.each do |tag| %></li>
-                <li><a href="<%= tag[0]["link_to_profile"] %>"><%= tag[0]["name"] %></a></li>
-              <% end %>
+            <li><%= link_to story_tag["name"], story_tag["link_to_profile"] %></li>
           <% end %>
-          <li>were tagged in this post.</li>
+          <% if post["story_tags"].length > 1 %>
+            <li>were tagged in this post.</li>
+          <% else %>
+            <li>was tagged in this post.</li>
+          <% end %>
         </ul>
       <% end %>
       <div class="post_stats">
@@ -37,16 +53,19 @@
           <% if post["shares_count"] != nil %>
             <li>Shares: <%= post["shares_count"] %></li>
           <% end %>
-          <li>
-            <a href="<%= post["link_to_post"] if post["link_to_post"] != nil %>">View on Facebook</a>
-          </li>
+          <% if post["link_to_post"] != nil %>
+            <li>
+              <a href="<%= post["link_to_post"] %>">View on Facebook</a>
+            </li>
+          <% end %>
         </ul>
       </div>
       <% if post["comments"] != nil %>
         <div class="post_comments">
           <ul>
             <% post["comments"].each do |comment| %>
-              <li class="commenter_profile_picture"><img src="<%= commenter_profile_hash[comment["from"]["id"]] %>"></li>
+              <li class="commenter_profile_picture"><img src="<%= commenter_profile_hash[comment["from"]["id"]] %>">
+              </li>
               <li class="commenter_username">
                 <a href="<%= comment["from"]["link_to_profile"] %>" target="_blank"><%= comment["from"]["name"] %></a>
               </li>

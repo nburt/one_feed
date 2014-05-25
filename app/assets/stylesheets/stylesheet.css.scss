@@ -158,6 +158,9 @@ nav {
     text-decoration: none;
     color: $logo-green;
   }
+  .arrow_image {
+    height: .9em;
+  }
 }
 
 .post_main {
@@ -205,6 +208,7 @@ nav {
   }
   img {
     max-width: 664px;
+    max-height: 400px;
   }
 }
 
@@ -255,7 +259,7 @@ nav {
 .network_container {
   display: inline-block;
   .network_login {
-    padding: 0 2em;
+    padding: 0 1.5em;
     font-size: 1.5em;
     img {
       margin-top: 1em;

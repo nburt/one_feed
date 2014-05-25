@@ -119,7 +119,7 @@ class TimelineConcatenator
     twitter_hash["provider"] = "twitter"
     twitter_hash["profile_picture"] = tweet["user"]["profile_image_url_https"]
     twitter_hash["user_name"] = tweet["user"]["name"]
-    twitter_hash["user_url"] = tweet["user"]["url"]
+    twitter_hash["user_url"] = "https://twitter.com/#{tweet["user"]["screen_name"]}"
     twitter_hash["screen_name"] = tweet["user"]["screen_name"]
     twitter_hash["created_time"] = "#{Time.parse(tweet["created_at"].to_s)}"
     twitter_hash["tweet_text"] = tweet["text"]

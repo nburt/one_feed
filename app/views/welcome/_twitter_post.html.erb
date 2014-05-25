@@ -1,14 +1,14 @@
 <div class="individual_post">
   <div class="network_logo">
-    <img class="provider_logo" src="<%= asset_url("Twitter_logo_blue.png") %>">
+    <%= image_tag("Twitter_logo_blue.png", :class => "provider_logo") %>
   </div>
   <div class="post_main">
     <div class="post_header">
       <ul>
         <li>
-          <a href="<%= post["user_url"] %>" target="_blank"><img class="user_profile_picture" src="<%= post["profile_picture"] %>"></a>
+          <%= link_to image_tag(post["profile_picture"], :class => "user_profile_picture"), post["user_url"], :target => "_blank" %>
         </li>
-        <li><a href="<%= post["user_url"] %>" target="_blank"><%= post["user_name"] %></a></li>
+        <li><%= link_to post["user_name"], post["user_url"], :target => "_blank" %></li>
         <li>@<%= post["screen_name"] %></li>
         <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
       </ul>
@@ -17,7 +17,7 @@
       <ul>
         <li><%= post["tweet_text"] %></li>
         <% if post["tweet_image"].present? %>
-          <li><img src="<%= post["tweet_image"] %>"/></li>
+          <li><%= image_tag(post["tweet_image"]) %></li>
         <% end %>
       </ul>
       <div class="post_stats">
@@ -25,7 +25,7 @@
           <li>Retweets: <%= post["retweet_count"] %></li>
           <li>Favorites: <%= post["favorite_count"] %></li>
           <li>
-            <a href="<%= post["link_to_tweet"] %>" target="_blank">View on Twitter</a>
+            <%= link_to "View on Twitter", post["link_to_tweet"], :target => "_blank" %>
           </li>
         </ul>
       </div>

@@ -1,18 +1,18 @@
 <div class="individual_post">
   <div class="network_logo">
-    <img class="provider_logo" src="<%= asset_url("Instagram_Icon_Large.png") %>">
+    <%= image_tag("Instagram_Icon_Large.png", :class => "provider_logo") %>
   </div>
   <div class="post_main">
     <div class="post_header">
       <ul>
-        <li><a href="<%= post["user_url"] %>" target="_blank"><img class="user_profile_picture" src="<%= post["profile_picture"] %>"></a></li>
-        <li><a href="<%= post["user_url"] %>" target="_blank">@<%= post["username"] %></a></li>
+        <li><%= link_to image_tag(post["profile_picture"], :class => "user_profile_picture"), post["user_url"], :target => "_blank" %></li>
+        <li><%= link_to "@#{post["username"]}", post["user_url"], :target => "_blank" %></li>
         <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
       </ul>
     </div>
     <div class="post_content">
       <ul>
-        <li><img src="<%= post["low_resolution_image_url"] %>"></li>
+        <li><%= image_tag(post["low_resolution_image_url"])%></li>
         <% if post["caption_text"] != nil %>
           <li><%= post["caption_text"] %></li>
         <% end %>
@@ -22,7 +22,7 @@
           <li>Comments: <%= post["comments_count"] %></li>
           <li>Likes: <%= post["likes_count"] %></li>
           <li>
-            <a href="<%= post["link_to_post"] %>" target="_blank">View on Instagram</a>
+            <%= link_to "View on Instagram", post["link_to_post"], :target => "_blank" %>
           </li>
         </ul>
       </div>
@@ -30,9 +30,11 @@
         <div class="post_comments">
           <ul>
             <% post["comments"].each do |comment| %>
-              <li class="commenter_profile_picture"><img src="<%= comment["from"]["profile_picture"] %>"></li>
+              <li class="commenter_profile_picture">
+                <%= link_to image_tag(comment["from"]["profile_picture"]), "http://www.instagram.com/#{comment["from"]["username"]}", :target => "_blank" %>
+              </li>
               <li class="commenter_username">
-                <a href="http://www.instagram.com/<%= comment["from"]["username"] %>" target="_blank"><%= comment["from"]["username"] %></a>
+                <%= link_to "@#{comment["from"]["username"]}", "http://www.instagram.com/#{comment["from"]["username"]}", :target => "_blank" %>
               </li>
               <li><%= comment["text"] %></li>
             <% end %>

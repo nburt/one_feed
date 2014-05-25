@@ -11,12 +11,22 @@
       </ul>
     </div>
     <div class="post_content">
-      <ul>
-        <li><%= image_tag(post["low_resolution_image_url"])%></li>
-        <% if post["caption_text"] != nil %>
-          <li><%= post["caption_text"] %></li>
-        <% end %>
-      </ul>
+      <% if post["type"] == "photo" %>
+        <ul>
+          <li><%= image_tag(post["low_resolution_image_url"]) %></li>
+          <% if post["caption_text"] != nil %>
+            <li><%= post["caption_text"] %></li>
+          <% end %>
+        </ul>
+      <% elsif post["type"] == "video" %>
+        <ul>
+          <li>
+            <video width="360" height="360" controls>
+              <source src="<%= post["video"] %>" type="video/mp4">
+            </video>
+          </li>
+        </ul>
+      <% end %>
       <div class="post_stats">
         <ul>
           <li>Comments: <%= post["comments_count"] %></li>

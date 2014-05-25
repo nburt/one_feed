@@ -143,6 +143,12 @@ class TimelineConcatenator
     instagram_hash["comments_count"] = instagram_post["comments"]["count"].to_i
     instagram_hash["comments"] = instagram_post["comments"]["data"]
     instagram_hash["likes_count"] = instagram_post["likes"]["count"].to_i
+    if instagram_post["type"] == "video"
+      instagram_hash["video"] = instagram_post["videos"]["standard_resolution"]["url"]
+      instagram_hash["type"] = instagram_post["type"]
+    else
+      instagram_hash["type"] = "photo"
+    end
     instagram_hash
   end
 

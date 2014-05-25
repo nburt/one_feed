@@ -38,6 +38,43 @@ describe TimelineConcatenator do
     result = timeline_concatenator.merge(twitter_data, instagram_data, facebook_data)
     expect(result).to eq [
                            {
+                             "provider" => "instagram",
+                             "profile_picture" => "http://images.ak.instagram.com/profiles/profile_221532163_75sq_1359427219.jpg",
+                             "username" => "j_burger8",
+                             "user_url" => "http://www.instagram.com/j_burger8",
+                             "created_time" => "2014-05-25 14:35:03 -0600",
+                             "low_resolution_image_url" => "http://scontent-b.cdninstagram.com/hphotos-prn/t51.2885-15/925856_1424901207774193_118091714_a.jpg",
+                             "link_to_post" => "http://instagram.com/p/obvPRPIdNp/",
+                             "comments_count" => 2,
+                             "comments" => [
+                               {
+                                 "created_time" => "1401054214",
+                                 "text" => "Hahaa!!",
+                                 "from" => {
+                                   "username" => "yarrrisayin",
+                                   "profile_picture" => "http://images.ak.instagram.com/profiles/profile_14685800_75sq_1329985415.jpg",
+                                   "id" => "14685800",
+                                   "full_name" => "Adrian Pougiales"
+                                 },
+                                 "id" => "728418008298541346"
+                               },
+                               {
+                                 "created_time" => "1401057296",
+                                 "text" => "Hell yeah burger!",
+                                 "from" => {
+                                   "username" => "tedmundoo",
+                                   "profile_picture" => "http://images.ak.instagram.com/profiles/profile_291016568_75sq_1395757808.jpg",
+                                   "id" => "291016568",
+                                   "full_name" => "Teddy L."
+                                 },
+                                 "id" => "728443859664753434"
+                               }
+                             ],
+                             "likes_count" => 28,
+                             "video" => "http://scontent-a.cdninstagram.com/hphotos-frc/t50.2886-16/10419084_715655678498694_1036079256_n.mp4",
+                             "type" => "video",
+                           },
+                           {
                              "provider" => "facebook",
                              "created_time" => "2014-05-18 17:59:03 -0600",
                              "from" => {
@@ -148,8 +185,8 @@ describe TimelineConcatenator do
                              "likes_count" => 0,
                              "comments_count" => 0,
                              "application_name" => "Instagram",
-                             "type" => "photo",
                              "link_to_post" => "https://www.facebook.com/1334370453/posts/2666936676028",
+                             "type" => "photo",
                            },
                            {
                              "provider" => "facebook",
@@ -224,6 +261,7 @@ describe TimelineConcatenator do
                                }
                              ],
                              "likes_count" => 1,
+                             "type" => "photo"
                            },
                            {
                              "provider" => "twitter",
@@ -277,6 +315,7 @@ describe TimelineConcatenator do
                                },
                              ],
                              "likes_count" => 1,
+                             "type" => "photo",
                            }
                          ]
   end

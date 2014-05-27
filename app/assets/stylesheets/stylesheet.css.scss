@@ -185,12 +185,19 @@ nav {
   padding: 2.5em;
   border-bottom: 1px solid $background-gray;
   border-bottom-width: .5em;
+  word-wrap: break-word;
   a {
     text-decoration: none;
     color: $logo-green;
   }
   .arrow_image {
     height: .9em;
+  }
+}
+
+.story_tags {
+  li {
+    display: inline-block;
   }
 }
 

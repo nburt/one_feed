@@ -37,7 +37,7 @@
         <% end %>
       </ul>
       <% if post["story_tags"] != nil %>
-        <ul>
+        <ul class="story_tags">
           <% post["story_tags"].each do |story_tag| %>
             <li><%= link_to story_tag["name"], story_tag["link_to_profile"], :target => "_blank" %></li>
           <% end %>

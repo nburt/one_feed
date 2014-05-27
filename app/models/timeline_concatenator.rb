@@ -24,28 +24,37 @@ class TimelineConcatenator
   private
 
   def create_facebook_hash(facebook_post)
-    from_hash = {
-      "name" => facebook_post["from"]["name"],
-      "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/#{facebook_post["from"]["id"]}",
-      "id" => facebook_post["from"]["id"]
-    }
-
-    image_hash = {}
-    image_hash["original_sized_image"] = facebook_original_size_image(facebook_post["picture"]) if facebook_post["picture"] != nil
-
     facebook_hash = {}
     facebook_hash["provider"] = "facebook"
-    facebook_hash["created_time"] = "#{Time.parse(facebook_post["created_time"])}"
-    facebook_hash["from"] = from_hash
-    facebook_hash["to"] = get_to_hash(facebook_post["to"]) if facebook_post["to"] != nil
-    facebook_hash["image"] = image_hash if image_hash != {}
-    facebook_hash["message"] = facebook_post["message"] if facebook_post["message"] != nil
-    facebook_hash["message_tags"] = facebook_message_tags(facebook_post["message_tags"]) if facebook_post["message_tags"] != nil
-    facebook_hash["article_name"] = facebook_post["name"] if facebook_post["name"] != nil
-    facebook_hash["article_link"] = facebook_post["link"] if facebook_post["link"] != nil
-    facebook_hash["description"] = facebook_post["description"] if facebook_post["description"] != nil
-    facebook_hash["caption_text"] = facebook_post["caption"] if facebook_post["caption"] != nil
-    facebook_hash["story"] = facebook_post["story"] if facebook_post["story"] != nil
+    facebook_hash["created_time"] = parse_time(facebook_post["created_time"])
+    facebook_hash["from"] = get_from_hash(facebook_post["from"])
+    if facebook_post["to"] != nil
+      facebook_hash["to"] = get_to_hash(facebook_post["to"])
+    end
+    if facebook_post["picture"] != nil
+      facebook_hash["image"] = get_image_hash(facebook_post["picture"])
+    end
+    if facebook_post["message"] != nil
+      facebook_hash["message"] = facebook_post["message"]
+    end
+    if facebook_post["message_tags"] != nil
+      facebook_hash["message_tags"] = facebook_message_tags(facebook_post["message_tags"])
+    end
+    if facebook_post["name"] != nil
+      facebook_hash["article_name"] = facebook_post["name"]
+    end
+    if facebook_post["link"] != nil
+      facebook_hash["article_link"] = facebook_post["link"]
+    end
+    if facebook_post["description"] != nil
+      facebook_hash["description"] = facebook_post["description"]
+    end
+    if facebook_post["caption"] != nil
+      facebook_hash["caption_text"] = facebook_post["caption"]
+    end
+    if facebook_post["story"] != nil
+      facebook_hash["story"] = facebook_post["story"]
+    end
     if facebook_post["likes"] != nil
       facebook_hash["likes_count"] = facebook_post["likes"]["data"].count
     else
@@ -56,13 +65,44 @@ class TimelineConcatenator
     else
       facebook_hash["comments_count"] = 0
     end
-    facebook_hash["story_tags"] = facebook_story_tags(facebook_post["story_tags"]) if facebook_post["story_tags"] != nil
-    facebook_hash["application_name"] = facebook_post["application"]["name"] if facebook_post["application"] != nil
-    facebook_hash["link_to_post"] = facebook_post["actions"][0]["link"] if facebook_post["actions"] != nil
-    facebook_hash["type"] = facebook_post["type"] if facebook_post["type"] != nil
-    facebook_hash["status_type"] = facebook_post["status_type"] if facebook_post["status_type"] != nil
-    facebook_hash["shares_count"] = facebook_post["shares"]["count"] if facebook_post["shares"] != nil
+    if facebook_post["story_tags"] != nil
+      facebook_hash["story_tags"] = facebook_story_tags(facebook_post["story_tags"])
+    end
+    if facebook_post["application"] != nil
+      facebook_hash["application_name"] = facebook_post["application"]["name"]
+    end
+    if facebook_post["actions"] != nil
+      facebook_hash["link_to_post"] = facebook_post["actions"][0]["link"]
+    end
+    if facebook_post["type"] != nil
+      facebook_hash["type"] = facebook_post["type"]
+    end
+    if facebook_post["status_type"] != nil
+      facebook_hash["status_type"] = facebook_post["status_type"]
+    end
+    if facebook_post["shares"] != nil
+      facebook_hash["shares_count"] = facebook_post["shares"]["count"]
+    end
     facebook_hash
+  end
+
+  def get_image_hash(picture)
+    image_hash = {}
+    image_hash["original_sized_image"] = facebook_original_size_image(picture)
+    image_hash
+  end
+
+  def parse_time(created_time)
+    "#{Time.parse(created_time)}"
+  end
+
+  def get_from_hash(from_data)
+    from_hash = {
+      "name" => from_data["name"],
+      "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/#{from_data["id"]}",
+      "id" => from_data["id"]
+    }
+    from_hash
   end
 
   def get_to_hash(to_data)
@@ -72,7 +112,7 @@ class TimelineConcatenator
       to_hash = {
         "name" => person["name"],
         "link_to_profile" => "https://www.facebook.com/app_scoped_user_id/#{person["id"]}",
-        "id" => person["id"]
+        "id" => person["id"],
       }
     end
     to_hash
@@ -121,12 +161,14 @@ class TimelineConcatenator
     twitter_hash["user_name"] = tweet["user"]["name"]
     twitter_hash["user_url"] = "https://twitter.com/#{tweet["user"]["screen_name"]}"
     twitter_hash["screen_name"] = tweet["user"]["screen_name"]
-    twitter_hash["created_time"] = "#{Time.parse(tweet["created_at"].to_s)}"
+    twitter_hash["created_time"] = parse_time(tweet["created_at"].to_s)
     twitter_hash["tweet_text"] = tweet["text"]
     twitter_hash["retweet_count"] = tweet["retweet_count"].to_i
     twitter_hash["favorite_count"] = tweet["favorite_count"].to_i
     twitter_hash["link_to_tweet"] = "https://twitter.com/#{tweet["user"]["screen_name"]}/status/#{tweet["id"]}"
-    twitter_hash["tweet_image"] = tweet["media"][0]["media_url"] if tweet["media"].present?
+    if tweet["media"].present?
+      twitter_hash["tweet_image"] = tweet["media"][0]["media_url"]
+    end
     twitter_hash
   end
 
@@ -138,7 +180,9 @@ class TimelineConcatenator
     instagram_hash["user_url"] = "http://www.instagram.com/#{instagram_post["user"]["username"]}"
     instagram_hash["created_time"] = "#{Time.at(instagram_post["created_time"].to_i)}"
     instagram_hash["low_resolution_image_url"] = instagram_post["images"]["low_resolution"]["url"]
-    instagram_hash["caption_text"] = instagram_post["caption"]["text"] if instagram_post["caption"] != nil
+    if instagram_post["caption"] != nil
+      instagram_hash["caption_text"] = instagram_post["caption"]["text"]
+    end
     instagram_hash["link_to_post"] = instagram_post["link"]
     instagram_hash["comments_count"] = instagram_post["comments"]["count"].to_i
     instagram_hash["comments"] = instagram_post["comments"]["data"]

@@ -25,6 +25,11 @@ body {
   }
 }
 
+.loading_message {
+  background-color: $white;
+  padding: 1.5em;
+}
+
 .loading_text {
   color: $logo-green
 }
@@ -270,6 +275,12 @@ nav {
     display: inline-block;
     margin-left: 1em;
   }
+}
+
+.load_posts_link {
+  background-color: $white;
+  padding: 1.5em;
+  text-align: center;
 }
 
 /* accounts */

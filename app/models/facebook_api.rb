@@ -2,23 +2,34 @@ require 'oj'
 
 class FacebookApi
 
-  attr_reader :poster_recipient_profile_hash, :commenter_profile_hash, :posts
+  attr_reader :poster_recipient_profile_hash, :commenter_profile_hash, :posts, :next
 
-  def initialize(access_token)
+  def initialize(access_token, pagination_id)
     @access_token = access_token
     @commenter_profile_hash = {}
     @poster_recipient_profile_hash = {}
+    @pagination_id = pagination_id
+    @next = nil
   end
 
   def timeline
     @posts = []
     hydra = Typhoeus::Hydra.hydra
-    feed_request = Typhoeus::Request.new("https://graph.facebook.com/me/home?access_token=#{@access_token}")
+    if @pagination_id == nil
+      feed_request = Typhoeus::Request.new("https://graph.facebook.com/me/home?access_token=#{@access_token}&limit=5")
+    else
+      feed_request = Typhoeus::Request.new("https://graph.facebook.com/me/home?access_token=#{@access_token}&limit=5&until=#{@pagination_id}")
+    end
     feed_request.on_complete do |response|
       @response = response
       if success?
 
         body = Oj.load(@response.body)
+        if body["paging"] != nil
+          @next = body["paging"]["next"].scan(/&until=(.{10})/).flatten[0]
+        else
+          @next = nil
+        end
         @posts = body["data"]
 
         commenter_ids = get_commenter_ids

@@ -1,14 +1,28 @@
 <div id="feed_content">
-  <div class="individual_post">
-    <%= image_tag "ajax-loader.gif" %>
-    <p class="loading_text">Loading...</p>
+  <div id="feed_container">
   </div>
+</div>
+
+<div class="loading_message">
+  <%= image_tag "ajax-loader.gif" %>
+  <p class="loading_text">Loading...</p>
 </div>
 
 <script type="text/javascript">
   $(function () {
     $.get("/feed_content").success(function (response) {
-      $("#feed_content").html(response)
-    })
+      $("#feed_container").append(response);
+      $(".loading_message").hide();
+    });
+  });
+
+  $(document).on("click", "#load-more", function (event) {
+    $(".loading_message").show();
+    $(".load_posts_link").hide();
+    $.get($(event.target).attr("href")).success(function (response) {
+      $(".load_posts_link").replaceWith(response);
+      $(".loading_message").hide();
+    });
+    return false;
   });
 </script>

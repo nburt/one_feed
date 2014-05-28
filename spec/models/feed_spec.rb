@@ -9,13 +9,13 @@ describe Feed do
     before do
       stub_request(:post, 'https://api.twitter.com/oauth2/token')
 
-      stub_request(:get, 'https://api.twitter.com/1.1/statuses/home_timeline.json').
+      stub_request(:get, 'https://api.twitter.com/1.1/statuses/home_timeline.json?count=5').
         to_return(status: 401)
 
-      stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=').
+      stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=&count=5&max_id=').
         to_return(status: 400)
 
-      stub_request(:get, 'https://graph.facebook.com/me/home?access_token=').
+      stub_request(:get, 'https://graph.facebook.com/me/home?access_token=&limit=5').
         to_return(status: 463)
 
       twitter_token = Token.create!(:provider => 'twitter', :uid => '1237981238', :user_id => user.id, :access_token => nil, :access_token_secret => nil)
@@ -26,7 +26,7 @@ describe Feed do
 
     it 'will return a list of unauthed accounts' do
       feed = Feed.new(user)
-      feed.posts
+      feed.posts(nil, nil, nil)
       expect(feed.unauthed_accounts).to eq ['twitter', 'instagram', 'facebook']
     end
 

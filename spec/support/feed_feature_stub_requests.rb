@@ -3,16 +3,16 @@ module FeedFeatureStubs
   def insert_feed_feature_stubs
     stub_request(:post, 'https://api.twitter.com/oauth2/token')
 
-    stub_request(:get, 'https://api.twitter.com/1.1/statuses/home_timeline.json').
-      to_return(body: File.read(File.expand_path('./spec/support/twitter_timeline.json')))
+    stub_request(:get, 'https://api.twitter.com/1.1/statuses/home_timeline.json?count=5').
+      to_return(body: File.read('./spec/support/twitter_timeline.json'))
 
     stub_request(:post, 'https://api.instagram.com/oauth2/token')
 
-    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token').
-      to_return(body: File.read(File.expand_path('./spec/support/instagram_timeline.json')))
+    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5&max_id=').
+      to_return(body: File.read('./spec/support/instagram_timeline.json'))
 
-    stub_request(:get, 'https://graph.facebook.com/me/home?access_token=mock_token').
-      to_return(body: File.read(File.expand_path('./spec/support/facebook_timeline.json')))
+    stub_request(:get, 'https://graph.facebook.com/me/home?access_token=mock_token&limit=5').
+      to_return(body: File.read('./spec/support/facebook_timeline.json'))
 
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_8.json'))

@@ -2,7 +2,7 @@ require 'oj'
 
 class FacebookApi
 
-  attr_reader :poster_recipient_profile_hash, :commenter_profile_hash, :posts, :next
+  attr_reader :poster_recipient_profile_hash, :commenter_profile_hash, :posts, :pagination_id
 
   def initialize(access_token, pagination_id)
     @access_token = access_token
@@ -16,9 +16,9 @@ class FacebookApi
     @posts = []
     hydra = Typhoeus::Hydra.hydra
     if @pagination_id == nil
-      feed_request = Typhoeus::Request.new("https://graph.facebook.com/me/home?access_token=#{@access_token}&limit=5")
+      feed_request = Typhoeus::Request.new("https://graph.facebook.com/me/home?limit=5&access_token=#{@access_token}")
     else
-      feed_request = Typhoeus::Request.new("https://graph.facebook.com/me/home?access_token=#{@access_token}&limit=5&until=#{@pagination_id}")
+      feed_request = Typhoeus::Request.new("https://graph.facebook.com/me/home?limit=5&access_token=#{@access_token}&until=#{@pagination_id}")
     end
     feed_request.on_complete do |response|
       @response = response
@@ -26,9 +26,9 @@ class FacebookApi
 
         body = Oj.load(@response.body)
         if body["paging"] != nil
-          @next = body["paging"]["next"].scan(/&until=(.{10})/).flatten[0]
+          @pagination_id = body["paging"]["next"].scan(/&until=(.{10})/).flatten[0]
         else
-          @next = nil
+          @pagination_id = nil
         end
         @posts = body["data"]
 

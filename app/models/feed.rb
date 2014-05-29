@@ -2,29 +2,46 @@ class Feed
 
   include ApplicationHelper
 
-  attr_reader :poster_recipient_profile_hash, :commenter_profile_hash, :unauthed_accounts, :twitter_pagination, :facebook_pagination_id, :instagram_max_id
+  attr_reader :poster_recipient_profile_hash,
+              :commenter_profile_hash,
+              :unauthed_accounts,
+              :twitter_pagination_id,
+              :facebook_pagination_id,
+              :instagram_max_id
 
   def initialize(current_user)
     @current_user = current_user
     @unauthed_accounts = []
   end
 
-  def posts(twitter_pagination, facebook_pagination_id, instagram_max_id)
-    twitter_timeline = []
+  def posts(twitter_pagination_id, facebook_pagination_id, instagram_max_id)
+
+    TimelineConcatenator.new.merge(twitter_timeline(twitter_pagination_id),
+                                   instagram_timeline(instagram_max_id),
+                                   facebook_timeline(facebook_pagination_id))
+  end
+
+  private
+
+  def twitter_timeline(twitter_pagination_id)
     if current_user_has_provider?('twitter', @current_user)
       twitter_timeline_class = TwitterTimeline.new(@current_user)
-      twitter_timeline = twitter_timeline_class.timeline(twitter_pagination)
+      twitter_timeline = twitter_timeline_class.timeline(twitter_pagination_id)
       if twitter_timeline.last != nil
-        @twitter_pagination = twitter_timeline.last.id
+        @twitter_pagination_id = twitter_timeline.last.id
       else
-        @twitter_pagination = nil
+        @twitter_pagination_id = nil
       end
       unless twitter_timeline_class.authed
         @unauthed_accounts << "twitter"
       end
+      twitter_timeline
+    else
+      []
     end
+  end
 
-    instagram_timeline = []
+  def instagram_timeline(instagram_max_id)
     if current_user_has_provider?('instagram', @current_user)
       instagram_timeline_class = InstagramTimeline.new(@current_user)
       instagram_timeline = instagram_timeline_class.timeline(instagram_max_id)
@@ -32,9 +49,13 @@ class Feed
       unless instagram_timeline_class.authed
         @unauthed_accounts << "instagram"
       end
+      instagram_timeline
+    else
+      []
     end
+  end
 
-    facebook_timeline = []
+  def facebook_timeline(facebook_pagination_id)
     if current_user_has_provider?('facebook', @current_user)
       facebook_timeline_class = FacebookTimeline.new(@current_user)
       facebook_timeline = facebook_timeline_class.timeline(facebook_pagination_id)
@@ -43,11 +64,11 @@ class Feed
       end
       @poster_recipient_profile_hash = facebook_timeline_class.poster_recipient_profile_hash
       @commenter_profile_hash = facebook_timeline_class.commenter_profile_hash
-      @facebook_pagination_id = facebook_timeline_class.next
+      @facebook_pagination_id = facebook_timeline_class.pagination_id
+      facebook_timeline
+    else
+      []
     end
-
-    timeline_concatenator = TimelineConcatenator.new
-    timeline_concatenator.merge(twitter_timeline, instagram_timeline, facebook_timeline)
   end
 
 end

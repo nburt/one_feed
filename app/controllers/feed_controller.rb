@@ -12,7 +12,7 @@ class FeedController < ApplicationController
     @commenter_profile_hash = feed.commenter_profile_hash
 
     @load_more_url = feed_content_path(
-      :twitter_pagination => feed.twitter_pagination,
+      :twitter_pagination => feed.twitter_pagination_id,
       :facebook_pagination_id => feed.facebook_pagination_id,
       :instagram_max_id => feed.instagram_max_id
     )

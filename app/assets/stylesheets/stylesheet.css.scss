@@ -9,6 +9,7 @@ header {
   background-color: $white;
   overflow: hidden;
   padding: 0 10em;
+  box-shadow: 0 1px 4px #ccc;
 }
 
 body {
@@ -187,7 +188,7 @@ nav {
 
 .individual_post {
   background-color: $white;
-  padding: 2.5em;
+  padding: 1.25em;
   border-bottom: 1px solid $background-gray;
   border-bottom-width: .5em;
   word-wrap: break-word;

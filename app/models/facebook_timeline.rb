@@ -7,7 +7,7 @@ class FacebookTimeline
     @authed = true
   end
 
-  def timeline(pagination_id)
+  def posts(pagination_id)
     token = @user.tokens.find_by(provider: 'facebook')
     facebook_api = FacebookApi.new(token.access_token, pagination_id)
     facebook_api.timeline

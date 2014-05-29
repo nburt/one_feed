@@ -7,7 +7,7 @@ class TwitterTimeline
     @authed = true
   end
 
-  def timeline(max_id = nil)
+  def posts(max_id = nil)
     twitter_timeline = []
     token = @user.tokens.find_by(provider: 'twitter')
     client = token.configure_twitter(token.access_token, token.access_token_secret)

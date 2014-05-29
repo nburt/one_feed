@@ -7,7 +7,7 @@ class InstagramTimeline
     @authed = true
   end
 
-  def timeline(max_id)
+  def posts(max_id)
     token = @user.tokens.find_by(provider: 'instagram')
     instagram_api = InstagramApi.new(token.access_token, max_id)
     timeline = instagram_api.get_timeline

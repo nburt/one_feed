@@ -3,7 +3,7 @@ require 'spec_helper'
 describe FacebookApi do
 
   it 'can get the instagram timeline for a given user' do
-    stub_request(:get, 'https://graph.facebook.com/me/home?access_token=mock_token&limit=5').
+    stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
       to_return(body: File.read('./spec/support/facebook_timeline.json'))
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
@@ -14,7 +14,7 @@ describe FacebookApi do
   end
 
   it 'will return true if successful' do
-    stub_request(:get, 'https://graph.facebook.com/me/home?access_token=mock_token&limit=5').
+    stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
       to_return(body: File.read('./spec/support/facebook_timeline.json'))
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
@@ -25,7 +25,7 @@ describe FacebookApi do
   end
 
   it 'will return an empty array if the users\'s token is no longer valid' do
-    stub_request(:get, 'https://graph.facebook.com/me/home?access_token=mock_token&limit=5').
+    stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
       to_return(status: 463, body: File.read('./spec/support/facebook/invalid_oauth_token.json'))
 
     facebook_api = FacebookApi.new('mock_token', nil)
@@ -34,7 +34,7 @@ describe FacebookApi do
   end
 
   it 'will return a user\'s profile picture' do
-    stub_request(:get, 'https://graph.facebook.com/me/home?access_token=mock_token&limit=5').
+    stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
       to_return(body: File.read('./spec/support/facebook_timeline.json'))
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
@@ -45,7 +45,7 @@ describe FacebookApi do
   end
 
   it 'will return a commenter\'s profile picture' do
-    stub_request(:get, 'https://graph.facebook.com/me/home?access_token=mock_token&limit=5').
+    stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
       to_return(body: File.read('./spec/support/facebook_timeline.json'))
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))

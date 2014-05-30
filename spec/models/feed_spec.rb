@@ -15,7 +15,7 @@ describe Feed do
       stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=&count=5&max_id=').
         to_return(status: 400)
 
-      stub_request(:get, 'https://graph.facebook.com/me/home?access_token=&limit=5').
+      stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=&limit=5').
         to_return(status: 463)
 
       twitter_token = Token.create!(:provider => 'twitter', :uid => '1237981238', :user_id => user.id, :access_token => nil, :access_token_secret => nil)

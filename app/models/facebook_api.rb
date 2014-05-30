@@ -15,16 +15,17 @@ class FacebookApi
   def timeline
     @posts = []
     hydra = Typhoeus::Hydra.hydra
-    if @pagination_id == nil
-      feed_request = Typhoeus::Request.new("https://graph.facebook.com/me/home?limit=5&access_token=#{@access_token}")
+    if @pagination_id.nil?
+      feed_request = Typhoeus::Request.new("https://graph.facebook.com/v2.0/me/home?limit=5&access_token=#{@access_token}")
     else
-      feed_request = Typhoeus::Request.new("https://graph.facebook.com/me/home?limit=5&access_token=#{@access_token}&until=#{@pagination_id}")
+      feed_request = Typhoeus::Request.new("https://graph.facebook.com/v2.0/me/home?limit=5&access_token=#{@access_token}&until=#{@pagination_id}")
     end
     feed_request.on_complete do |response|
       @response = response
       if success?
 
         body = Oj.load(@response.body)
+
         if body["paging"] != nil
           @pagination_id = body["paging"]["next"].scan(/&until=(.{10})/).flatten[0]
         else

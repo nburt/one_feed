@@ -26,7 +26,6 @@ feature 'can display feeds from various social media accounts', js: true do
     silence_omniauth do
       OmniAuth.config.mock_auth[:twitter] = :invalid
       visit '/'
-
       click_link 'Account Settings'
       click_link 'Link Accounts'
       click_link 'twitter_login_link'

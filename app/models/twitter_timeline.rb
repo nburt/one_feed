@@ -15,7 +15,8 @@ class TwitterTimeline
       if max_id.nil?
         twitter_timeline = client.home_timeline(:count => 5)
       else
-        twitter_timeline = client.home_timeline(:max_id => max_id, :count => 5)
+        twitter_timeline = client.home_timeline(:max_id => max_id, :count => 6)
+        twitter_timeline.delete_at(0)
       end
     rescue Twitter::Error::Forbidden
       @authed = false

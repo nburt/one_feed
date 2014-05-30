@@ -17,6 +17,13 @@
         <% end %>
         <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
       </ul>
+      <div class="subheader">
+        <% if post["application_name"] != nil %>
+          <ul>
+            <li>via <%= post["application_name"] %></li>
+          </ul>
+        <% end %>
+      </div>
     </div>
     <div class="post_content">
       <ul>
@@ -29,11 +36,11 @@
         <% if post["image"] != nil %>
           <li><%= image_tag(post["image"]["original_sized_image"]) %></li>
         <% end %>
-        <% if post["caption_text"] %>
+        <% if post["caption_text"] && post["status_type"] != "shared_story" %>
           <li><%= post["caption_text"] %></li>
         <% end %>
         <% if post["article_link"] != nil && post["type"] == "link" %>
-          <li><%= link_to "link", post["article_link"], :target => "_blank" %></li>
+          <li><%= link_to "View the Link", post["article_link"], :target => "_blank" %></li>
         <% end %>
       </ul>
       <% if post["story_tags"] != nil %>

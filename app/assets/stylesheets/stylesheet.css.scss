@@ -8,6 +8,7 @@ $box-shadow-gray: #737373;
 
 header {
   background-color: $logo-green;
+  opacity: 0.75;
   overflow: hidden;
   padding: .5em 10em;
   box-shadow: 0 1px 4px $box-shadow-gray;
@@ -134,7 +135,7 @@ nav {
       font-size: 2em;
     }
     p {
-      margin-bottom: 1em;
+      margin-bottom: 1.2em;
       line-height: 1.25em;
     }
   }
@@ -268,12 +269,23 @@ nav {
   }
   ul {
     padding: 0;
-    margin: 0 0 1em 0;
+    margin: 0;
+    &:last-child {
+      margin: .5em 0;
+    }
   }
   li {
     list-style: none;
     display: inline;
     padding-right: 1.5em;
+  }
+}
+
+.subheader {
+  li {
+    color: $box-shadow-gray;
+    font-style: italic;
+    font-size: .75em;
   }
 }
 

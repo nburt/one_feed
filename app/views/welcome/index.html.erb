@@ -1,26 +1,33 @@
-<div id="login_container">
-  <p class="login_failure"><%= flash[:login_failure] %></p>
-  <% if @user.errors.present? %>
-    <% @user.errors.full_messages.each do |message| %>
-      <p class="login_failure"><%= message %></p>
-    <% end %>
+<p class="login_failure"><%= flash[:login_failure] %></p>
+<% if @user.errors.present? %>
+  <% @user.errors.full_messages.each do |message| %>
+    <p class="login_failure"><%= message %></p>
   <% end %>
-  <div id="onefeed_registration_container">
-    <div id="onefeed_registration">
-      <div id="registration_header_container">
-        <h3>Sign Up with OneFeed</h3>
-      </div>
-      <%= form_for @user, :url => {:controller => "registrations", :action => "create"} do |f| %>
-        <%= f.label :email %>
-        <%= f.email_field :email %>
+<% end %>
+<div id="site_description_container">
+  <div id="image_container">
+  </div>
+  <div id="site_description">
+    <p id="description_header">OneFeed.</p>
 
-        <%= f.label :password %>
-        <%= f.password_field :password %>
-
-        <div class="homepage_form_button">
-          <%= f.submit "Sign Up" %>
-        </div>
-      <% end %>
+    <p>Keep in touch with all your friends, in one place.</p>
+  </div>
+</div>
+<div id="onefeed_registration_container">
+  <div id="onefeed_registration">
+    <div id="registration_header_container">
+      <h3>Sign Up with OneFeed</h3>
     </div>
+    <%= form_for @user, :url => {:controller => "registrations", :action => "create"} do |f| %>
+      <%= f.label :email %>
+      <%= f.email_field :email %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+
+      <div class="homepage_form_button">
+        <%= f.submit "Sign Up" %>
+      </div>
+    <% end %>
   </div>
 </div>

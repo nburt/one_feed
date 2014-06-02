@@ -8,7 +8,7 @@ class FacebookTimeline
   end
 
   def posts(pagination_id)
-    token = @user.tokens.find_by(provider: 'facebook')
+    token = user_tokens
     facebook_api = FacebookApi.new(token.access_token, pagination_id)
     facebook_api.timeline
     unless facebook_api.success?
@@ -18,6 +18,12 @@ class FacebookTimeline
     @commenter_profile_hash = facebook_api.commenter_profile_hash
     @pagination_id = facebook_api.pagination_id
     facebook_api.posts
+  end
+
+  private
+
+  def user_tokens
+    @user.tokens.find_by(provider: 'facebook')
   end
 
 end

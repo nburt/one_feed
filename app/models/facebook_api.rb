@@ -60,6 +60,18 @@ class FacebookApi
     end
   end
 
+  def make_feed_request
+    if @pagination_id.nil?
+      Typhoeus::Request.new("https://graph.facebook.com/v2.0/me/home?limit=5&access_token=#{@access_token}")
+    else
+      Typhoeus::Request.new("https://graph.facebook.com/v2.0/me/home?limit=25&access_token=#{@access_token}&until=#{@pagination_id}")
+    end
+  end
+
+  def make_profile_picture_request(id)
+    Typhoeus::Request.new("https://graph.facebook.com/#{id}/picture?redirect=false")
+  end
+
   def poster_recipient_id_request(hydra)
     poster_recipient_ids = get_poster_recipient_ids
 
@@ -84,18 +96,6 @@ class FacebookApi
       end
       hydra.queue comment_picture_request
     end
-  end
-
-  def make_feed_request
-    if @pagination_id.nil?
-      Typhoeus::Request.new("https://graph.facebook.com/v2.0/me/home?limit=5&access_token=#{@access_token}")
-    else
-      Typhoeus::Request.new("https://graph.facebook.com/v2.0/me/home?limit=25&access_token=#{@access_token}&until=#{@pagination_id}")
-    end
-  end
-
-  def make_profile_picture_request(id)
-    Typhoeus::Request.new("https://graph.facebook.com/#{id}/picture?redirect=false")
   end
 
   def get_commenter_ids

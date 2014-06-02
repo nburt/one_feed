@@ -13,9 +13,7 @@ class TwitterTimeline
     client = tokens.configure_twitter(tokens.access_token, tokens.access_token_secret)
     begin
       twitter_timeline = get_timeline(client, max_id)
-    rescue Twitter::Error::Forbidden
-      @authed = false
-    rescue Twitter::Error::Unauthorized
+    rescue Twitter::Error::Forbidden, Twitter::Error::Unauthorized
       @authed = false
     end
     twitter_timeline

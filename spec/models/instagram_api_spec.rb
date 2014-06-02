@@ -3,7 +3,7 @@ require 'spec_helper'
 describe InstagramApi do
 
   it 'can get the instagram timeline for a given user' do
-    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5&max_id=').
+    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5').
       to_return(body: File.read(File.expand_path('./spec/support/instagram_timeline.json')))
     instagram_api = InstagramApi.new('mock_token', nil)
     timeline = instagram_api.get_timeline
@@ -11,7 +11,7 @@ describe InstagramApi do
   end
 
   it 'will return true if successful' do
-    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5&max_id=').
+    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5').
       to_return(body: File.read(File.expand_path('./spec/support/instagram_timeline.json')))
     instagram_api = InstagramApi.new('mock_token', nil)
     timeline = instagram_api.get_timeline
@@ -19,7 +19,7 @@ describe InstagramApi do
   end
 
   it 'will return an empty array if the users\'s token is no longer valid' do
-    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5&max_id=').
+    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5').
       to_return(status: 400)
     instagram_api = InstagramApi.new('mock_token', nil)
     timeline = instagram_api.get_timeline

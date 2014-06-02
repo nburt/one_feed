@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe FacebookApi do
 
-  it 'can get the instagram timeline for a given user' do
+  it 'can get the facebook timeline for a given user' do
     stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
       to_return(body: File.read('./spec/support/facebook_timeline.json'))
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').

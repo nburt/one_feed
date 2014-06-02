@@ -11,7 +11,7 @@ module FeedFeatureStubs
 
     stub_request(:post, 'https://api.instagram.com/oauth2/token')
 
-    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5&max_id=').
+    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5').
       to_return(body: File.read('./spec/support/instagram_timeline.json'))
 
     stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').

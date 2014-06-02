@@ -12,7 +12,7 @@ describe Feed do
       stub_request(:get, 'https://api.twitter.com/1.1/statuses/home_timeline.json?count=5').
         to_return(status: 401)
 
-      stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=&count=5&max_id=').
+      stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=&count=5').
         to_return(status: 400)
 
       stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=&limit=5').

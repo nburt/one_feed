@@ -1,6 +1,7 @@
 class TwitterTimeline
 
-  attr_reader :authed
+  attr_reader :authed,
+              :last_post_id
 
   def initialize(user)
     @user = user
@@ -8,15 +9,11 @@ class TwitterTimeline
   end
 
   def posts(max_id = nil)
-    twitter_timeline = []
     tokens = user_tokens
     client = tokens.configure_twitter(tokens.access_token, tokens.access_token_secret)
-    begin
-      twitter_timeline = get_timeline(client, max_id)
-    rescue Twitter::Error::Forbidden, Twitter::Error::Unauthorized
-      @authed = false
-    end
-    twitter_timeline
+    timeline = get_timeline(client, max_id)
+    store_last_post_id(timeline)
+    timeline
   end
 
   private
@@ -32,6 +29,14 @@ class TwitterTimeline
       twitter_timeline = client.home_timeline(:max_id => max_id, :count => 26)
       twitter_timeline.delete_at(0)
       twitter_timeline
+    end
+  end
+
+  def store_last_post_id(timeline)
+    if last = timeline.last
+      @last_post_id = last.id
+    else
+      @last_post_id = nil
     end
   end
 

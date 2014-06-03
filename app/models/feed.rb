@@ -15,7 +15,6 @@ class Feed
   end
 
   def posts(twitter_pagination_id, facebook_pagination_id, instagram_max_id)
-
     TimelineConcatenator.new.merge(twitter_posts(twitter_pagination_id),
                                    instagram_posts(instagram_max_id),
                                    facebook_posts(facebook_pagination_id))
@@ -24,28 +23,18 @@ class Feed
   private
 
   def twitter_posts(twitter_pagination_id)
+    twitter_posts = []
     if current_user_has_provider?('twitter', @current_user)
       twitter_timeline = TwitterTimeline.new(@current_user)
-      twitter_posts = twitter_timeline.posts(twitter_pagination_id)
-      get_twitter_pagination_id(twitter_posts)
-      auth_twitter(twitter_timeline)
+      begin
+        twitter_posts = twitter_timeline.posts(twitter_pagination_id)
+        @twitter_pagination_id = twitter_timeline.last_post_id
+      rescue Twitter::Error::Forbidden, Twitter::Error::Unauthorized
+        @unauthed_accounts << "twitter"
+      end
       twitter_posts
     else
-      []
-    end
-  end
-
-  def auth_twitter(twitter_timeline)
-    unless twitter_timeline.authed
-      @unauthed_accounts << "twitter"
-    end
-  end
-
-  def get_twitter_pagination_id(twitter_posts)
-    if twitter_posts.last != nil
-      @twitter_pagination_id = twitter_posts.last.id
-    else
-      @twitter_pagination_id = nil
+      twitter_posts
     end
   end
 

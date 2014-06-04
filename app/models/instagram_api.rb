@@ -34,6 +34,8 @@ class InstagramResponse
   def posts
     if success?
       parse_response_body["data"]
+    elsif !authed?
+      raise InstagramUnauthorized, "This user's token is no longer valid."
     else
       []
     end
@@ -48,19 +50,11 @@ class InstagramResponse
   end
 
   def success?
-    if @response.status == 200
-      true
-    else
-      authed?
-    end
+    @response.status == 200
   end
 
   def authed?
-    if @response.status == 400
-      raise InstagramUnauthorized, "This user's token is no longer valid."
-    else
-      true
-    end
+    !(@response.status == 400)
   end
 
   private

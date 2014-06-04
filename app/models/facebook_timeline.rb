@@ -10,8 +10,9 @@ class FacebookTimeline
   def posts(pagination_id)
     token = user_tokens
     facebook_api = FacebookApi.new(token.access_token, pagination_id)
-    facebook_api.timeline
-    unless facebook_api.success?
+    begin
+      facebook_api.timeline
+    rescue FacebookUnauthorized
       @authed = false
     end
     @poster_recipient_profile_hash = facebook_api.poster_recipient_profile_hash

@@ -1,4 +1,5 @@
-require 'oj'
+class FacebookUnauthorized < StandardError
+end
 
 class FacebookApi
 
@@ -25,6 +26,8 @@ class FacebookApi
         @posts = body["data"]
         poster_recipient_id_request(hydra)
         commenter_id_request(hydra)
+      elsif !authed?
+        raise FacebookUnauthorized, "This user's token is no longer valid."
       else
         return []
       end
@@ -35,19 +38,11 @@ class FacebookApi
   end
 
   def success?
-    if @response.code == 200
-      true
-    else
-      authed?
-    end
+    @response.code == 200
   end
 
   def authed?
-    if @response.code == 463 || @response.code == 467 || @response.code == 400
-      false
-    else
-      true
-    end
+    !(@response.code == 463 || @response.code == 467 || @response.code == 400)
   end
 
   private

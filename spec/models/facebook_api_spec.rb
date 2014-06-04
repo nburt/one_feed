@@ -9,7 +9,7 @@ describe FacebookApi do
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
     facebook_api = FacebookApi.new('mock_token', nil)
-    facebook_timeline = facebook_api.timeline
+    facebook_api.timeline
     expect(facebook_api.posts[0]["id"]).to eq '10203694030092980_10203693777206658'
   end
 
@@ -20,7 +20,7 @@ describe FacebookApi do
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
     facebook_api = FacebookApi.new('mock_token', nil)
-    timeline = facebook_api.timeline
+    facebook_api.timeline
     expect(facebook_api.success?).to eq true
   end
 
@@ -29,8 +29,24 @@ describe FacebookApi do
       to_return(status: 463, body: File.read('./spec/support/facebook/invalid_oauth_token.json'))
 
     facebook_api = FacebookApi.new('mock_token', nil)
-    timeline = facebook_api.timeline
-    expect(facebook_api.posts).to eq []
+    begin
+      facebook_api.timeline
+    rescue FacebookUnauthorized
+      expect(facebook_api.posts).to eq []
+    end
+  end
+
+  it 'will raise an exception if the user\'s token is no longer valid' do
+    stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
+      to_return(status: 463)
+
+    facebook_api = FacebookApi.new('mock_token', nil)
+    expect { facebook_api.timeline }.to raise_exception(FacebookUnauthorized)
+    begin
+      facebook_api.timeline
+    rescue FacebookUnauthorized
+      expect(facebook_api.authed?).to eq false
+    end
   end
 
   it 'will return a user\'s profile picture' do
@@ -40,7 +56,7 @@ describe FacebookApi do
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
     facebook_api = FacebookApi.new('mock_token', nil)
-    timeline = facebook_api.timeline
+    facebook_api.timeline
     expect(facebook_api.poster_recipient_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
   end
 
@@ -51,7 +67,7 @@ describe FacebookApi do
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
     facebook_api = FacebookApi.new('mock_token', nil)
-    timeline = facebook_api.timeline
+    facebook_api.timeline
     expect(facebook_api.commenter_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
   end
 

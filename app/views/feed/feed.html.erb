@@ -7,7 +7,7 @@
     <ul>
       <% @unauthed_accounts.each do |account| %>
         <li>
-          <%= account.provider.capitalize %>: <%= link_to "Click here to reauthorize", "/auth/#{account.provider}" %>
+          <%= account.capitalize %>: <%= link_to "Click here to reauthorize", "/auth/#{account}" %>
         </li>
       <% end %>
     </ul>

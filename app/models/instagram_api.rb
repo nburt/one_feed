@@ -1,3 +1,6 @@
+class InstagramUnauthorized < StandardError
+end
+
 class InstagramApi
 
   def initialize(access_token, max_id)
@@ -54,7 +57,7 @@ class InstagramResponse
 
   def authed?
     if @response.status == 400
-      false
+      raise InstagramUnauthorized, "This user's token is no longer valid."
     else
       true
     end

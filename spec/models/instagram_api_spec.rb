@@ -22,8 +22,22 @@ describe InstagramApi do
     stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5').
       to_return(status: 400)
     instagram_api = InstagramApi.new('mock_token', nil)
-    timeline = instagram_api.get_timeline
-    expect(timeline.posts).to eq []
+    begin
+      timeline = instagram_api.get_timeline
+    rescue InstagramUnauthorized
+      expect(timeline.posts).to eq []
+    end
+  end
+
+  it 'will raise an exception if the user\'s token is no longer valid' do
+    stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5').
+      to_return(status: 400)
+    instagram_api = InstagramApi.new('mock_token', nil)
+    begin
+      timeline = instagram_api.get_timeline
+    rescue
+      expect(timeline.authed?).to eq 'This user\'s token is no longer valid.'
+    end
   end
 
 end

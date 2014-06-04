@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
 
   def index
-    if current_user
+    if logged_in?
       redirect_to feed_path
     else
       @user = User.new

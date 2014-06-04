@@ -13,7 +13,7 @@
   <div class="header_content">
     <a href="/"><img id="logo" src="<%= asset_url("one_feed_logo_white.png") %>" alt="OneFeed Logo"></a>
     <nav>
-      <% if session[:user_id] != nil %>
+      <% if logged_in? %>
         <ul>
           <div id="logged_in_nav">
             <li><%= link_to 'Account Settings', account_path(session[:user_id]) %></li>
@@ -40,8 +40,8 @@
                 <div class="homepage_form_button"><%= f.submit "Sign In" %></div>
               </li>
             <% end %>
+          </ul>
         </div>
-        </ul>
       <% end %>
     </nav>
   </div>

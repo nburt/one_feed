@@ -5,48 +5,48 @@
   <div class="post_main">
     <div class="post_header">
       <ul>
-        <li><%= link_to image_tag(post["profile_picture"], :class => "user_profile_picture"), post["user_url"], :target => "_blank" %></li>
-        <li><%= link_to "@#{post["username"]}", post["user_url"], :target => "_blank" %></li>
-        <li><%= time_ago_in_words(post["created_time"]) %> ago</li>
+        <li><%= link_to image_tag(post[:profile_picture], :class => "user_profile_picture"), post[:user_url], :target => "_blank" %></li>
+        <li><%= link_to "@#{post[:username]}", post[:user_url], :target => "_blank" %></li>
+        <li><%= time_ago_in_words(post[:created_time]) %> ago</li>
       </ul>
     </div>
     <div class="post_content">
-      <% if post["type"] == "photo" %>
+      <% if post[:type] == "photo" %>
         <ul>
-          <li><%= image_tag(post["low_resolution_image_url"]) %></li>
-          <% if post["caption_text"] != nil %>
-            <li><%= post["caption_text"] %></li>
+          <li><%= image_tag(post[:low_resolution_image_url]) %></li>
+          <% if post[:caption_text] != nil %>
+            <li><%= post[:caption_text] %></li>
           <% end %>
         </ul>
-      <% elsif post["type"] == "video" %>
+      <% elsif post[:type] == "video" %>
         <ul>
           <li>
             <video width="360" height="360" controls>
-             ` <source src="`<%= post["video"] %>" type="video/mp4">
+             ` <source src="`<%= post[:video] %>" type="video/mp4">
             </video>
           </li>
         </ul>
       <% end %>
       <div class="post_stats">
         <ul>
-          <li>Comments: <%= post["comments_count"] %></li>
-          <li>Likes: <%= post["likes_count"] %></li>
+          <li>Comments: <%= post[:comments_count] %></li>
+          <li>Likes: <%= post[:likes_count] %></li>
           <li>
-            <%= link_to "View on Instagram", post["link_to_post"], :target => "_blank" %>
+            <%= link_to "View on Instagram", post[:link_to_post], :target => "_blank" %>
           </li>
         </ul>
       </div>
-      <% if post["comments_count"] > 0 %>
+      <% if post[:comments_count] > 0 %>
         <div class="post_comments">
           <ul>
-            <% post["comments"].each do |comment| %>
+            <% post[:comments].each do |comment| %>
               <li class="commenter_profile_picture">
-                <%= link_to image_tag(comment["from"]["profile_picture"]), "http://www.instagram.com/#{comment["from"]["username"]}", :target => "_blank" %>
+                <%= link_to image_tag(comment[:from][:profile_picture]), "http://www.instagram.com/#{comment[:from][:username]}", :target => "_blank" %>
               </li>
               <li class="commenter_username">
-                <%= link_to "@#{comment["from"]["username"]}", "http://www.instagram.com/#{comment["from"]["username"]}", :target => "_blank" %>
+                <%= link_to "@#{comment[:from][:username]}", "http://www.instagram.com/#{comment[:from][:username]}", :target => "_blank" %>
               </li>
-              <li><%= comment["text"] %></li>
+              <li><%= comment[:text] %></li>
             <% end %>
           </ul>
         </div>

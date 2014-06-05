@@ -18,7 +18,7 @@ class TimelineConcatenator
       new_timeline << facebook_post_hash if facebook_post_hash.present?
     end
 
-    new_timeline.sort_by { |x| x["created_time"] }.reverse
+    new_timeline.sort_by { |x| x[:created_time] }.reverse
   end
 
 end

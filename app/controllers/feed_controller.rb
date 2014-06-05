@@ -1,7 +1,10 @@
 class FeedController < ApplicationController
 
   def index
-
+    if current_user.tokens == []
+      @display_welcome = true
+      render 'accounts/settings'
+    end
   end
 
   def feed

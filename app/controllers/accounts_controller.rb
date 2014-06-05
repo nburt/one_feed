@@ -5,7 +5,7 @@ class AccountsController < ApplicationController
   end
 
   def settings
-
+    @display_welcome = false
   end
 
 end

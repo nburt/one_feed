@@ -1,17 +1,5 @@
 <% unless @unauthed_accounts.empty? %>
-  <div class="unauthed_accounts">
-    <h4>
-      The access tokens for the following accounts have expired. Please click the below links to reauthorize the
-      accounts.
-    </h4>
-    <ul>
-      <% @unauthed_accounts.each do |account| %>
-        <li>
-          <%= account.capitalize %>: <%= link_to "Click here to reauthorize", "/auth/#{account}" %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+  <%= render partial: "unauthed_accounts" %>
 <% end %>
 <% if @timeline.present? %>
   <% @timeline.each do |post| %>
@@ -28,30 +16,9 @@
   </div>
 <% elsif @timeline.blank? && @unauthed_accounts.empty? %>
   <div id="empty_feed_container">
-    <p id="empty_feed">
+    <p>
       Click one of the below links or visit "Account Settings" to link an account and get started.
     </p>
-
-    <div class="network_container">
-      <div class="network_login">
-        <%= link_to "Link Twitter", "/auth/twitter" %>
-        <br>
-        <%= link_to image_tag("Twitter_logo_blue.png"), "/auth/twitter", :id => "twitter_login_link" %>
-      </div>
-    </div>
-    <div class="network_container">
-      <div class="network_login">
-        <%= link_to "Link Facebook", "/auth/facebook" %>
-        <br>
-        <%= link_to image_tag("FB-f-Logo__blue_50.png"), "/auth/facebook", :id => "facebook_login_link" %>
-      </div>
-    </div>
-    <div class="network_container">
-      <div class="network_login">
-        <%= link_to "Link Instagram", "/auth/instagram" %>
-        <br>
-        <%= link_to image_tag("Instagram_Icon_Large.png"), "/auth/instagram", :id => "instagram_login_link" %>
-      </div>
-    </div>
+    <%= render partial: "link_networks" %>
   </div>
 <% end %>

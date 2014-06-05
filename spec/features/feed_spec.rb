@@ -17,7 +17,7 @@ feature 'can display feeds from various social media accounts', js: true do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'
-    click_link 'twitter_login_link'
+    click_link 'Link Twitter'
     expect(page).to have_content 'Account Settings'
     expect(page).to have_content 'Gillmor Gang Live'
   end
@@ -28,7 +28,7 @@ feature 'can display feeds from various social media accounts', js: true do
       visit '/'
       click_link 'Account Settings'
       click_link 'Link Accounts'
-      click_link 'twitter_login_link'
+      click_link 'Link Twitter'
       expect(page).to have_content 'Authentication failed.'
     end
   end
@@ -37,7 +37,7 @@ feature 'can display feeds from various social media accounts', js: true do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'
-    click_link 'instagram_login_link'
+    click_link 'Link Instagram'
     expect(page).to have_content 'Account Settings'
     expect(page).to have_content 'The girls #pumped #herewego'
   end
@@ -52,7 +52,7 @@ feature 'can display feeds from various social media accounts', js: true do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'
-    click_link 'facebook_login_link'
+    click_link 'Link Facebook'
     expect(page).to have_content 'Account Settings'
     expect(page).to have_content 'Any good food in San Fran?'
   end

@@ -1,5 +1,23 @@
 class FacebookPostCreator
 
+  def photo_shared_story(post)
+    photo_shared_story_hash = {}
+    photo_shared_story_hash[:provider] = "facebook"
+    photo_shared_story_hash[:created_time] = parse_time(post["created_time"])
+    photo_shared_story_hash[:from] = get_from_hash(post["from"])
+    photo_shared_story_hash[:story] = post["story"]
+    photo_shared_story_hash[:story_tags] = story_tags(post["story_tags"])
+    photo_shared_story_hash[:image] = get_image_hash(post["picture"])
+    photo_shared_story_hash[:article_link] = post["link"]
+    photo_shared_story_hash[:link_to_post] = post["actions"][0]["link"]
+    photo_shared_story_hash[:likes_count] = get_likes_count(post)
+    photo_shared_story_hash[:comments_count] = get_comments_count(post)
+    photo_shared_story_hash[:type] = "photo"
+    photo_shared_story_hash[:status_type] = "shared_story"
+    photo_shared_story_hash[:application_name] = post["application"]["name"]
+    photo_shared_story_hash
+  end
+
   def tagged_in_photo(post)
     tagged_in_photo_hash = {}
     tagged_in_photo_hash[:provider] = "facebook"
@@ -67,7 +85,7 @@ class FacebookPostCreator
     photo_hash[:created_time] = parse_time(post["created_time"])
     photo_hash[:from] = get_from_hash(post["from"])
     if post["message"]
-    photo_hash[:message] = post["message"]
+      photo_hash[:message] = post["message"]
     end
     if post["story"]
       photo_hash[:story] = post["story"]
@@ -185,9 +203,9 @@ class FacebookPostCreator
   def get_recipient_hash(recipient_data)
     person = recipient_data["data"].first
     {
-      :name => person["name"],
-      :link_to_profile => "https://www.facebook.com/app_scoped_user_id/#{person["id"]}",
       :id => person["id"],
+      :link_to_profile => "https://www.facebook.com/app_scoped_user_id/#{person["id"]}",
+      :name => person["name"],
     }
   end
 
@@ -195,10 +213,12 @@ class FacebookPostCreator
     story_tags_hash = []
 
     story_tags.each do |_, tag_info|
-      individual_tag_hash = {
-        :name => tag_info[0]["name"],
-        :link_to_profile => "https://www.facebook.com/app_scoped_user_id/#{tag_info[0]["id"]}"
-      }
+      individual_tag_hash = {}
+      individual_tag_hash[:name] = tag_info[0]["name"]
+      if tag_info[0]["type"] == "user"
+        individual_tag_hash[:link_to_profile] = "https://www.facebook.com/app_scoped_user_id/#{tag_info[0]["id"]}"
+      end
+      individual_tag_hash[:type] = tag_info[0]["type"]
       story_tags_hash << individual_tag_hash
     end
     story_tags_hash

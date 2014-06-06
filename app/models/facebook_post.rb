@@ -30,6 +30,8 @@ class FacebookPost
   def photo_type(post)
     if post["status_type"] == "tagged_in_photo"
       @facebook_post_creator.tagged_in_photo(post)
+    elsif post["status_type"] == "shared_story"
+      @facebook_post_creator.photo_shared_story(post)
     else
       @facebook_post_creator.photo(post)
     end

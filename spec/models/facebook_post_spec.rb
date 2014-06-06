@@ -39,9 +39,9 @@ describe FacebookPost do
                                             :name => "Becca Thomas",
                                           },
                                           :to => {
-                                            :id => "10204017311853547",
-                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10204017311853547",
                                             :name => "Nick Anderson",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10204017311853547",
+                                            :id => "10204017311853547",
                                           },
                                           :message => "happy birthday my love!!!",
                                           :likes_count => 0,
@@ -87,10 +87,12 @@ describe FacebookPost do
                                             {
                                               :name => "Emmanuel Chan",
                                               :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10153074975361029",
+                                              :type => "user",
                                             },
                                             {
                                               :name => "Minal Shah",
-                                              :link_to_profile => "https://www.facebook.com/app_scoped_user_id/2686395522487"
+                                              :link_to_profile => "https://www.facebook.com/app_scoped_user_id/2686395522487",
+                                              :type => "user",
                                             }
                                           ],
                                           :image => {
@@ -121,6 +123,7 @@ describe FacebookPost do
                                             {
                                               :name => "Ryan Patterson",
                                               :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10154160680320506",
+                                              :type => "user",
                                             },
                                           ],
                                           :image => {
@@ -145,9 +148,9 @@ describe FacebookPost do
                                             :name => "Nathan Eberhart",
                                           },
                                           :to => {
-                                            :name => "Dan Begun",
-                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/465165273626827",
                                             :id => "465165273626827",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/465165273626827",
+                                            :name => "Dan Begun",
                                           },
                                           :message => "Checking out Dan's new stomping grounds!",
                                           :likes_count => 3,
@@ -156,6 +159,41 @@ describe FacebookPost do
                                           :type => "status",
                                           :status_type => "mobile_status_update",
                                           :application_name => "Facebook for Android"
+                                        })
+  end
+
+  it 'should be able to handle shared_story posts' do
+    facebook_post = FacebookPost.new(posts[9])
+    expect(facebook_post.to_hash).to eq({
+                                          :provider => "facebook",
+                                          :created_time => "2014-06-05 12:19:31 -0600",
+                                          :from => {
+                                            :id => "10201958334335124",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10201958334335124",
+                                            :name => "Noah Geupel"
+                                          },
+                                          :story => "Noah Geupel shared Judge Skelton Smith Architects's album: Townhouse Renovation.",
+                                          :story_tags => [
+                                            {
+                                              :name => "Noah Geupel",
+                                              :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10201958334335124",
+                                              :type => "user",
+                                            },
+                                            {
+                                              :name => "Judge Skelton Smith Architects",
+                                              :type => "page",
+                                            },
+                                          ],
+                                          :image => {
+                                            :original_sized_image => "https://fbcdn-photos-d-a.akamaihd.net/hphotos-ak-xap1/t1.0-0/10420106_519726308131372_627341769406227038_o.jpg",
+                                          },
+                                          :article_link => "https://www.facebook.com/jssarch/photos/a.519711128132890.1073741827.193541854083154/519726308131372/?type=1",
+                                          :likes_count => 0,
+                                          :comments_count => 0,
+                                          :link_to_post => "https://www.facebook.com/1087890285/posts/10202124720254668",
+                                          :type => "photo",
+                                          :status_type => "shared_story",
+                                          :application_name => "Photos"
                                         })
   end
 

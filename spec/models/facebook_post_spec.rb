@@ -197,4 +197,30 @@ describe FacebookPost do
                                         })
   end
 
+  it 'should be able to handle video posts' do
+    facebook_post = FacebookPost.new(posts[10])
+    expect(facebook_post.to_hash).to eq({
+                                          :provider => "facebook",
+                                          :created_time => "2014-06-05 11:58:48 -0600",
+                                          :from => {
+                                            :id => "10203121291807592",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10203121291807592",
+                                            :name => "Anna Berghoff",
+                                          },
+                                          :to => {
+                                            :id => "10202861369233516",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10202861369233516",
+                                            :name => "Greg Siegel",
+                                          },
+                                          :message => "http://www.youtube.com/watch?v=6vopR3ys8Kw&feature=kp...next time we need to learn this dance before the concert. i bet chet would let us join him on stage that way :)",
+                                          :video_link => "http://www.youtube.com/watch?v=6vopR3ys8Kw&feature=kp",
+                                          :source => "http://www.youtube.com/v/6vopR3ys8Kw?autohide=1&version=3&autoplay=1",
+                                          :video_name => "Flume & Chet Faker - Drop the Game [Official Music Video]",
+                                          :video_description => "From Flume & Chet Faker's collaborative Lockjaw EP. Subscribe to our channel here: http://smarturl.it/FC_YouTube Get it on iTunes: http://smarturl.it/Lockjaw...",
+                                          :link_to_post => "https://www.facebook.com/1065638934/posts/10203250828885938",
+                                          :type => "video",
+                                          :status_type => "shared_story"
+                                        })
+  end
+
 end

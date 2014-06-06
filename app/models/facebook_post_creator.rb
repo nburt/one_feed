@@ -1,9 +1,28 @@
 class FacebookPostCreator
 
+  def video_shared_story(post)
+    video_shared_story_hash = {}
+    provider(video_shared_story_hash)
+    created_time(video_shared_story_hash, post["created_time"])
+    video_shared_story_hash[:from] = get_from_hash(post["from"])
+    if post["to"]
+      video_shared_story_hash[:to] = get_recipient_hash(post["to"])
+    end
+    video_shared_story_hash[:message] = post["message"]
+    video_shared_story_hash[:video_link] = post["link"]
+    video_shared_story_hash[:source] = post["source"]
+    video_shared_story_hash[:video_name] = post["name"]
+    video_shared_story_hash[:video_description] = post["description"]
+    video_shared_story_hash[:link_to_post] = post["actions"][0]["link"]
+    video_shared_story_hash[:type] = "video"
+    video_shared_story_hash[:status_type] = "shared_story"
+    video_shared_story_hash
+  end
+
   def photo_shared_story(post)
     photo_shared_story_hash = {}
-    photo_shared_story_hash[:provider] = "facebook"
-    photo_shared_story_hash[:created_time] = parse_time(post["created_time"])
+    provider(photo_shared_story_hash)
+    created_time(photo_shared_story_hash, post["created_time"])
     photo_shared_story_hash[:from] = get_from_hash(post["from"])
     photo_shared_story_hash[:story] = post["story"]
     photo_shared_story_hash[:story_tags] = story_tags(post["story_tags"])
@@ -20,8 +39,8 @@ class FacebookPostCreator
 
   def tagged_in_photo(post)
     tagged_in_photo_hash = {}
-    tagged_in_photo_hash[:provider] = "facebook"
-    tagged_in_photo_hash[:created_time] = parse_time(post["created_time"])
+    provider(tagged_in_photo_hash)
+    created_time(tagged_in_photo_hash, post["created_time"])
     tagged_in_photo_hash[:from] = get_from_hash(post["from"])
     if post["message"]
       tagged_in_photo_hash[:message] = post["message"]
@@ -43,8 +62,8 @@ class FacebookPostCreator
 
   def mobile_update(post)
     mobile_update_hash = {}
-    mobile_update_hash[:provider] = "facebook"
-    mobile_update_hash[:created_time] = parse_time(post["created_time"])
+    provider(mobile_update_hash)
+    created_time(mobile_update_hash, post["created_time"])
     mobile_update_hash[:from] = get_from_hash(post["from"])
     if post["to"]
       mobile_update_hash[:to] = get_recipient_hash(post["to"])
@@ -63,8 +82,8 @@ class FacebookPostCreator
 
   def wall_post(post)
     wall_post_hash = {}
-    wall_post_hash[:provider] = "facebook"
-    wall_post_hash[:created_time] = parse_time(post["created_time"])
+    provider(wall_post_hash)
+    created_time(wall_post_hash, post["created_time"])
     wall_post_hash[:from] = get_from_hash(post["from"])
     wall_post_hash[:to] = get_recipient_hash(post["to"])
     wall_post_hash[:message] = post["message"]
@@ -81,8 +100,8 @@ class FacebookPostCreator
 
   def photo(post)
     photo_hash = {}
-    photo_hash[:provider] = "facebook"
-    photo_hash[:created_time] = parse_time(post["created_time"])
+    provider(photo_hash)
+    created_time(photo_hash, post["created_time"])
     photo_hash[:from] = get_from_hash(post["from"])
     if post["message"]
       photo_hash[:message] = post["message"]
@@ -105,8 +124,8 @@ class FacebookPostCreator
 
   def default_post(post)
     facebook_hash = {}
-    facebook_hash[:provider] = "facebook"
-    facebook_hash[:created_time] = parse_time(post["created_time"])
+    provider(facebook_hash)
+    created_time(facebook_hash, post["created_time"])
     if post["from"]
       facebook_hash[:from] = get_from_hash(post["from"])
     end
@@ -165,6 +184,14 @@ class FacebookPostCreator
   end
 
   private
+
+  def created_time(hash, time)
+    hash[:created_time] = parse_time(time)
+  end
+
+  def provider(hash)
+    hash[:provider] = "facebook"
+  end
 
   def get_likes_count(post)
     if post["likes"] != nil

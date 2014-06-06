@@ -2,68 +2,18 @@ require 'spec_helper'
 
 describe TimelineConcatenator do
 
-  let(:facebook_data) { Oj.load(File.read("./spec/support/timeline_concatenator_data.json")) }
-
-  it 'should merge timelines and sort them by date' do
+  it 'should sort them by date' do
+    twitter_tweet1 = Twitter::Tweet.new(id: 1, created_at: "2014-05-10 17:59:03 -0600")
+    twitter_tweet2 = Twitter::Tweet.new(id: 1, created_at: "2014-05-25 14:35:03 -0600")
+    twitter_posts = [TwitterPost.from(twitter_tweet1), TwitterPost.new(twitter_tweet2)]
+    instagram_posts = [InstagramPost.new('created_time' => "1399842218")]
+    facebook_posts = [FacebookDefaultPost.new('created_time' => "2014-05-18T21:41:10+0000")]
     timeline_concatenator = TimelineConcatenator.new
-    result = timeline_concatenator.merge([], [], facebook_data)
-    expect(result).to eq [
-                           {
-                             :provider => "facebook",
-                             :created_time => "2014-05-25 14:35:03 -0600",
-                             :type => nil,
-                           },
-                           {
-                             :provider => "facebook",
-                             :created_time => "2014-05-18 17:59:03 -0600",
-                             :type => nil,
-                           },
-                           {
-                             :provider => "facebook",
-                             :created_time => "2014-05-18 17:47:10 -0600",
-                             :type => nil,
-                           },
-                           {
-                             :provider => "facebook",
-                             :created_time => "2014-05-18 17:24:46 -0600",
-                             :type => nil,
-                           },
-                           {
-                             :provider => "facebook",
-                             :created_time => "2014-05-18 15:49:57 -0600",
-                             :type => nil,
-                           },
-                           {
-                             :provider => "facebook",
-                             :created_time => "2014-05-18 15:41:10 -0600",
-                             :type => nil,
-                           },
-                           {
-                             :provider => "facebook",
-                             :created_time => "2014-05-18 15:29:54 -0600",
-                             :type => nil,
-                           },
-                           {
-                             :provider => "facebook",
-                             :created_time => "2008-05-03 13:09:46 -0600",
-                             :type => nil,
-                           },
-                           {
-                             :provider => "facebook",
-                             :created_time => "2007-03-07 18:27:09 -0700",
-                             :type => nil,
-                           },
-                           {
-                             :provider => "facebook",
-                             :created_time => "2007-03-06 18:27:09 -0700",
-                             :type => nil,
-                           },
-                           {
-                             :provider => "facebook",
-                             :created_time => "2004-11-07 08:36:26 -0700",
-                             :type => nil,
-                           }
-                         ]
+    sorted_entries = timeline_concatenator.merge(twitter_posts, instagram_posts, facebook_posts)
+
+    sorted_dates = sorted_entries.map{|entry|entry.created_time}
+
+    expect(sorted_dates).to eq [Time.parse("2014-05-25 14:35:03 -0600"), Time.parse("2014-05-18T21:41:10+0000"), Time.at(1399842218), Time.parse("2014-05-10 17:59:03 -0600")]
   end
 
 end

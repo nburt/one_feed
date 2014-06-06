@@ -5,50 +5,50 @@
   <div class="post_main">
     <div class="post_header">
       <ul id="facebook_post_header">
-        <% if poster_recipient_profile_hash.has_key?(post[:from][:id]) %>
+        <% if poster_recipient_profile_hash.has_key?(post.from[:id]) %>
           <li>
-            <%= link_to image_tag(poster_recipient_profile_hash[post[:from][:id]]), post[:from][:link_to_profile], :target => "_blank" %>
+            <%= link_to image_tag(poster_recipient_profile_hash[post.from[:id]]), post.from[:link_to_profile], :target => "_blank" %>
           </li>
         <% end %>
-        <li><%= link_to post[:from][:name], post[:from][:link_to_profile], :target => "_blank" %></li>
-        <% if post[:to] != nil %>
+        <li><%= link_to post.from[:name], post.from[:link_to_profile], :target => "_blank" %></li>
+        <% if post.to %>
           <li><%= image_tag("arrow.png", :class => "arrow_image") %></li>
-          <li><%= link_to post[:to][:name], post[:to][:link_to_profile], :target => "_blank" %></li>
+          <li><%= link_to post.to[:name], post.to[:link_to_profile], :target => "_blank" %></li>
         <% end %>
-        <li><%= time_ago_in_words(post[:created_time]) %> ago</li>
+        <li><%= time_ago_in_words(post.created_time) %> ago</li>
       </ul>
       <div class="subheader">
-        <% if post[:application_name] != nil %>
+        <% if post.application_name %>
           <ul>
-            <li>via <%= post[:application_name] %></li>
+            <li>via <%= post.application_name %></li>
           </ul>
         <% end %>
       </div>
     </div>
     <div class="post_content">
       <ul>
-        <% if post[:story] != nil %>
-          <li><%= post[:story] %></p></li>
+        <% if post.story %>
+          <li><%= post.story %></p></li>
         <% end %>
-        <% if post[:message] != nil %>
-          <li><%= post[:message] %></li>
+        <% if post.message %>
+          <li><%= post.message %></li>
         <% end %>
-        <% if post[:image] != nil %>
-          <li><%= image_tag(post[:image][:original_sized_image]) %></li>
+        <% if post.image %>
+          <li><%= image_tag(post.image) %></li>
         <% end %>
-        <% if post[:caption_text] && post[:status_type] != "shared_story" %>
-          <li><%= post[:caption_text] %></li>
+        <% if post.caption_text && post.status_type != "shared_story" %>
+          <li><%= post.caption_text %></li>
         <% end %>
-        <% if post[:article_link] != nil && post[:type] == "link" %>
-          <li><%= link_to "View the Link", post[:article_link], :target => "_blank" %></li>
+        <% if post.article_link && post.type == "link" %>
+          <li><%= link_to "View the Link", post.article_link, :target => "_blank" %></li>
         <% end %>
       </ul>
-      <% if post[:story_tags] != nil %>
+      <% if post.story_tags %>
         <ul class="story_tags">
-          <% post[:story_tags].each do |story_tag| %>
+          <% post.story_tags.each do |story_tag| %>
             <li><%= link_to story_tag[:name], story_tag[:link_to_profile], :target => "_blank" %></li>
           <% end %>
-          <% if post[:story_tags].length > 1 %>
+          <% if post.story_tags.length > 1 %>
             <li>were tagged in this post.</li>
           <% else %>
             <li>was tagged in this post.</li>
@@ -57,22 +57,22 @@
       <% end %>
       <div class="post_stats">
         <ul>
-          <li>Comments: <%= post[:comments_count] %></li>
-          <li>Likes: <%= post[:likes_count] %></li>
-          <% if post[:shares_count] != nil %>
-            <li>Shares: <%= post[:shares_count] %></li>
+          <li>Comments: <%= post.comments_count %></li>
+          <li>Likes: <%= post.likes_count %></li>
+          <% if post.shares_count %>
+            <li>Shares: <%= post.shares_count %></li>
           <% end %>
-          <% if post[:link_to_post] != nil %>
+          <% if post.link_to_post %>
             <li>
-              <%= link_to "View on Facebook", post[:link_to_post], :target => "_blank" %>
+              <%= link_to "View on Facebook", post.link_to_post, :target => "_blank" %>
             </li>
           <% end %>
         </ul>
       </div>
-      <% if post[:comments] != nil %>
+      <% if post.comments %>
         <div class="post_comments">
           <ul>
-            <% post[:comments].each do |comment| %>
+            <% post.comments.each do |comment| %>
               <li class="commenter_profile_picture">
                 <%= link_to image_tag(commenter_profile_hash[comment[:from][:id]]), comment[:from][:link_to_profile], :target => "_blank" %>
               </li>

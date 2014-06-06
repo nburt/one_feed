@@ -40,6 +40,7 @@ feature 'can display feeds from various social media accounts', js: true do
     click_link 'Link Instagram'
     expect(page).to have_content 'Account Settings'
     expect(page).to have_content 'The girls #pumped #herewego'
+    expect(page).to have_content 'Yesss'
   end
 
   scenario 'a user can login without associating a social media account' do

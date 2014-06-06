@@ -5,21 +5,34 @@
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
-  <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
   <%= favicon_link_tag 'favicon.ico' %>
 </head>
 <body>
 <header>
   <div class="header_content">
-    <a href="/"><img id="logo" src="<%= asset_url("one_feed_logo_white.png") %>" alt="OneFeed Logo"></a>
+    <div id="logo_container">
+      <a href="/"><img id="logo" src="<%= asset_url("one_feed_logo_white.png") %>" alt="OneFeed Logo"></a>
+    </div>
     <nav>
       <% if logged_in? %>
-        <ul>
-          <div id="logged_in_nav">
+        <div id="menu_button_container">
+          <ul>
+            <li id="menu_button">Menu</li>
+            <li class="mobile_menu"><%= link_to "Create Post", "#" %></li>
+            <li class="mobile_menu"><%= link_to "Toggle Facebook", "#" %></li>
+            <li class="mobile_menu"><%= link_to "Toggle Twitter", "#" %></li>
+            <li class="mobile_menu"><%= link_to "Toggle Instagram", "#" %></li>
+            <li class="mobile_menu"><%= link_to "Account Settings", account_path(session[:user_id]) %></li>
+            <li class="mobile_menu"><%= link_to "Sign Out", "/destroy" %></li>
+          </ul>
+        </div>
+        <div id="logged_in_nav">
+          <ul>
             <li><%= link_to 'Account Settings', account_path(session[:user_id]) %></li>
             <li><a href="/destroy">Sign Out</a></li>
-          </div>
-        </ul>
+          </ul>
+        </div>
       <% else %>
         <div id="onefeed_login">
           <ul>
@@ -46,6 +59,12 @@
     </nav>
   </div>
 </header>
+<script>
+  $('.mobile_menu').hide();
+  $('#menu_button').click(function(){
+    $('.mobile_menu').toggle();
+  });
+</script>
 <div class="content_container">
   <%= yield %>
 </div>

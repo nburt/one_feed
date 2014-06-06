@@ -1,45 +1,22 @@
 <div id="feed_content">
+  <aside>
+    <ul id="secondary_nav">
+      <li><%= link_to "Create Post", "#" %></li>
+      <li><%= link_to "Toggle Facebook", "#" %></li>
+      <li><%= link_to "Toggle Twitter", "#" %></li>
+      <li><%= link_to "Toggle Instagram", "#" %></li>
+    </ul>
+  </aside>
   <div id="feed_container">
+    <div class="loading_message">
+      <%= image_tag "ajax-loader.gif" %>
+      <p class="loading_text">Loading...</p>
+    </div>
   </div>
-</div>
-
-<div class="loading_message">
-  <%= image_tag "ajax-loader.gif" %>
-  <p class="loading_text">Loading...</p>
 </div>
 
 <script type="text/javascript">
   $(function () {
-    $.get("/feed_content").success(function (response) {
-      $("#feed_container").append(response);
-      $(".loading_message").hide();
-    });
-  });
-
-  var reloadOk = true;
-
-  $(document).scroll(function () {
-    var scrollbarPosition = $(this).scrollTop();
-    var documentHeight = $(this).height();
-
-    if (documentHeight - scrollbarPosition < 7500) {
-      $(".loading_message").show();
-      $(".load_posts_link").hide();
-
-      var nextPageUrl = $(".load_posts_link a").attr("href");
-      if (reloadOk === true) {
-        $.ajax({
-          url: nextPageUrl,
-          beforeSend: function () {
-            reloadOk = false
-          }
-        })
-          .success(function (response) {
-            reloadOk = true;
-            $(".load_posts_link").replaceWith(response);
-            $(".loading_message").hide();
-          });
-      }
-    }
+    FeedIndex.initialize();
   });
 </script>

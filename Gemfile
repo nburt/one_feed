@@ -13,6 +13,8 @@ gem 'faraday', '~> 0.9.0'
 gem 'oj', '~> 2.9.3'
 gem 'oj_mimic_json', '~> 1.0.0'
 gem 'newrelic_rpm', '~> 3.8.1.221'
+gem 'bourbon', '~> 3.2.3'
+gem 'neat', '~> 1.5.1'
 
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'

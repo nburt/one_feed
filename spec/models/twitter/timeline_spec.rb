@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TwitterTimeline do
+describe Twitter::Timeline do
 
   before do
     @user = User.create!(:email => 'nate@example.com', :password => 'password')
@@ -13,7 +13,7 @@ describe TwitterTimeline do
       stub_request(:get, 'https://api.twitter.com/1.1/statuses/home_timeline.json?count=5').
         to_return(body: File.read('./spec/support/twitter_timeline.json'))
 
-      twitter_timeline = TwitterTimeline.new(@user)
+      twitter_timeline = Twitter::Timeline.new(@user)
       expect(twitter_timeline.posts[0].text).to eq 'Gillmor Gang Live  05.02.14 http://t.co/WmzFBbPKUr by @stevegillmor'
       expect(twitter_timeline.posts[19].text).to eq 'At the dentist with the left lower quadrant of my face numb. Good thing I had a big breakfast.'
     end

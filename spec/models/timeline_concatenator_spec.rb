@@ -5,9 +5,9 @@ describe TimelineConcatenator do
   it 'should sort them by date' do
     twitter_tweet1 = Twitter::Tweet.new(id: 1, created_at: "2014-05-10 17:59:03 -0600")
     twitter_tweet2 = Twitter::Tweet.new(id: 1, created_at: "2014-05-25 14:35:03 -0600")
-    twitter_posts = [TwitterPost.from(twitter_tweet1), TwitterPost.new(twitter_tweet2)]
-    instagram_posts = [InstagramPost.new('created_time' => "1399842218")]
-    facebook_posts = [FacebookDefaultPost.new('created_time' => "2014-05-18T21:41:10+0000")]
+    twitter_posts = [Twitter::Post.from(twitter_tweet1), Twitter::Post.new(twitter_tweet2)]
+    instagram_posts = [Instagram::Post.new('created_time' => "1399842218")]
+    facebook_posts = [Facebook::DefaultPost.new('created_time' => "2014-05-18T21:41:10+0000")]
     timeline_concatenator = TimelineConcatenator.new
     sorted_entries = timeline_concatenator.merge(twitter_posts, instagram_posts, facebook_posts)
 

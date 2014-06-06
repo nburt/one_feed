@@ -13,7 +13,9 @@ feature 'Homepage with login' do
 
   scenario 'user can logout and log back in without re-registering' do
     expect(page).to have_content 'Account Settings'
-    click_link 'Sign Out'
+    within '#logged_in_nav' do
+      click_link 'Sign Out'
+    end
     within 'header' do
       fill_in 'user[email]', :with => 'nate@email.com'
       fill_in 'user[password]', :with => 'password'
@@ -23,7 +25,9 @@ feature 'Homepage with login' do
   end
 
   scenario 'a user cannot login with incorrect credentials' do
-    click_link 'Sign Out'
+    within '#logged_in_nav' do
+      click_link 'Sign Out'
+    end
     within 'header' do
       fill_in 'user[email]', :with => 'nate@email.com'
       fill_in 'user[password]', :with => 'password1'

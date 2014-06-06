@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe FacebookApi do
+describe Facebook::Api do
 
   it 'can get the facebook timeline for a given user' do
     stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
@@ -8,7 +8,7 @@ describe FacebookApi do
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
-    facebook_api = FacebookApi.new('mock_token', nil)
+    facebook_api = Facebook::Api.new('mock_token', nil)
     facebook_api.timeline
     expect(facebook_api.facebook_response.posts[0]["id"]).to eq '10203694030092980_10203693777206658'
   end
@@ -19,7 +19,7 @@ describe FacebookApi do
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
-    facebook_api = FacebookApi.new('mock_token', nil)
+    facebook_api = Facebook::Api.new('mock_token', nil)
     facebook_api.timeline
     expect(facebook_api.facebook_response.success?).to eq true
   end
@@ -28,10 +28,10 @@ describe FacebookApi do
     stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
       to_return(status: 463, body: File.read('./spec/support/facebook/invalid_oauth_token.json'))
 
-    facebook_api = FacebookApi.new('mock_token', nil)
+    facebook_api = Facebook::Api.new('mock_token', nil)
     begin
       facebook_api.timeline
-    rescue FacebookUnauthorized
+    rescue Facebook::Unauthorized
       expect(facebook_api.facebook_response.posts).to eq []
     end
   end
@@ -40,11 +40,11 @@ describe FacebookApi do
     stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
       to_return(status: 463)
 
-    facebook_api = FacebookApi.new('mock_token', nil)
-    expect { facebook_api.timeline }.to raise_exception(FacebookUnauthorized)
+    facebook_api = Facebook::Api.new('mock_token', nil)
+    expect { facebook_api.timeline }.to raise_exception(Facebook::Unauthorized)
     begin
       facebook_api.timeline
-    rescue FacebookUnauthorized
+    rescue Facebook::Unauthorized
       expect(facebook_api.facebook_response.authed?).to eq false
     end
   end
@@ -55,7 +55,7 @@ describe FacebookApi do
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
-    facebook_api = FacebookApi.new('mock_token', nil)
+    facebook_api = Facebook::Api.new('mock_token', nil)
     facebook_api.timeline
     expect(facebook_api.facebook_response.poster_recipient_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
   end
@@ -66,7 +66,7 @@ describe FacebookApi do
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
-    facebook_api = FacebookApi.new('mock_token', nil)
+    facebook_api = Facebook::Api.new('mock_token', nil)
     facebook_api.timeline
     expect(facebook_api.facebook_response.commenter_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
   end

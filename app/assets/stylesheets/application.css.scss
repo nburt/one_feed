@@ -10,6 +10,44 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
  */
+@import "bourbon";
+@import "grid_settings";
+@import "neat";
+@import "normalize";
+
+/* universal */
+$white: #fff;
+$background-gray: #E6E6E6;
+$logo-green: #00b80c;
+$error_message_red: #FF0000;
+$box-shadow-gray: #737373;
+
+@import "layout";
+@import "header";
+@import "navigation";
+@import "homepage";
+@import "feed";
+@import "accounts";
+
+.loading_message {
+  background-color: $white;
+  padding: 1.5em;
+  text-align: center;
+}
+
+.loading_text {
+  color: $logo-green
+}
+
+.centered_text {
+  text-align: center;
+}
+
+.four_oh_four {
+  background-color: $white;
+  padding: 1.5em;
+  h1 {
+    margin-top: 0;
+  }
+}

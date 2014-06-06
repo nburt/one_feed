@@ -26,8 +26,9 @@ feature 'accounts pages' do
       fill_in 'user[password]', :with => 'password'
       click_button 'Sign Up'
     end
-
-    click_link 'Account Settings'
+    within '#logged_in_nav' do
+      click_link 'Account Settings'
+    end
     click_link 'Link Accounts'
     expect(page).to have_content 'Link Facebook'
   end

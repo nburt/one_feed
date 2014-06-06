@@ -217,6 +217,8 @@ describe FacebookPost do
                                           :source => "http://www.youtube.com/v/6vopR3ys8Kw?autohide=1&version=3&autoplay=1",
                                           :video_name => "Flume & Chet Faker - Drop the Game [Official Music Video]",
                                           :video_description => "From Flume & Chet Faker's collaborative Lockjaw EP. Subscribe to our channel here: http://smarturl.it/FC_YouTube Get it on iTunes: http://smarturl.it/Lockjaw...",
+                                          :likes_count => 0,
+                                          :comments_count => 0,
                                           :link_to_post => "https://www.facebook.com/1065638934/posts/10203250828885938",
                                           :type => "video",
                                           :status_type => "shared_story"
@@ -246,9 +248,36 @@ describe FacebookPost do
                                           :article_name => "3-Minute Avocado Toast with Hard-Boiled Eggs | Heather's Dish",
                                           :article_caption => "www.heathersdish.com",
                                           :article_description => "This snack. I can't even come up with the words you guys - I have literally been having it every day for the past week and a half and there's no way I see",
+                                          :likes_count => 0,
+                                          :comments_count => 0,
                                           :link_to_post => "https://www.facebook.com/1087890261/posts/10202124559850658",
                                           :type => "link",
                                           :status_type => "shared_story"
+                                        })
+  end
+
+  it 'should be able to handle added photos' do
+    facebook_post = FacebookPost.new(posts[12])
+    expect(facebook_post.to_hash).to eq({
+                                          :provider => "facebook",
+                                          :created_time => "2014-06-05 11:25:27 -0600",
+                                          :from => {
+                                            :id => "10202140996031376",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10202140996031376",
+                                            :name => "Maren Rhodin",
+                                          },
+                                          :message => "If this had sound you would hear Sarah correcting my form (rightfully!) and demanding beer and me belting out Pocahontas between whimpers",
+                                          :image => {
+                                            :original_sized_image => "https://fbcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t1.0-0/10341598_10202243813121739_8865996895782319814_o.jpg"
+                                          },
+                                          :photo_in_album_link => "https://www.facebook.com/photo.php?fbid=10202243813121739&set=a.10201603215627202.1073741828.1382610074&type=1&relevant_count=1",
+                                          :album_name => "2014: Year of the Pizza",
+                                          :likes_count => 6,
+                                          :comments_count => 2,
+                                          :link_to_post => "https://www.facebook.com/1382610074/posts/10202243813241742",
+                                          :type => "photo",
+                                          :status_type => "added_photos",
+                                          :application_name => "iOS",
                                         })
   end
 

@@ -44,6 +44,8 @@ class FacebookPost
       @facebook_post_creator.tagged_in_photo(post)
     elsif post["status_type"] == "shared_story"
       @facebook_post_creator.photo_shared_story(post)
+    elsif post["status_type"] == "added_photos"
+      @facebook_post_creator.added_photos(post)
     else
       @facebook_post_creator.photo(post)
     end

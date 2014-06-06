@@ -1,10 +1,28 @@
 class FacebookPostCreator
 
+  def added_photos(post)
+    added_photos_hash = {}
+    provider(added_photos_hash)
+    created_time(added_photos_hash, post["created_time"])
+    from_hash(added_photos_hash, post["from"])
+    added_photos_hash[:message] = post["message"]
+    added_photos_hash[:image] = get_image_hash(post["picture"])
+    added_photos_hash[:photo_in_album_link] = post["link"]
+    added_photos_hash[:album_name] = post["name"]
+    added_photos_hash[:likes_count] = get_likes_count(post)
+    added_photos_hash[:comments_count] = get_comments_count(post)
+    link_to_post(added_photos_hash, post)
+    added_photos_hash[:type] = "photo"
+    added_photos_hash[:status_type] = "added_photos"
+    added_photos_hash[:application_name] = post["application"]["name"]
+    added_photos_hash
+  end
+
   def link_shared_story(post)
     link_shared_story_hash = {}
     provider(link_shared_story_hash)
     created_time(link_shared_story_hash, post["created_time"])
-    link_shared_story_hash[:from] = get_from_hash(post["from"])
+    from_hash(link_shared_story_hash, post["from"])
     if post["to"]
       link_shared_story_hash[:to] = get_recipient_hash(post["to"])
     end
@@ -14,6 +32,8 @@ class FacebookPostCreator
     link_shared_story_hash[:article_name] = post["name"]
     link_shared_story_hash[:article_caption] = post["caption"]
     link_shared_story_hash[:article_description] = post["description"]
+    link_shared_story_hash[:likes_count] = get_likes_count(post)
+    link_shared_story_hash[:comments_count] = get_comments_count(post)
     link_to_post(link_shared_story_hash, post)
     link_shared_story_hash[:type] = "link"
     link_shared_story_hash[:status_type] = "shared_story"
@@ -24,7 +44,7 @@ class FacebookPostCreator
     video_shared_story_hash = {}
     provider(video_shared_story_hash)
     created_time(video_shared_story_hash, post["created_time"])
-    video_shared_story_hash[:from] = get_from_hash(post["from"])
+    from_hash(video_shared_story_hash, post["from"])
     if post["to"]
       video_shared_story_hash[:to] = get_recipient_hash(post["to"])
     end
@@ -33,6 +53,8 @@ class FacebookPostCreator
     video_shared_story_hash[:source] = post["source"]
     video_shared_story_hash[:video_name] = post["name"]
     video_shared_story_hash[:video_description] = post["description"]
+    video_shared_story_hash[:likes_count] = get_likes_count(post)
+    video_shared_story_hash[:comments_count] = get_comments_count(post)
     link_to_post(video_shared_story_hash, post)
     video_shared_story_hash[:type] = "video"
     video_shared_story_hash[:status_type] = "shared_story"
@@ -43,7 +65,7 @@ class FacebookPostCreator
     photo_shared_story_hash = {}
     provider(photo_shared_story_hash)
     created_time(photo_shared_story_hash, post["created_time"])
-    photo_shared_story_hash[:from] = get_from_hash(post["from"])
+    from_hash(photo_shared_story_hash, post["from"])
     photo_shared_story_hash[:story] = post["story"]
     photo_shared_story_hash[:story_tags] = story_tags(post["story_tags"])
     photo_shared_story_hash[:image] = get_image_hash(post["picture"])
@@ -61,7 +83,7 @@ class FacebookPostCreator
     tagged_in_photo_hash = {}
     provider(tagged_in_photo_hash)
     created_time(tagged_in_photo_hash, post["created_time"])
-    tagged_in_photo_hash[:from] = get_from_hash(post["from"])
+    from_hash(tagged_in_photo_hash, post["from"])
     if post["message"]
       tagged_in_photo_hash[:message] = post["message"]
     end
@@ -84,7 +106,7 @@ class FacebookPostCreator
     mobile_update_hash = {}
     provider(mobile_update_hash)
     created_time(mobile_update_hash, post["created_time"])
-    mobile_update_hash[:from] = get_from_hash(post["from"])
+    from_hash(mobile_update_hash, post["from"])
     if post["to"]
       mobile_update_hash[:to] = get_recipient_hash(post["to"])
     end
@@ -104,7 +126,7 @@ class FacebookPostCreator
     wall_post_hash = {}
     provider(wall_post_hash)
     created_time(wall_post_hash, post["created_time"])
-    wall_post_hash[:from] = get_from_hash(post["from"])
+    from_hash(wall_post_hash, post["from"])
     wall_post_hash[:to] = get_recipient_hash(post["to"])
     wall_post_hash[:message] = post["message"]
     if post["picture"]
@@ -122,7 +144,7 @@ class FacebookPostCreator
     photo_hash = {}
     provider(photo_hash)
     created_time(photo_hash, post["created_time"])
-    photo_hash[:from] = get_from_hash(post["from"])
+    from_hash(photo_hash, post["from"])
     if post["message"]
       photo_hash[:message] = post["message"]
     end
@@ -147,7 +169,7 @@ class FacebookPostCreator
     provider(facebook_hash)
     created_time(facebook_hash, post["created_time"])
     if post["from"]
-      facebook_hash[:from] = get_from_hash(post["from"])
+      from_hash(facebook_hash, post["from"])
     end
     if post["to"] != nil
       facebook_hash[:to] = get_recipient_hash(post["to"])
@@ -243,8 +265,8 @@ class FacebookPostCreator
     "#{Time.parse(created_time)}"
   end
 
-  def get_from_hash(from_data)
-    {
+  def from_hash(hash, from_data)
+    hash[:from] = {
       :id => from_data["id"],
       :link_to_profile => "https://www.facebook.com/app_scoped_user_id/#{from_data["id"]}",
       :name => from_data["name"],

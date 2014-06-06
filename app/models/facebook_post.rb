@@ -12,12 +12,22 @@ class FacebookPost
       status_type(@post)
     elsif @post["type"] == "video"
       video_type(@post)
+    elsif @post["type"] == "link"
+      link_type(@post)
     else
       @facebook_post_creator.default_post(@post)
     end
   end
 
   private
+
+  def link_type(post)
+    if post["status_type"] == "shared_story"
+      @facebook_post_creator.link_shared_story(post)
+    else
+      @facebook_post_creator.default_post(post)
+    end
+  end
 
   def status_type(post)
     if post["status_type"] == "wall_post"

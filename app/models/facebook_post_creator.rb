@@ -1,5 +1,25 @@
 class FacebookPostCreator
 
+  def link_shared_story(post)
+    link_shared_story_hash = {}
+    provider(link_shared_story_hash)
+    created_time(link_shared_story_hash, post["created_time"])
+    link_shared_story_hash[:from] = get_from_hash(post["from"])
+    if post["to"]
+      link_shared_story_hash[:to] = get_recipient_hash(post["to"])
+    end
+    link_shared_story_hash[:message] = post["message"]
+    link_shared_story_hash[:image] = get_image_hash(post["picture"])
+    link_shared_story_hash[:article_link] = post["link"]
+    link_shared_story_hash[:article_name] = post["name"]
+    link_shared_story_hash[:article_caption] = post["caption"]
+    link_shared_story_hash[:article_description] = post["description"]
+    link_to_post(link_shared_story_hash, post)
+    link_shared_story_hash[:type] = "link"
+    link_shared_story_hash[:status_type] = "shared_story"
+    link_shared_story_hash
+  end
+
   def video_shared_story(post)
     video_shared_story_hash = {}
     provider(video_shared_story_hash)
@@ -13,7 +33,7 @@ class FacebookPostCreator
     video_shared_story_hash[:source] = post["source"]
     video_shared_story_hash[:video_name] = post["name"]
     video_shared_story_hash[:video_description] = post["description"]
-    video_shared_story_hash[:link_to_post] = post["actions"][0]["link"]
+    link_to_post(video_shared_story_hash, post)
     video_shared_story_hash[:type] = "video"
     video_shared_story_hash[:status_type] = "shared_story"
     video_shared_story_hash
@@ -28,7 +48,7 @@ class FacebookPostCreator
     photo_shared_story_hash[:story_tags] = story_tags(post["story_tags"])
     photo_shared_story_hash[:image] = get_image_hash(post["picture"])
     photo_shared_story_hash[:article_link] = post["link"]
-    photo_shared_story_hash[:link_to_post] = post["actions"][0]["link"]
+    link_to_post(photo_shared_story_hash, post)
     photo_shared_story_hash[:likes_count] = get_likes_count(post)
     photo_shared_story_hash[:comments_count] = get_comments_count(post)
     photo_shared_story_hash[:type] = "photo"
@@ -52,7 +72,7 @@ class FacebookPostCreator
     tagged_in_photo_hash[:likes_count] = get_likes_count(post)
     tagged_in_photo_hash[:comments_count] = get_comments_count(post)
     if post["actions"]
-      tagged_in_photo_hash[:link_to_post] = post["actions"][0]["link"]
+      link_to_post(tagged_in_photo_hash, post)
     end
     tagged_in_photo_hash[:type] = "photo"
     tagged_in_photo_hash[:status_type] = "tagged_in_photo"
@@ -71,7 +91,7 @@ class FacebookPostCreator
     mobile_update_hash[:message] = post["message"]
     mobile_update_hash[:likes_count] = get_likes_count(post)
     mobile_update_hash[:comments_count] = get_comments_count(post)
-    mobile_update_hash[:link_to_post] = post["actions"][0]["link"]
+    link_to_post(mobile_update_hash, post)
     mobile_update_hash[:type] = "status"
     mobile_update_hash[:status_type] = "mobile_status_update"
     if post["application"]
@@ -92,7 +112,7 @@ class FacebookPostCreator
     end
     wall_post_hash[:likes_count] = get_likes_count(post)
     wall_post_hash[:comments_count] = get_comments_count(post)
-    wall_post_hash[:link_to_post] = post["actions"][0]["link"]
+    link_to_post(wall_post_hash, post)
     wall_post_hash[:type] = "status"
     wall_post_hash[:status_type] = "wall_post"
     wall_post_hash
@@ -114,7 +134,7 @@ class FacebookPostCreator
     photo_hash[:article_link] = post["link"]
     photo_hash[:likes_count] = get_likes_count(post)
     photo_hash[:comments_count] = get_comments_count(post)
-    photo_hash[:link_to_post] = post["actions"][0]["link"]
+    link_to_post(photo_hash, post)
     photo_hash[:type] = "photo"
     if post["application"]
       photo_hash[:application_name] = post["application"]["name"]
@@ -169,7 +189,7 @@ class FacebookPostCreator
       facebook_hash[:application_name] = post["application"]["name"]
     end
     if post["actions"] != nil
-      facebook_hash[:link_to_post] = post["actions"][0]["link"]
+      link_to_post(facebook_hash, post)
     end
     if post["type"] != nil
       facebook_hash[:type] = post["type"]
@@ -184,6 +204,10 @@ class FacebookPostCreator
   end
 
   private
+
+  def link_to_post(hash, post)
+    hash[:link_to_post] = post["actions"][0]["link"]
+  end
 
   def created_time(hash, time)
     hash[:created_time] = parse_time(time)

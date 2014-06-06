@@ -223,4 +223,33 @@ describe FacebookPost do
                                         })
   end
 
+  it 'should be handle link type posts' do
+    facebook_post = FacebookPost.new(posts[11])
+    expect(facebook_post.to_hash).to eq({
+                                          :provider => "facebook",
+                                          :created_time => "2014-06-05 11:28:04 -0600",
+                                          :from => {
+                                            :id => "10202052817617147",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10202052817617147",
+                                            :name => "Mary Jennings Van Sant",
+                                          },
+                                          :to => {
+                                            :id => "10202042605921861",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10202042605921861",
+                                            :name => "Hannah Bogardus",
+                                          },
+                                          :message => "http://www.heathersdish.com/ad-free/3-minute-avocado-toast-with-hard-boiled-eggs/\n\nThis has your name ALL over it.  MISS AND LOVE YOU!!!",
+                                          :image => {
+                                            :original_sized_image => "https://fbexternal-a.akamaihd.net/safe_image.php?d=AQCrPO_2Sa06LdBQ&w=154&h=154&url=http%3A%2F%2Fwww.heathersdish.com%2Fwp-content%2Fuploads%2F2013%2F07%2Fblog-71.jpg",
+                                          },
+                                          :article_link => "http://www.heathersdish.com/ad-free/3-minute-avocado-toast-with-hard-boiled-eggs/",
+                                          :article_name => "3-Minute Avocado Toast with Hard-Boiled Eggs | Heather's Dish",
+                                          :article_caption => "www.heathersdish.com",
+                                          :article_description => "This snack. I can't even come up with the words you guys - I have literally been having it every day for the past week and a half and there's no way I see",
+                                          :link_to_post => "https://www.facebook.com/1087890261/posts/10202124559850658",
+                                          :type => "link",
+                                          :status_type => "shared_story"
+                                        })
+  end
+
 end

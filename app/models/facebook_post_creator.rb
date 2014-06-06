@@ -1,5 +1,26 @@
 class FacebookPostCreator
 
+  def tagged_in_photo(post)
+    tagged_in_photo_hash = {}
+    tagged_in_photo_hash[:provider] = "facebook"
+    tagged_in_photo_hash[:created_time] = parse_time(post["created_time"])
+    tagged_in_photo_hash[:from] = get_from_hash(post["from"])
+    tagged_in_photo_hash[:message] = post["message"]
+    tagged_in_photo_hash[:story] = post["story"]
+    tagged_in_photo_hash[:story_tags] = story_tags(post["story_tags"])
+    tagged_in_photo_hash[:image] = get_image_hash(post["picture"])
+    tagged_in_photo_hash[:article_link] = post["link"]
+    tagged_in_photo_hash[:likes_count] = get_likes_count(post)
+    tagged_in_photo_hash[:comments_count] = get_comments_count(post)
+    if post["actions"]
+      tagged_in_photo_hash[:link_to_post] = post["actions"][0]["link"]
+    end
+    tagged_in_photo_hash[:type] = "photo"
+    tagged_in_photo_hash[:status_type] = "tagged_in_photo"
+    tagged_in_photo_hash[:application_name] = post["application"]["name"]
+    tagged_in_photo_hash
+  end
+
   def mobile_update(post)
     mobile_update_hash = {}
     mobile_update_hash[:provider] = "facebook"
@@ -11,7 +32,9 @@ class FacebookPostCreator
     mobile_update_hash[:link_to_post] = post["actions"][0]["link"]
     mobile_update_hash[:type] = "status"
     mobile_update_hash[:status_type] = "mobile_status_update"
-    mobile_update_hash[:application_name] = post["application"]["name"]
+    if post["application"]
+      mobile_update_hash[:application_name] = post["application"]["name"]
+    end
     mobile_update_hash
   end
 
@@ -45,7 +68,9 @@ class FacebookPostCreator
     photo_hash[:comments_count] = get_comments_count(post)
     photo_hash[:link_to_post] = post["actions"][0]["link"]
     photo_hash[:type] = "photo"
-    photo_hash[:application_name] = post["application"]["name"]
+    if post["application"]
+      photo_hash[:application_name] = post["application"]["name"]
+    end
     photo_hash
   end
 

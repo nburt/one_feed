@@ -29,7 +29,7 @@ class FacebookPost
 
   def photo_type(post)
     if post["status_type"] == "tagged_in_photo"
-      @facebook_post_creator.default_post(post)
+      @facebook_post_creator.tagged_in_photo(post)
     else
       @facebook_post_creator.photo(post)
     end

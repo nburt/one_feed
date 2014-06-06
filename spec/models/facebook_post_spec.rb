@@ -72,4 +72,39 @@ describe FacebookPost do
                                         })
   end
 
+  it 'should be able to process tagged_in_photo' do
+    facebook_post = FacebookPost.new(posts[6])
+    expect(facebook_post.to_hash).to eq({
+                                          :provider => "facebook",
+                                          :created_time => "2014-06-05 13:26:48 -0600",
+                                          :from => {
+                                            :id => "10153074975361029",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10153074975361029",
+                                            :name => "Emmanuel Chan",
+                                          },
+                                          :message => nil,
+                                          :story => "Emmanuel Chan was tagged in Minal Shah's photo.",
+                                          :story_tags => [
+                                            {
+                                              :name => "Emmanuel Chan",
+                                              :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10153074975361029",
+                                            },
+                                            {
+                                              :name => "Minal Shah",
+                                              :link_to_profile => "https://www.facebook.com/app_scoped_user_id/2686395522487"
+                                            }
+                                          ],
+                                          :image => {
+                                            :original_sized_image => "https://fbcdn-photos-d-a.akamaihd.net/hphotos-ak-xfp1/t1.0-0/10401435_2685884629715_1444031587313675951_o.jpg",
+                                          },
+                                          :article_link => "https://www.facebook.com/photo.php?fbid=2685884629715&set=at.2685874229455.1073741829.1334370399.630471028&type=1&relevant_count=1",
+                                          :likes_count => 0,
+                                          :comments_count => 0,
+                                          :link_to_post => "https://www.facebook.com/630471028/posts/10153110032051029",
+                                          :type => "photo",
+                                          :status_type => "tagged_in_photo",
+                                          :application_name => "Photos"
+                                        })
+  end
+
 end

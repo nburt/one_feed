@@ -20,6 +20,8 @@ class FacebookPost
   def status_type(post)
     if post["status_type"] == "wall_post"
       @facebook_post_creator.wall_post(post)
+    elsif post["status_type"] == "mobile_status_update"
+      @facebook_post_creator.mobile_update(post)
     else
       @facebook_post_creator.default_post(post)
     end

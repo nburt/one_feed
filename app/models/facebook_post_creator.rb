@@ -1,5 +1,20 @@
 class FacebookPostCreator
 
+  def mobile_update(post)
+    mobile_update_hash = {}
+    mobile_update_hash[:provider] = "facebook"
+    mobile_update_hash[:created_time] = parse_time(post["created_time"])
+    mobile_update_hash[:from] = get_from_hash(post["from"])
+    mobile_update_hash[:message] = post["message"]
+    mobile_update_hash[:likes_count] = get_likes_count(post)
+    mobile_update_hash[:comments_count] = get_comments_count(post)
+    mobile_update_hash[:link_to_post] = post["actions"][0]["link"]
+    mobile_update_hash[:type] = "status"
+    mobile_update_hash[:status_type] = "mobile_status_update"
+    mobile_update_hash[:application_name] = post["application"]["name"]
+    mobile_update_hash
+  end
+
   def wall_post(post)
     wall_post_hash = {}
     wall_post_hash[:provider] = "facebook"

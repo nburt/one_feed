@@ -28,7 +28,7 @@ describe FacebookPost do
 
   end
 
-  it 'should be able to process wall_posts' do
+  it 'should be able to process wall_post' do
     facebook_post = FacebookPost.new(posts[1])
     expect(facebook_post.to_hash).to eq({
                                           :provider => "facebook",
@@ -49,6 +49,26 @@ describe FacebookPost do
                                           :link_to_post => "https://www.facebook.com/1246050030/posts/10204149077427604",
                                           :type => "status",
                                           :status_type => "wall_post",
+                                        })
+  end
+
+  it 'should be able to process mobile_status_update' do
+    facebook_post = FacebookPost.new(posts[2])
+    expect(facebook_post.to_hash).to eq({
+                                          :provider => "facebook",
+                                          :created_time => "2014-06-05 13:58:05 -0600",
+                                          :from => {
+                                            :id => "10152071074642001",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10152071074642001",
+                                            :name => "Kai Ishino",
+                                          },
+                                          :message => "Lunch with the tax partner before my flight home... Networking never ends 😬",
+                                          :likes_count => 0,
+                                          :comments_count => 2,
+                                          :link_to_post => "https://www.facebook.com/624517000/posts/10152103382247001",
+                                          :type => "status",
+                                          :status_type => "mobile_status_update",
+                                          :application_name => "Facebook for iPhone"
                                         })
   end
 

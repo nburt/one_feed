@@ -8,6 +8,8 @@ class FacebookPost
   def to_hash
     if @post["type"] == "photo"
       photo_type(@post)
+    elsif @post["type"] == "status"
+      status_type(@post)
     else
       @facebook_post_creator.default_post(@post)
     end
@@ -15,8 +17,16 @@ class FacebookPost
 
   private
 
+  def status_type(post)
+    if post["status_type"] == "wall_post"
+      @facebook_post_creator.wall_post(post)
+    else
+      @facebook_post_creator.default_post(post)
+    end
+  end
+
   def photo_type(post)
-    if post["type"] == "photo" && post["status_type"] == "tagged_in_photo"
+    if post["status_type"] == "tagged_in_photo"
       @facebook_post_creator.default_post(post)
     else
       @facebook_post_creator.photo(post)

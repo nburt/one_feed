@@ -1,19 +1,37 @@
 class FacebookPostCreator
 
+  def wall_post(post)
+    wall_post_hash = {}
+    wall_post_hash[:provider] = "facebook"
+    wall_post_hash[:created_time] = parse_time(post["created_time"])
+    wall_post_hash[:from] = get_from_hash(post["from"])
+    wall_post_hash[:to] = get_recipient_hash(post["to"])
+    wall_post_hash[:message] = post["message"]
+    if post["picture"]
+      wall_post_hash[:image] = get_image_hash(post["picture"])
+    end
+    wall_post_hash[:likes_count] = get_likes_count(post)
+    wall_post_hash[:comments_count] = get_comments_count(post)
+    wall_post_hash[:link_to_post] = post["actions"][0]["link"]
+    wall_post_hash[:type] = "status"
+    wall_post_hash[:status_type] = "wall_post"
+    wall_post_hash
+  end
+
   def photo(post)
-    {
-      :provider => "facebook",
-      :created_time => parse_time(post["created_time"]),
-      :from => get_from_hash(post["from"]),
-      :message => post["message"],
-      :image => get_image_hash(post["picture"]),
-      :article_link => post["link"],
-      :likes_count => get_likes_count(post),
-      :comments_count => get_comments_count(post),
-      :link_to_post => post["actions"][0]["link"],
-      :type => post["type"],
-      :application_name => post["application"]["name"]
-    }
+    photo_hash = {}
+    photo_hash[:provider] = "facebook"
+    photo_hash[:created_time] = parse_time(post["created_time"])
+    photo_hash[:from] = get_from_hash(post["from"])
+    photo_hash[:message] = post["message"]
+    photo_hash[:image] = get_image_hash(post["picture"])
+    photo_hash[:article_link] = post["link"]
+    photo_hash[:likes_count] = get_likes_count(post)
+    photo_hash[:comments_count] = get_comments_count(post)
+    photo_hash[:link_to_post] = post["actions"][0]["link"]
+    photo_hash[:type] = "photo"
+    photo_hash[:application_name] = post["application"]["name"]
+    photo_hash
   end
 
   def default_post(post)

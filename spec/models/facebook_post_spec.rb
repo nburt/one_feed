@@ -28,4 +28,28 @@ describe FacebookPost do
 
   end
 
+  it 'should be able to process wall_posts' do
+    facebook_post = FacebookPost.new(posts[1])
+    expect(facebook_post.to_hash).to eq({
+                                          :provider => "facebook",
+                                          :created_time => "2014-06-05 14:08:17 -0600",
+                                          :from => {
+                                            :id => "10201982999926302",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10201982999926302",
+                                            :name => "Becca Thomas",
+                                          },
+                                          :to => {
+                                            :id => "10204017311853547",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10204017311853547",
+                                            :name => "Nick Anderson",
+                                          },
+                                          :message => "happy birthday my love!!!",
+                                          :likes_count => 0,
+                                          :comments_count => 0,
+                                          :link_to_post => "https://www.facebook.com/1246050030/posts/10204149077427604",
+                                          :type => "status",
+                                          :status_type => "wall_post",
+                                        })
+  end
+
 end

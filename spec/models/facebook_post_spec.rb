@@ -273,7 +273,7 @@ describe FacebookPost do
                                           :photo_in_album_link => "https://www.facebook.com/photo.php?fbid=10202243813121739&set=a.10201603215627202.1073741828.1382610074&type=1&relevant_count=1",
                                           :album_name => "2014: Year of the Pizza",
                                           :likes_count => 6,
-                                          :comments_count => 2,
+                                          :comments_count => 1,
                                           :link_to_post => "https://www.facebook.com/1382610074/posts/10202243813241742",
                                           :type => "photo",
                                           :status_type => "added_photos",

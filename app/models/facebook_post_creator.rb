@@ -249,7 +249,7 @@ class FacebookPostCreator
 
   def get_comments_count(post)
     if post["comments"] != nil
-      post["comments"].count
+      post["comments"]["data"].count
     else
       0
     end

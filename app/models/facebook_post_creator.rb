@@ -5,7 +5,9 @@ class FacebookPostCreator
     tagged_in_photo_hash[:provider] = "facebook"
     tagged_in_photo_hash[:created_time] = parse_time(post["created_time"])
     tagged_in_photo_hash[:from] = get_from_hash(post["from"])
-    tagged_in_photo_hash[:message] = post["message"]
+    if post["message"]
+      tagged_in_photo_hash[:message] = post["message"]
+    end
     tagged_in_photo_hash[:story] = post["story"]
     tagged_in_photo_hash[:story_tags] = story_tags(post["story_tags"])
     tagged_in_photo_hash[:image] = get_image_hash(post["picture"])
@@ -61,7 +63,13 @@ class FacebookPostCreator
     photo_hash[:provider] = "facebook"
     photo_hash[:created_time] = parse_time(post["created_time"])
     photo_hash[:from] = get_from_hash(post["from"])
+    if post["message"]
     photo_hash[:message] = post["message"]
+    end
+    if post["story"]
+      photo_hash[:story] = post["story"]
+      photo_hash[:story_tags] = story_tags(post["story_tags"])
+    end
     photo_hash[:image] = get_image_hash(post["picture"])
     photo_hash[:article_link] = post["link"]
     photo_hash[:likes_count] = get_likes_count(post)

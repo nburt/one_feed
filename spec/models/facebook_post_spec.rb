@@ -4,7 +4,7 @@ describe FacebookPost do
 
   let(:posts) { Oj.load(File.read("./spec/support/facebook/facebook_post_creator_data.json")) }
 
-  it 'should be able to process wall_posts' do
+  it 'should be able to process photos' do
     facebook_post = FacebookPost.new(posts[0])
     expect(facebook_post.to_hash).to eq({
                                           :provider => "facebook",
@@ -82,7 +82,6 @@ describe FacebookPost do
                                             :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10153074975361029",
                                             :name => "Emmanuel Chan",
                                           },
-                                          :message => nil,
                                           :story => "Emmanuel Chan was tagged in Minal Shah's photo.",
                                           :story_tags => [
                                             {
@@ -104,6 +103,34 @@ describe FacebookPost do
                                           :type => "photo",
                                           :status_type => "tagged_in_photo",
                                           :application_name => "Photos"
+                                        })
+  end
+
+  it 'should be able to handle a cover photo update' do
+    facebook_post = FacebookPost.new(posts[7])
+    expect(facebook_post.to_hash).to eq({
+                                          :provider => "facebook",
+                                          :created_time => "2014-06-05 13:10:33 -0600",
+                                          :from => {
+                                            :id => "10154160680320506",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10154160680320506",
+                                            :name => "Ryan Patterson",
+                                          },
+                                          :story => "Ryan Patterson updated his cover photo.",
+                                          :story_tags => [
+                                            {
+                                              :name => "Ryan Patterson",
+                                              :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10154160680320506",
+                                            },
+                                          ],
+                                          :image => {
+                                            :original_sized_image => "https://fbcdn-photos-b-a.akamaihd.net/hphotos-ak-xpf1/t1.0-0/10409408_10154203761035506_5648453343670474156_o.jpg",
+                                          },
+                                          :article_link => "https://www.facebook.com/photo.php?fbid=10154203761035506&set=a.10152044998885506.900006.794960505&type=1&relevant_count=1",
+                                          :likes_count => 25,
+                                          :comments_count => 0,
+                                          :link_to_post => "https://www.facebook.com/794960505/posts/10154203761065506",
+                                          :type => "photo",
                                         })
   end
 

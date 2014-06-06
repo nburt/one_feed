@@ -134,4 +134,29 @@ describe FacebookPost do
                                         })
   end
 
+  it 'should be able to handle mobile_status_update with to hash' do
+    facebook_post = FacebookPost.new(posts[8])
+    expect(facebook_post.to_hash).to eq({
+                                          :provider => "facebook",
+                                          :created_time => "2014-06-05 13:07:25 -0600",
+                                          :from => {
+                                            :id => "10202659107733578",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/10202659107733578",
+                                            :name => "Nathan Eberhart",
+                                          },
+                                          :to => {
+                                            :name => "Dan Begun",
+                                            :link_to_profile => "https://www.facebook.com/app_scoped_user_id/465165273626827",
+                                            :id => "465165273626827",
+                                          },
+                                          :message => "Checking out Dan's new stomping grounds!",
+                                          :likes_count => 3,
+                                          :comments_count => 0,
+                                          :link_to_post => "https://www.facebook.com/1074600005/posts/10202750187450514",
+                                          :type => "status",
+                                          :status_type => "mobile_status_update",
+                                          :application_name => "Facebook for Android"
+                                        })
+  end
+
 end

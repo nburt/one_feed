@@ -28,6 +28,9 @@ class FacebookPostCreator
     mobile_update_hash[:provider] = "facebook"
     mobile_update_hash[:created_time] = parse_time(post["created_time"])
     mobile_update_hash[:from] = get_from_hash(post["from"])
+    if post["to"]
+      mobile_update_hash[:to] = get_recipient_hash(post["to"])
+    end
     mobile_update_hash[:message] = post["message"]
     mobile_update_hash[:likes_count] = get_likes_count(post)
     mobile_update_hash[:comments_count] = get_comments_count(post)

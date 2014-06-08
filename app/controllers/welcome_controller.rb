@@ -9,4 +9,8 @@ class WelcomeController < ApplicationController
     end
   end
 
+  def privacy_policy
+    @user = User.new
+  end
+
 end

@@ -32,4 +32,10 @@ feature 'Homepage with login' do
     expect(page).to have_content 'Invalid email or password'
   end
 
+  scenario 'a user can view our privacy policy' do
+    click_link 'Sign Out'
+    click_link 'Privacy Policy'
+    expect(page).to have_content 'This Privacy Policy governs the manner in which OneFeed collects, uses, maintains and discloses information collected from users'
+  end
+
 end

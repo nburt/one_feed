@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/auth/twitter/callback', to: 'twitter_registration#create'
   get '/auth/facebook/callback', to: 'facebook_registration#create'
   get '/auth/failure', to: 'twitter_registration#failure'
+  get '/privacy-policy', to: 'welcome#privacy_policy'
 
   resources :accounts do
     member do

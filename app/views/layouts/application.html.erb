@@ -6,6 +6,7 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <%= favicon_link_tag 'favicon.ico' %>
 </head>
 <body>
@@ -14,55 +15,44 @@
     <div id="logo_container">
       <a href="/"><img id="logo" src="<%= asset_url("one_feed_logo_white.png") %>" alt="OneFeed Logo"></a>
     </div>
-    <nav>
-      <% if logged_in? %>
+    <% if logged_in? %>
+      <nav id="logged_in">
         <div id="menu_button_container">
           <ul>
             <li id="menu_button">Menu</li>
-            <li class="mobile_menu"><%= link_to "Create Post", "#" %></li>
-            <li class="mobile_menu"><%= link_to "Toggle Facebook", "#" %></li>
-            <li class="mobile_menu"><%= link_to "Toggle Twitter", "#" %></li>
-            <li class="mobile_menu"><%= link_to "Toggle Instagram", "#" %></li>
             <li class="mobile_menu"><%= link_to "Account Settings", account_path(session[:user_id]) %></li>
             <li class="mobile_menu"><%= link_to "Sign Out", "/destroy" %></li>
           </ul>
         </div>
-        <div id="logged_in_nav">
-          <ul>
-            <li><%= link_to 'Account Settings', account_path(session[:user_id]) %></li>
-            <li><a href="/destroy">Sign Out</a></li>
-          </ul>
-        </div>
-      <% else %>
-        <div id="onefeed_login">
-          <ul>
-            <%= form_for @user, :url => {:controller => "sessions", :action => "create"} do |f| %>
-              <li>
-                <%= f.label :email %>
-                <div class="login_form_fields">
-                  <%= f.email_field :email, :autofocus => true %>
-                </div>
-              </li>
-              <li>
-                <%= f.label :password %>
-                <div class="login_form_fields">
-                  <%= f.password_field :password %>
-                </div>
-              </li>
-              <li>
-                <div class="homepage_form_button"><%= f.submit "Sign In" %></div>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-    </nav>
+      </nav>
+    <% else %>
+      <nav id="onefeed_login">
+        <ul>
+          <%= form_for @user, :url => {:controller => "sessions", :action => "create"} do |f| %>
+            <li>
+              <%= f.label :email %>
+              <div class="login_form_fields">
+                <%= f.email_field :email, :autofocus => true %>
+              </div>
+            </li>
+            <li>
+              <%= f.label :password %>
+              <div class="login_form_fields">
+                <%= f.password_field :password %>
+              </div>
+            </li>
+            <li>
+              <div class="homepage_form_button"><%= f.submit "Sign In" %></div>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+    <% end %>
   </div>
 </header>
 <script>
-  $('.mobile_menu').hide();
-  $('#menu_button').click(function(){
-    $('.mobile_menu').toggle();
+  $(function () {
+    Layout.initialize();
   });
 </script>
 <div class="content_container">

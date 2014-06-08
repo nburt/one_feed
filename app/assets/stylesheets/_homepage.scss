@@ -1,4 +1,10 @@
 #site_description_container {
+  display: none;
+  @include media($large-screen) {
+    @include span-columns(7);
+    display: block;
+    text-align: center;
+  }
   position: relative;
   margin-top: 3em;
   width: 45%;
@@ -19,13 +25,10 @@
 }
 
 #description_paragraph {
-  float: right;
-  margin: 2.5em 2.8em 0 0;
-  p {
-    margin: .25em 0 0;
-    &:last-child {
-      margin: 1em 0 0;
-    }
+  @include media($large-screen) {
+    margin: auto;
+    text-align: left;
+    width: 35%;
   }
 }
 
@@ -41,17 +44,26 @@
   -ms-filter: blur(4px);
   filter: blur(4px);
   border: 2px solid $logo-green;
+  @include media($large-screen) {
+    @include span-columns(10);
+  }
 }
 
 #onefeed_registration_container {
-  float: right;
-  width: 24.75em;
+  @include outer-container;
+  @include media($large-screen) {
+    @include span-columns(5);
+    float: right;
+    margin-top: 2.5em;
+  }
 }
 
 #onefeed_registration {
-  margin-top: 2em;
-  float: left;
+  margin: 2em 0 0 1em;
   font-size: 1.25em;
+  @include media($large-screen) {
+    margin: 0 0 0 .25em;
+  }
   p {
     color: $error_message_red;
     margin-bottom: 0;
@@ -66,7 +78,7 @@
     input {
       display: block;
       border: none;
-      border-radius: 5px;
+      border-radius: 3px;
       margin: .5em 0 1.23em 0;
       height: 1.5em;
       width: 17.5em;
@@ -81,7 +93,6 @@
         height: 2em;
       }
     }
-    text-align: left;
     label {
       margin-bottom: 5em;
     }

@@ -1,32 +1,34 @@
 nav {
-  #logged_in_nav {
-    display: none;
-  }
-  @include media($large-screen) {
-    #logged_in_nav {
-      display: inline-block;
-      float: right;
-      li {
-        margin-top: 1.25em;
+  display: inline-block;
+  li {
+    display: block;
+    list-style: none;
+    padding: .5em;
+    border: 1px solid white;
+    border-top: none;
+    &:first-child {
+      border-top: 1px solid white;
+    }
+    &:hover {
+      background-color: lighten($logo-green, 60%);
+      color: $logo-green;
+      a {
+        color: $logo-green;
       }
     }
-  }
-  li {
-    display: inline-block;
-    list-style: none;
-    padding: 0 0 0 .7em;
     a {
       text-decoration: none;
       font-size: 1em;
-      color: black;
-    }
-    a:hover {
-      color: $white;
+      color: white;
     }
   }
   ul {
     margin: 0;
     padding: 0;
+  }
+  @include media($large-screen) {
+    float: right;
+    @include span-columns(5);
   }
 }
 
@@ -40,17 +42,18 @@ nav {
     background-color: white;
     border-bottom: 2px solid $background-gray;
     &:hover {
-      background-color: lighten($logo-green, 40%);
+      background-color: lighten($logo-green, 60%);
     }
   }
 }
 
 #menu_button_container {
-  ul {
-    list-style: none;
-  }
+  position: relative;
+  z-index: 11;
   li {
     display: block;
-    padding: 0;
+  }
+  @include media($large-screen) {
+    display: inline-block;
   }
 }

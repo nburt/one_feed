@@ -6,14 +6,6 @@
   float: left;
 }
 
-.provider_logo {
-  height: 50px;
-}
-
-.user_profile_picture {
-  height: 50px;
-}
-
 .individual_post {
   background-color: $white;
   padding: 1.25em;
@@ -26,6 +18,26 @@
   }
   .arrow_image {
     height: .9em;
+  }
+
+  .provider_logo {
+    height: 35px;
+  }
+
+  @include media($large-screen) {
+    .provider_logo {
+      height: 50px;
+    }
+  }
+
+  .user_profile_picture {
+    height: 35px;
+  }
+
+  @include media($large-screen) {
+    .user_profile_picture {
+      height: 50px;
+    }
   }
 }
 
@@ -65,6 +77,14 @@
     list-style: none;
     display: inline;
     padding-right: 1.5em;
+    &:last-child {
+      display: block;
+    }
+  }
+  @include media($large-screen) {
+    li:last-child {
+      display: inline;
+    }
   }
   #facebook_post_header {
     margin-bottom: .25em;
@@ -111,7 +131,5 @@
 }
 
 .load_posts_link {
-  background-color: $white;
-  padding: 1.5em;
-  text-align: center;
+  display: none;
 }

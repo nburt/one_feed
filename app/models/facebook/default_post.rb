@@ -79,15 +79,11 @@ module Facebook
     end
 
     def likes_count
-      if @post["likes"]
-        get_likes_count(@post)
-      end
+      get_likes_count(@post)
     end
 
     def comments_count
-      if @post["comments"]
-        get_comments_count(@post)
-      end
+      get_comments_count(@post)
     end
 
     def comments
@@ -188,7 +184,7 @@ module Facebook
 
     def get_comments_count(post)
       if post["comments"]
-        post["comments"]["data"].count
+        post["comments"].count
       else
         0
       end

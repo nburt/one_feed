@@ -8,17 +8,48 @@ header {
 .header_content {
   @include outer-container;
   #logo_container {
-    margin: 0 auto;
-    margin-left: .5em;
+    display: block;
+    margin: .35em 0 0 1em;
+  }
+  #logo_container {
+    @include media($large-screen) {
+      @include span-columns(7);
+      display: inline-block;
+      margin: .35em 0 0 0;
+    }
   }
 
   #menu_button_container {
+    display: inline-block;
     float: right;
     padding: 1em;
+    color: white;
+    li {
+      display: block;
+    }
+    @include media($large-screen) {
+      padding: 0;
+      margin-top: 1.5em;
+    }
+  }
+  #menu_button {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .mobile_menu {
+    display: block;
   }
   @include media($large-screen) {
     #menu_button_container {
-      display: none;
+      li {
+        display: inline-block;;
+        border: none;
+      }
+      .mobile_menu {
+        display: inline-block;
+        border: none;
+      }
     }
   }
 }
@@ -27,13 +58,14 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   background-color: $background-gray;
-  font-size: .8em;
+  font-size: .7em;
   @include media($large-screen) {
-    font-size: 1em
+    font-size: .9em
   }
 }
 
 .content_container {
+  @include outer-container;
   overflow: hidden;
   a {
     text-decoration: none;
@@ -45,9 +77,8 @@ body {
   margin: 0 auto;
   padding: .5em;
   overflow: hidden;
-  @include outer-container;
   #secondary_nav {
-    display: none;
+    display: block;
   }
   @include media($large-screen) {
     padding: 2em 0;

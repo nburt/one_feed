@@ -14,7 +14,6 @@ FeedIndex = {
 
       if (documentHeight - scrollbarPosition < 7500) {
         $(".loading_message").show();
-        $(".load_posts_link").hide();
 
         var nextPageUrl = $(".load_posts_link a").attr("href");
         if (reloadOk === true) {

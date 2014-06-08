@@ -1,13 +1,13 @@
-<div class="individual_post">
+<div class="individual_post facebook_post">
   <div class="network_logo">
-    <%= image_tag("FB-f-Logo__blue_50.png", :id => "facebook_stream_logo") %>
+    <%= image_tag("FB-f-Logo__blue_50.png", :class => "provider_logo") %>
   </div>
   <div class="post_main">
     <div class="post_header">
       <ul id="facebook_post_header">
         <% if poster_recipient_profile_hash.has_key?(post.from[:id]) %>
           <li>
-            <%= link_to image_tag(poster_recipient_profile_hash[post.from[:id]]), post.from[:link_to_profile], :target => "_blank" %>
+            <%= link_to image_tag(poster_recipient_profile_hash[post.from[:id]]), post.from[:link_to_profile], :target => "_blank", :class => "user_profile_picture" %>
           </li>
         <% end %>
         <li><%= link_to post.from[:name], post.from[:link_to_profile], :target => "_blank" %></li>

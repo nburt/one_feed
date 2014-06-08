@@ -10,8 +10,12 @@
     padding: 0 .5em;
     border: none;
     text-align: left;
-    a:hover {
+    li:hover {
       color: $logo-green;
+      background-color: none;
+      a {
+        color: $logo-green;
+      }
     }
   }
   li {

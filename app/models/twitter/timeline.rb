@@ -11,16 +11,38 @@ module Twitter
 
     def posts(max_id = nil)
       tokens = user_tokens
-      client = tokens.configure_twitter(tokens.access_token, tokens.access_token_secret)
+      client = configure_twitter(tokens)
       timeline = get_timeline(client, max_id)
       store_last_post_id(timeline)
       timeline
+    end
+
+    def create_tweet(tweet)
+      tokens = user_tokens
+      client = configure_twitter(tokens)
+      client.update(tweet)
+    end
+
+    def favorite_tweet(tweet_id)
+      tokens = user_tokens
+      client = configure_twitter(tokens)
+      client.favorite(tweet_id)
+    end
+
+    def retweet_tweet(tweet_id)
+      tokens = user_tokens
+      client = configure_twitter(tokens)
+      client.retweet(tweet_id)
     end
 
     private
 
     def user_tokens
       @user.tokens.find_by(provider: 'twitter')
+    end
+
+    def configure_twitter(tokens)
+      tokens.configure_twitter(tokens.access_token, tokens.access_token_secret)
     end
 
     def get_timeline(client, max_id)

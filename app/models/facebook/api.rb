@@ -35,6 +35,15 @@ module Facebook
       hydra.run
     end
 
+    def create_post(post_content)
+      post_content.gsub!(" ", "+")
+      Typhoeus.post("https://graph.facebook.com/v2.0/me/feed?access_token=#{@access_token}&message=#{post_content}")
+    end
+
+    def like_post(post_id)
+      Typhoeus.post("https://graph.facebook.com/v2.0/#{post_id}/likes?access_token=#{@access_token}")
+    end
+
     private
 
     def create_feed_request

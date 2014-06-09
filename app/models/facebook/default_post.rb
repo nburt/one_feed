@@ -14,6 +14,10 @@ module Facebook
       "facebook"
     end
 
+    def id
+      @post["id"]
+    end
+
     def from
       from_hash(@post["from"])
     end

@@ -15,6 +15,10 @@ module Instagram
       "instagram"
     end
 
+    def id
+      @post["id"]
+    end
+
     def profile_picture
       @post["user"]["profile_picture"]
     end

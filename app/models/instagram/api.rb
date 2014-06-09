@@ -16,6 +16,10 @@ module Instagram
       )
     end
 
+    def like_post(media_id)
+      Typhoeus.post("https://api.instagram.com/v1/media/#{media_id}/likes?access_token=#{@access_token}")
+    end
+
     private
 
     def create_url

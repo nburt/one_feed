@@ -17,4 +17,11 @@ Rails.application.routes.draw do
       get 'settings'
     end
   end
+
+  resources :posts
+
+  get '/twitter/favorite/:tweet_id', to: 'likes#twitter'
+  get '/twitter/retweet/:tweet_id', to: 'shares#twitter'
+  get '/instagram/like/:media_id', to: 'likes#instagram'
+  get '/facebook/like/:post_id', to: 'likes#facebook'
 end

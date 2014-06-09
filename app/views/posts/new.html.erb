@@ -1,0 +1,13 @@
+<div id="create_posts_container">
+  <%= form_tag "/posts" do %>
+
+    <%= label_tag 'Post Content' %>
+    <%= text_area_tag 'post' %>
+    <%= label_tag "provider[facebook]", "Post to Facebook" %>
+    <%= check_box_tag "provider[facebook]" %>
+    <%= label_tag "provider[twitter]", "Post to Twitter" %>
+    <%= check_box_tag "provider[twitter]" %>
+    <%= submit_tag "Create Post" %>
+
+  <% end %>
+</div>

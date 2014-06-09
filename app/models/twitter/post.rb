@@ -17,6 +17,10 @@ module Twitter
       "twitter"
     end
 
+    def tweet_id
+      @tweet["id"]
+    end
+
     def profile_picture
       @tweet["user"]["profile_image_url_https"]
     end

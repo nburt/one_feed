@@ -71,4 +71,25 @@ describe Facebook::Api do
     expect(facebook_api.facebook_response.commenter_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
   end
 
+  it 'can create a post' do
+    json = <<-JSON
+{
+  "id": "10201957829522504_10202145730539912"
+}
+    JSON
+
+    stub_request(:post, "https://graph.facebook.com/v2.0/me/feed?access_token=mock_token&message=hello%20there").
+      to_return(:status => 200, :body => json)
+
+    facebook_api = Facebook::Api.new('mock_token', nil)
+    expect(facebook_api.create_post('hello there').body).to eq json
+  end
+
+  it 'can like a post' do
+    stub_request(:post, "https://graph.facebook.com/v2.0/1/likes?access_token=mock_token").
+      to_return(:status => 200, :body => true)
+    facebook_api = Facebook::Api.new('mock_token', nil)
+    expect(facebook_api.like_post(1).body).to eq true
+  end
+
 end

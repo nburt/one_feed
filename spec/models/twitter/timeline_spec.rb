@@ -20,4 +20,15 @@ describe Twitter::Timeline do
 
   end
 
+  describe "posting to the timeline" do
+
+    it 'can create a tweet' do
+      stub_request(:post, 'https://api.twitter.com/1.1/statuses/update.json').
+        to_return(:status => 200, :body => File.read('./spec/support/twitter_post_response.json'))
+      twitter_timeline = Twitter::Timeline.new(@user)
+      expect(twitter_timeline.create_tweet("Maybe he'll finally find his keys. #peterfalk").text).to eq "Maybe he'll finally find his keys. #peterfalk"
+    end
+
+  end
+
 end

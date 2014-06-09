@@ -22,8 +22,8 @@
       </ul>
       <div class="post_stats">
         <ul>
-          <li>Retweets: <%= post.retweet_count %></li>
-          <li>Favorites: <%= post.favorite_count %></li>
+          <li><%= link_to "Retweet:", "/twitter/retweet/#{post.tweet_id}" %> <%= post.retweet_count %></li>
+          <li><%= link_to "Favorite:", "/twitter/favorite/#{post.tweet_id}" %> <%= post.favorite_count %></li>
           <li>
             <%= link_to "View on Twitter", post.link_to_tweet, :target => "_blank" %>
           </li>

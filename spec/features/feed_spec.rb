@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'can display feeds from various social media accounts', js: true do
+feature 'can display feeds from various social media accounts' do
 
   before do
     insert_feed_feature_stubs
@@ -13,7 +13,7 @@ feature 'can display feeds from various social media accounts', js: true do
     end
   end
 
-  scenario 'a user can associate a Twitter account' do
+  scenario 'a user can associate a Twitter account', js: true do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'
@@ -33,7 +33,7 @@ feature 'can display feeds from various social media accounts', js: true do
     end
   end
 
-  scenario 'a user can associate an Instagram account' do
+  scenario 'a user can associate an Instagram account', js: true do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'
@@ -49,7 +49,7 @@ feature 'can display feeds from various social media accounts', js: true do
     expect(page).to have_content 'Click one of the below links or visit "Account Settings" to link an account and get started.'
   end
 
-  scenario 'a user can associate a Facebook account and view recent posts in their feed' do
+  scenario 'a user can associate a Facebook account and view recent posts in their feed', js: true do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'

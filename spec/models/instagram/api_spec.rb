@@ -40,4 +40,11 @@ describe Instagram::Api do
     end
   end
 
+  it 'will allow a user to like a post' do
+    stub_request(:post, 'https://api.instagram.com/v1/media/1/likes?access_token=mock_token').
+      to_return(:status => 200, :body => File.read('./spec/support/instagram_like_response.json'))
+    instagram_api = Instagram::Api.new('mock_token', nil)
+    expect(instagram_api.like_post(1).body).to eq File.read('./spec/support/instagram_like_response.json')
+  end
+
 end

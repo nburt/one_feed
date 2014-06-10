@@ -58,4 +58,21 @@ feature 'can display feeds from various social media accounts' do
     expect(page).to have_content 'Any good food in San Fran?'
   end
 
+  scenario 'a user can see a checkbox to post to Facebook only if they have linked their facebook account', js: true do
+    mock_auth_hash
+    click_link 'Account Settings'
+    click_link 'Link Accounts'
+    click_link 'Link Twitter'
+    click_link 'Create Post'
+    expect(page).to_not have_content 'Post to Facebook'
+
+    visit '/'
+    click_link 'Account Settings'
+    click_link 'Link Accounts'
+    click_link 'Link Facebook'
+    click_link 'Create Post'
+    expect(page).to have_content 'Post to Twitter'
+    expect(page).to have_content 'Post to Facebook'
+  end
+
 end

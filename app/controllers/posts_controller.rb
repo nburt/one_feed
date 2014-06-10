@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 
   def new
-
+    @providers = current_user.tokens.map { |token| token.provider }
   end
 
   def create

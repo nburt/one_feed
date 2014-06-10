@@ -3,10 +3,14 @@
 
     <%= label_tag 'Post Content' %>
     <%= text_area_tag 'post' %>
-    <%= label_tag "provider[facebook]", "Post to Facebook" %>
-    <%= check_box_tag "provider[facebook]" %>
-    <%= label_tag "provider[twitter]", "Post to Twitter" %>
-    <%= check_box_tag "provider[twitter]" %>
+    <% if @providers.include?("facebook") %>
+      <%= label_tag "provider[facebook]", "Post to Facebook" %>
+      <%= check_box_tag "provider[facebook]" %>
+    <% end %>
+    <% if @providers.include?("twitter") %>
+      <%= label_tag "provider[twitter]", "Post to Twitter" %>
+      <%= check_box_tag "provider[twitter]" %>
+    <% end %>
     <%= submit_tag "Create Post" %>
 
   <% end %>

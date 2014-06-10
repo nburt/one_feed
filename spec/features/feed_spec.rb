@@ -1,19 +1,19 @@
 require 'spec_helper'
 
-feature 'can display feeds from various social media accounts' do
+feature 'can display feeds from various social media accounts', js: true do
 
   before do
     insert_feed_feature_stubs
 
     visit '/'
-    within 'div#onefeed_registration' do
+    within '#onefeed_registration' do
       fill_in 'user[email]', :with => 'nate@email.com'
       fill_in 'user[password]', :with => 'password'
       click_button 'Sign Up'
     end
   end
 
-  scenario 'a user can associate a Twitter account', js: true do
+  scenario 'a user can associate a Twitter account' do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'
@@ -33,7 +33,7 @@ feature 'can display feeds from various social media accounts' do
     end
   end
 
-  scenario 'a user can associate an Instagram account', js: true do
+  scenario 'a user can associate an Instagram account' do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'
@@ -49,7 +49,7 @@ feature 'can display feeds from various social media accounts' do
     expect(page).to have_content 'Click one of the below links or visit "Account Settings" to link an account and get started.'
   end
 
-  scenario 'a user can associate a Facebook account and view recent posts in their feed', js: true do
+  scenario 'a user can associate a Facebook account and view recent posts in their feed' do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'
@@ -58,7 +58,7 @@ feature 'can display feeds from various social media accounts' do
     expect(page).to have_content 'Any good food in San Fran?'
   end
 
-  scenario 'a user can see a checkbox to post to Facebook only if they have linked their facebook account', js: true do
+  scenario 'a user can see a checkbox to post to Facebook only if they have linked their facebook account' do
     mock_auth_hash
     click_link 'Account Settings'
     click_link 'Link Accounts'

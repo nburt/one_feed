@@ -1,7 +1,7 @@
 #logged_in {
   display: inline-block;
   li {
-    display: block;
+    display: none;
     list-style: none;
     padding: .5em;
     border: 1px solid white;
@@ -28,7 +28,9 @@
   }
   @include media($large-screen) {
     float: right;
-    @include span-columns(5);
+    li {
+      display: inline-block;
+    }
   }
 }
 
@@ -48,11 +50,11 @@
 }
 
 #menu_button_container {
-  position: relative;
-  z-index: 11;
-  li {
+  #menu_button {
     display: block;
   }
+  position: relative;
+  z-index: 11;
   @include media($large-screen) {
     display: inline-block;
   }

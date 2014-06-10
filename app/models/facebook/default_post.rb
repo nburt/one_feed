@@ -19,12 +19,12 @@ module Facebook
     end
 
     def from
-      from_hash(@post["from"])
+      From.from(@post["from"])
     end
 
     def to
       if @post["to"]
-        recipient_hash(@post["to"])
+        Recipient.from(@post["to"])
       end
     end
 
@@ -78,7 +78,7 @@ module Facebook
 
     def story_tags
       if @post["story"]
-        get_story_tags(@post)
+        @post["story_tags"].map { |story_tag| StoryTag.from(story_tag) }
       end
     end
 
@@ -124,23 +124,6 @@ module Facebook
 
     private
 
-    def from_hash(from_data)
-      {
-        :id => from_data["id"],
-        :link_to_profile => "https://www.facebook.com/app_scoped_user_id/#{from_data["id"]}",
-        :name => from_data["name"],
-      }
-    end
-
-    def recipient_hash(recipient_data)
-      person = recipient_data["data"].first
-      {
-        :id => person["id"],
-        :link_to_profile => "https://www.facebook.com/app_scoped_user_id/#{person["id"]}",
-        :name => person["name"],
-      }
-    end
-
     def original_size_image(small_image)
       if small_image.match (/s.jpg/)
         small_image.gsub!(/s.jpg/, "o.jpg")
@@ -157,25 +140,6 @@ module Facebook
         accumulator[offset.to_i] = [individual_tag_hash]
         accumulator
       end
-    end
-
-    def get_story_tags(post)
-      story_tags_array(post["story_tags"])
-    end
-
-    def story_tags_array(story_tags)
-      story_tags_hash = []
-
-      story_tags.each do |_, tag_info|
-        individual_tag_hash = {}
-        individual_tag_hash[:name] = tag_info[0]["name"]
-        if tag_info[0]["type"] == "user"
-          individual_tag_hash[:link_to_profile] = "https://www.facebook.com/app_scoped_user_id/#{tag_info[0]["id"]}"
-        end
-        individual_tag_hash[:type] = tag_info[0]["type"]
-        story_tags_hash << individual_tag_hash
-      end
-      story_tags_hash
     end
 
     def get_likes_count(post)

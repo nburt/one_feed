@@ -5,15 +5,15 @@
   <div class="post_main">
     <div class="post_header">
       <ul id="facebook_post_header">
-        <% if poster_recipient_profile_hash.has_key?(post.from[:id]) %>
+        <% if poster_recipient_profile_hash.has_key?(post.from.id) %>
           <li>
-            <%= link_to image_tag(poster_recipient_profile_hash[post.from[:id]]), post.from[:link_to_profile], :target => "_blank", :class => "user_profile_picture" %>
+            <%= link_to image_tag(poster_recipient_profile_hash[post.from.id]), post.from.link_to_profile, :target => "_blank", :class => "user_profile_picture" %>
           </li>
         <% end %>
-        <li><%= link_to post.from[:name], post.from[:link_to_profile], :target => "_blank" %></li>
+        <li><%= link_to post.from.name, post.from.link_to_profile, :target => "_blank" %></li>
         <% if post.to %>
           <li><%= image_tag("arrow.png", :class => "arrow_image") %></li>
-          <li><%= link_to post.to[:name], post.to[:link_to_profile], :target => "_blank" %></li>
+          <li><%= link_to post.to.name, post.to.link_to_profile, :target => "_blank" %></li>
         <% end %>
         <li><%= time_ago_in_words(post.created_time) %> ago</li>
       </ul>
@@ -46,7 +46,11 @@
       <% if post.story_tags %>
         <ul class="story_tags">
           <% post.story_tags.each do |story_tag| %>
-            <li><%= link_to story_tag[:name], story_tag[:link_to_profile], :target => "_blank" %></li>
+            <% if story_tag.type == "user" %>
+              <li><%= link_to story_tag.name, story_tag.link_to_profile, :target => "_blank" %></li>
+            <% else %>
+              <li><%= story_tag.name %></li>
+            <% end %>
           <% end %>
           <% if post.story_tags.length > 1 %>
             <li>were tagged in this post.</li>

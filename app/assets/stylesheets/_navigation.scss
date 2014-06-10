@@ -57,5 +57,8 @@
   z-index: 11;
   @include media($large-screen) {
     display: inline-block;
+    #menu_button {
+      display: none;
+    }
   }
 }

@@ -4,7 +4,7 @@ Layout = {
     var menuButtonContainer = $('#menu_button_container li')
 
     $('#menu_button').click(function () {
-      $('.mobile_menu').toggle();
+      $('.mobile_menu').slideToggle();
     });
 
     $(window).resize(function () {

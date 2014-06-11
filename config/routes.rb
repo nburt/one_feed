@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get '/destroy', to: 'sessions#destroy'
 
   get '/feed', to: 'feed#index', as: :feed
-  get '/feed_content', to: 'feed#feed'
+  get '/feed_content', to: 'feed#feed', as: :feed_content
   get '/auth/instagram/callback', to: 'instagram_registration#create'
   get '/auth/twitter/callback', to: 'twitter_registration#create'
   get '/auth/facebook/callback', to: 'facebook_registration#create'
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   resources :posts
 
-  get '/twitter/favorite/:tweet_id', to: 'likes#twitter'
+  post '/twitter/favorite/:tweet_id', to: 'likes#twitter'
   get '/twitter/retweet/:tweet_id', to: 'shares#twitter'
   get '/instagram/like/:media_id', to: 'likes#instagram'
   get '/facebook/like/:post_id', to: 'likes#facebook'

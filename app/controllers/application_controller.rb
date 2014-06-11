@@ -16,8 +16,4 @@ class ApplicationController < ActionController::Base
     !!session[:user_id]
   end
 
-  def redirect_to_twitter_auth
-    redirect_to '/auth/twitter'
-  end
-
 end

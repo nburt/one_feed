@@ -1,4 +1,4 @@
-<div class="individual_post twitter_post">
+<div class="individual_post twitter_post" data-id="<%= post.tweet_id %>">
   <div class="network_logo">
     <%= image_tag("Twitter_logo_blue.png", :class => "provider_logo") %>
   </div>
@@ -23,7 +23,9 @@
       <div class="post_stats">
         <ul>
           <li><%= link_to "Retweet:", "/twitter/retweet/#{post.tweet_id}" %> <%= post.retweet_count %></li>
-          <li><%= link_to "Favorite:", "/twitter/favorite/#{post.tweet_id}" %> <%= post.favorite_count %></li>
+          <li data-favorite-count="<%= post.tweet_id %>">
+            <%= link_to "Favorite:", "/twitter/favorite/#{post.tweet_id}" %> <span class="js-favorite-count"><%= post.favorite_count %></span>
+          </li>
           <li>
             <%= link_to "View on Twitter", post.link_to_tweet, :target => "_blank" %>
           </li>

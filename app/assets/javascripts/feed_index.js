@@ -31,5 +31,16 @@ FeedIndex = {
         }
       }
     });
+
+    $(document).on('click', '[data-favorite-count]', function (event) {
+      event.preventDefault();
+      var target = $(event.target).closest('li');
+      var endpoint = target.find('a').attr('href');
+      $.post(endpoint).success(function (response) {
+        console.log(response);
+        var tweet = response.tweet;
+        target.find('.js-favorite-count').html(tweet.favorite_count);
+      });
+    });
   }
-};
+}

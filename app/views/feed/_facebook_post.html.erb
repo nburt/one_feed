@@ -62,7 +62,7 @@
       <div class="post_stats">
         <ul>
           <li>Comments: <%= post.comments_count %></li>
-          <li><%= link_to "Like:", "/facebook/like/#{post.id}" %> <%= post.likes_count %></li>
+          <li data-facebook-like-count="<%= post.id %>"><%= link_to "Like:", "/facebook/like/#{post.id}" %> <span class="js-facebook-like-count"><%= post.likes_count %></span></li>
           <% if post.shares_count %>
             <li>Shares: <%= post.shares_count %></li>
           <% end %>

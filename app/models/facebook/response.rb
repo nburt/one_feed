@@ -28,6 +28,10 @@ module Facebook
       @response.code == 200
     end
 
+    def parse
+      parse_json(@response.body)
+    end
+
     def authed?
       !(@response.code == 463 || @response.code == 467 || @response.code == 400)
     end

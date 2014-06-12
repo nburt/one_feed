@@ -30,7 +30,7 @@
       <div class="post_stats">
         <ul>
           <li>Comment: <%= post.comments_count %></li>
-          <li><%= link_to "Like:", "/instagram/like/#{post.id}" %> <%= post.likes_count %></li>
+          <li data-instagram-like-count="<%= post.id %>"><%= link_to "Like:", "/instagram/like/#{post.id}" %> <span class="js-instagram-like-count"><%= post.likes_count %></span></li>
           <li>
             <%= link_to "View on Instagram", post.link_to_post, :target => "_blank" %>
           </li>

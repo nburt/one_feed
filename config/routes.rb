@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :posts
 
   post '/twitter/favorite/:tweet_id', to: 'likes#twitter'
-  get '/twitter/retweet/:tweet_id', to: 'shares#twitter'
-  get '/instagram/like/:media_id', to: 'likes#instagram'
-  get '/facebook/like/:post_id', to: 'likes#facebook'
+  post '/twitter/retweet/:tweet_id', to: 'shares#twitter'
+  post '/instagram/like/:media_id', to: 'likes#instagram'
+  post '/facebook/like/:post_id', to: 'likes#facebook'
 end

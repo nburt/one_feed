@@ -44,6 +44,12 @@ module Facebook
       Typhoeus.post("https://graph.facebook.com/v2.0/#{post_id}/likes?access_token=#{@access_token}")
     end
 
+    def get_post(post_id)
+      Response.new(
+        Typhoeus.get("https://graph.facebook.com/v2.0/#{post_id}?access_token=#{@access_token}")
+      )
+    end
+
     private
 
     def create_feed_request

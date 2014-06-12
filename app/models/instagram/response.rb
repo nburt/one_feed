@@ -16,6 +16,10 @@ module Instagram
       end
     end
 
+    def parse
+      parse_response_body["data"]
+    end
+
     def pagination_max_id
       if success?
         parse_response_body["pagination"]["next_max_id"]

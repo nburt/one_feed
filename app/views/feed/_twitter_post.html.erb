@@ -22,9 +22,9 @@
       </ul>
       <div class="post_stats">
         <ul>
-          <li><%= link_to "Retweet:", "/twitter/retweet/#{post.tweet_id}" %> <%= post.retweet_count %></li>
-          <li data-favorite-count="<%= post.tweet_id %>">
-            <%= link_to "Favorite:", "/twitter/favorite/#{post.tweet_id}" %> <span class="js-favorite-count"><%= post.favorite_count %></span>
+          <li data-twitter-retweet-count><%= link_to "Retweet:", "/twitter/retweet/#{post.tweet_id}" %> <span class="js-twitter-retweet-count"><%= post.retweet_count %></span></li>
+          <li data-twitter-favorite-count="<%= post.tweet_id %>">
+            <%= link_to "Favorite:", "/twitter/favorite/#{post.tweet_id}" %> <span class="js-twitter-favorite-count"><%= post.favorite_count %></span>
           </li>
           <li>
             <%= link_to "View on Twitter", post.link_to_tweet, :target => "_blank" %>

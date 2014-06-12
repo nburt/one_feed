@@ -31,8 +31,7 @@ FeedIndex = {
       var target = $(event.target).closest('li');
       var endpoint = target.find('a').attr('href');
       $.post(endpoint).success(function (response) {
-        var tweet = response.tweet;
-        target.find('.js-twitter-favorite-count').html(tweet.favorite_count);
+        target.find('.js-twitter-favorite-count').html(response.favorite_count);
       });
     });
 
@@ -51,7 +50,6 @@ FeedIndex = {
       var target = $(event.target).closest('li');
       var endpoint = target.find('a').attr('href');
       $.post(endpoint).success(function (response) {
-        console.log(response);
         target.find('.js-instagram-like-count').html(response.likes.count);
       });
     });
@@ -65,4 +63,9 @@ FeedIndex = {
       });
     });
   }
+
 };
+
+
+
+

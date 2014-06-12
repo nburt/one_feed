@@ -20,7 +20,7 @@ module Twitter
     def get_tweet(tweet_id)
       tokens = user_tokens
       client = configure_twitter(tokens)
-      Post.from(client.status(tweet_id))
+      client.status(tweet_id)
     end
 
     def create_tweet(tweet)

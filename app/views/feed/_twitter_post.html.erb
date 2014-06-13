@@ -10,7 +10,7 @@
         </li>
         <li><%= link_to post.user_name, post.user_url, :target => "_blank" %></li>
         <li>@<%= post.screen_name %></li>
-        <li><%= time_ago_in_words(post.created_time) %> ago</li>
+        <li><abbr class="timeago" title="<%= post.created_time %>"><%= post.created_time %></abbr></li>
       </ul>
     </div>
     <div class="post_content">

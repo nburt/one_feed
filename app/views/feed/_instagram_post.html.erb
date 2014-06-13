@@ -7,7 +7,7 @@
       <ul>
         <li><%= link_to image_tag(post.profile_picture, :class => "user_profile_picture"), post.user_url, :target => "_blank" %></li>
         <li><%= link_to "@#{post.username}", post.user_url, :target => "_blank" %></li>
-        <li><%= time_ago_in_words(post.created_time) %> ago</li>
+        <li><abbr class="timeago" title="<%= post.created_time %>"><%= post.created_time %></abbr></li>
       </ul>
     </div>
     <div class="post_content">

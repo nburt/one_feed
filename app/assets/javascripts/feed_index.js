@@ -9,6 +9,8 @@ FeedIndex = {
       loadingMessage.hide();
     }).success(function () {
       reloadOk = true
+      $("abbr.timeago").timeago();
+      $("abbr.timeago").css("border", "none")
     });
 
     $(document).scroll(function () {
@@ -23,6 +25,8 @@ FeedIndex = {
           reloadOk = true;
           $(".load_posts_link").replaceWith(response);
           $(".loading_message").hide();
+          $("abbr.timeago").timeago();
+          $("abbr.timeago").css("border", "none")
         });
       }
     });
@@ -56,6 +60,8 @@ FeedIndex = {
           var facebook_div = JST['templates/facebook_post'](response.facebook_post);
           $("#feed_container").prepend(facebook_div);
         }
+        $("abbr.timeago").timeago();
+        $("abbr.timeago").css("border", "none")
       });
     });
 

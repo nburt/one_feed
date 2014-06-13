@@ -15,7 +15,7 @@
           <li><%= image_tag("arrow.png", :class => "arrow_image") %></li>
           <li><%= link_to post.to.name, post.to.link_to_profile, :target => "_blank" %></li>
         <% end %>
-        <li><%= time_ago_in_words(post.created_time) %> ago</li>
+        <li><abbr class="timeago" title="<%= post.created_time %>"><%= post.created_time %></abbr></li>
       </ul>
       <div class="subheader">
         <% if post.application_name %>

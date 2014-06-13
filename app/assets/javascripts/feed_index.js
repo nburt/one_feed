@@ -79,8 +79,7 @@ FeedIndex = {
       var target = $(event.target).closest('li');
       var endpoint = target.find('a').attr('href');
       $.post(endpoint).success(function (response) {
-        var tweet = response.tweet;
-        target.find('.js-twitter-retweet-count').html(tweet.retweet_count);
+        target.find('.js-twitter-retweet-count').html(response.retweet_count);
       });
     });
 

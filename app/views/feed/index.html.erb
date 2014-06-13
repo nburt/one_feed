@@ -1,7 +1,7 @@
 <div id="feed_content">
   <aside>
     <ul id="secondary_nav">
-      <li><%= link_to "Create Post", new_post_path %></li>
+      <li><%= link_to "Create Post", new_post_path, :class => "create_post_link" %></li>
       <li><a id="facebook_toggle">Toggle Facebook</a></li>
       <li><a id="twitter_toggle">Toggle Twitter</a></li>
       <li><a id="instagram_toggle">Toggle Instagram</a></li>
@@ -16,6 +16,7 @@
 </div>
 
 <script type="text/javascript">
+  FeedIndex.providers = {facebook: <%= @providers.facebook? %>, twitter: <%= @providers.twitter? %>};
   $(document).ready(function () {
     FeedIndex.initialize();
   });

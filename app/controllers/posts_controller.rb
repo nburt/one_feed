@@ -1,22 +1,25 @@
 class PostsController < ApplicationController
 
-  def new
-    @providers = current_user.tokens.map { |token| token.provider }
-  end
-
   def create
-    if params[:provider][:twitter]
+    tweet = nil
+    if params[:twitter] == "true"
       post = params[:post]
       twitter_timeline = Twitter::Timeline.new(current_user)
-      twitter_timeline.create_tweet(post)
+      tweet = twitter_timeline.create_tweet(post)
     end
-    if params[:provider][:facebook]
+    facebook_post = nil
+    facebook_profile_picture = nil
+    if params[:facebook] == "true"
       post = params[:post]
       token = current_user.tokens.find_by(provider: 'facebook')
       facebook_api = Facebook::Api.new(token.access_token, nil)
-      facebook_api.create_post(post)
+      post_id = facebook_api.create_post(post)
+      facebook_api.get_post(post_id)
+      facebook_response = facebook_api.facebook_response
+      facebook_post = facebook_response.post
+      facebook_profile_picture = facebook_response.poster_profile_picture
     end
-    redirect_to feed_path
+    render json: {tweet: tweet, facebook_post: facebook_post.merge(facebook_profile_picture)}
   end
 
 end

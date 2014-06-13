@@ -82,14 +82,25 @@ describe Facebook::Api do
       to_return(:status => 200, :body => json)
 
     facebook_api = Facebook::Api.new('mock_token', nil)
-    expect(facebook_api.create_post('hello there').body).to eq json
+    expect(facebook_api.create_post('hello there')).to eq '10201957829522504_10202145730539912'
   end
 
   it 'can like a post' do
-    stub_request(:post, "https://graph.facebook.com/v2.0/1/likes?access_token=mock_token").
+    stub_request(:post, 'https://graph.facebook.com/v2.0/1/likes?access_token=mock_token').
       to_return(:status => 200, :body => true)
     facebook_api = Facebook::Api.new('mock_token', nil)
     expect(facebook_api.like_post(1).body).to eq true
+  end
+
+  it 'can get a single post' do
+    stub_request(:get, 'https://graph.facebook.com/v2.0/10201999791700227_10202101615725764?access_token=mock_token').
+      to_return(:status => 200, :body => File.read('./spec/support/facebook/facebook_post.json'))
+    stub_request(:get, 'https://graph.facebook.com/10201999791700227/picture?redirect=false').
+      to_return(:status => 200, :body => File.read('./spec/support/facebook/facebook_profile_picture_request.json'))
+    facebook_api = Facebook::Api.new('mock_token', nil)
+    facebook_api.get_post('10201999791700227_10202101615725764')
+    expect(facebook_api.facebook_response.post['from']['id']).to eq '10201999791700227'
+    expect(facebook_api.facebook_response.poster_profile_picture).to eq({:profile_picture_url => 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/p50x50/10359166_10202087887622570_1663761395861545071_s.jpg'})
   end
 
 end

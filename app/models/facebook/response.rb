@@ -1,7 +1,8 @@
 module Facebook
   class Response
 
-    attr_reader :posts, :pagination_id, :poster_recipient_profile_hash, :commenter_profile_hash
+    attr_reader :posts, :post, :poster_profile_picture, :pagination_id, :poster_recipient_profile_hash, :commenter_profile_hash
+
 
     def initialize(response)
       @response = response
@@ -16,20 +17,24 @@ module Facebook
       @posts = body["data"]
     end
 
+    def create_poster_profile_picture(response)
+      @poster_profile_picture = {profile_picture_url: picture_url(response)}
+    end
+
     def create_poster_recipient_hash(id, response)
-      @poster_recipient_profile_hash[id] = picture_url("poster_recipient", response)
+      @poster_recipient_profile_hash[id] = picture_url(response)
     end
 
     def create_commenter_hash(id, response)
-      @commenter_profile_hash[id] = picture_url("commenter", response)
+      @commenter_profile_hash[id] = picture_url(response)
     end
 
     def success?
       @response.code == 200
     end
 
-    def parse
-      parse_json(@response.body)
+    def single_post_response
+      @post = parse_json(@response.body)
     end
 
     def authed?
@@ -72,12 +77,8 @@ module Facebook
       end
     end
 
-    def picture_url(type, response)
-      if type == "commenter"
-        parse_json(response.body)["data"]["url"]
-      elsif type == "poster_recipient"
-        parse_json(response.body)["data"]["url"]
-      end
+    def picture_url(response)
+      parse_json(response.body)["data"]["url"]
     end
 
   end

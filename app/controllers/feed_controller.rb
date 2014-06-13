@@ -1,7 +1,8 @@
 class FeedController < ApplicationController
 
   def index
-    if current_user.tokens == []
+    @providers = Providers.for(current_user)
+    if @providers.none?
       @display_welcome = true
       render 'accounts/settings'
     end

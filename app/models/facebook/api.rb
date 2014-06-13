@@ -37,7 +37,8 @@ module Facebook
 
     def create_post(post_content)
       post_content.gsub!(" ", "+")
-      Typhoeus.post("https://graph.facebook.com/v2.0/me/feed?access_token=#{@access_token}&message=#{post_content}")
+      created_post = Typhoeus.post("https://graph.facebook.com/v2.0/me/feed?access_token=#{@access_token}&message=#{post_content}")
+      get_post_id(created_post)
     end
 
     def like_post(post_id)
@@ -45,12 +46,29 @@ module Facebook
     end
 
     def get_post(post_id)
-      Response.new(
-        Typhoeus.get("https://graph.facebook.com/v2.0/#{post_id}?access_token=#{@access_token}")
-      )
+      hydra = Typhoeus::Hydra.hydra
+
+      @facebook_response = []
+
+      post_request = create_post_request(post_id)
+      post_request.on_complete do |response|
+        @facebook_response = Response.new(response)
+        @facebook_response.single_post_response
+        create_poster_profile_request(hydra)
+      end
+      hydra.queue post_request
+      hydra.run
     end
 
     private
+
+    def get_post_id(created_post)
+      Oj.load(created_post.response_body)["id"]
+    end
+
+    def create_post_request(post_id)
+      Typhoeus::Request.new("https://graph.facebook.com/v2.0/#{post_id}?access_token=#{@access_token}")
+    end
 
     def create_feed_request
       if @pagination_id.nil?
@@ -58,6 +76,15 @@ module Facebook
       else
         Typhoeus::Request.new("https://graph.facebook.com/v2.0/me/home?limit=25&access_token=#{@access_token}&until=#{@pagination_id}")
       end
+    end
+
+    def create_poster_profile_request(hydra)
+      poster_id = @facebook_response.post["from"]["id"]
+      profile_picture_request = create_profile_picture_request(poster_id)
+      profile_picture_request.on_complete do |response|
+        @facebook_response.create_poster_profile_picture(response)
+      end
+      hydra.queue profile_picture_request
     end
 
     def create_profile_picture_request(id)

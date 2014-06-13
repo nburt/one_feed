@@ -54,6 +54,7 @@ feature 'can display feeds from various social media accounts', js: true do
     click_link 'Account Settings'
     click_link 'Link Accounts'
     click_link 'Link Facebook'
+
     expect(page).to have_content 'Account Settings'
     expect(page).to have_content 'Any good food in San Fran?'
   end
@@ -64,13 +65,14 @@ feature 'can display feeds from various social media accounts', js: true do
     click_link 'Link Accounts'
     click_link 'Link Twitter'
     click_link 'Create Post'
+
     expect(page).to_not have_content 'Post to Facebook'
 
-    visit '/'
     click_link 'Account Settings'
-    click_link 'Link Accounts'
+      click_link 'Link Accounts'
     click_link 'Link Facebook'
     click_link 'Create Post'
+
     expect(page).to have_content 'Post to Twitter'
     expect(page).to have_content 'Post to Facebook'
   end

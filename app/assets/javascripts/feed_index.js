@@ -1,14 +1,15 @@
 FeedIndex = {
 
   initialize: function () {
+    var reloadOk = false;
+
     $.get("/feed_content").success(function (response) {
-      $(".loading_message").before(response);
-      $(".loading_message").hide();
+      var loadingMessage = $(".loading_message");
+      loadingMessage.before(response);
+      loadingMessage.hide();
     }).success(function () {
       reloadOk = true
     });
-
-    var reloadOk = false;
 
     $(document).scroll(function () {
       var scrollbarPosition = $(this).scrollTop();
@@ -24,6 +25,38 @@ FeedIndex = {
           $(".loading_message").hide();
         });
       }
+    });
+
+    $(document).on('click', '.create_post_link', function (event) {
+      event.preventDefault();
+      var div = JST['templates/create_post'](FeedIndex.providers);
+      $('#feed_content').before(div);
+    });
+
+    $(document).on('submit', '#create_post_form', function (event) {
+      event.preventDefault();
+      var post = $(this)[0][2].value;
+      var twitter;
+      var facebook;
+      if ($(this).children('#provider_twitter').length > 0) {
+        twitter = $(this).children('#provider_twitter')[0].checked;
+      }
+
+      if ($(this).children('#provider_facebook').length > 0) {
+        facebook = $(this).children('#provider_facebook')[0].checked;
+      }
+      var url = $(this).data('behavior');
+      $.post(url + "?" + "post=" + post + "&" + "twitter=" + twitter + "&" + "facebook=" + facebook).success(function (response) {
+        $("#create_posts_container").remove();
+        if (response.tweet !== null) {
+          var twitter_div = JST['templates/twitter_post'](response.tweet);
+          $("#feed_container").prepend(twitter_div);
+        }
+        if (response.facebook_post !== null) {
+          var facebook_div = JST['templates/facebook_post'](response.facebook_post);
+          $("#feed_container").prepend(facebook_div);
+        }
+      });
     });
 
     $(document).on('click', '[data-twitter-favorite-count]', function (event) {
@@ -65,7 +98,3 @@ FeedIndex = {
   }
 
 };
-
-
-
-

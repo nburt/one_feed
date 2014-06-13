@@ -1,8 +1,15 @@
 <div class="unauthed_accounts">
-  <h4>
-    The access tokens for the following accounts have expired. Please click the below links to reauthorize the
-    accounts.
-  </h4>
+  <% if @unauthed_accounts.length == 1 %>
+    <h4>
+      Authorization for <%= @unauthed_accounts[0].capitalize %> has expired. Please click the below link to reauthorize
+      your account.
+    </h4>
+  <% else %>
+    <h4>
+      Authorization for the following accounts has expired. Please click the below links to reauthorize your
+      accounts.
+    </h4>
+  <% end %>
   <ul>
     <% @unauthed_accounts.each do |account| %>
       <li>

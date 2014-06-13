@@ -66,15 +66,20 @@ feature 'can display feeds from various social media accounts', js: true do
     click_link 'Link Twitter'
     click_link 'Create Post'
 
-    expect(page).to_not have_content 'Post to Facebook'
+    within '#create_posts_container' do
+      expect(page).to have_content 'Choose which networks to post to:'
+      expect(page).to_not have_content 'Facebook'
+    end
 
     click_link 'Account Settings'
-      click_link 'Link Accounts'
+    click_link 'Link Accounts'
     click_link 'Link Facebook'
     click_link 'Create Post'
 
-    expect(page).to have_content 'Post to Twitter'
-    expect(page).to have_content 'Post to Facebook'
+    within '#create_posts_container' do
+      expect(page).to have_content 'Twitter'
+      expect(page).to have_content 'Facebook'
+    end
   end
 
 end

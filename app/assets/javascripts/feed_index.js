@@ -31,10 +31,15 @@ FeedIndex = {
       }
     });
 
+    canCreatePost = true;
+
     $(document).on('click', '.create_post_link', function (event) {
       event.preventDefault();
-      var div = JST['templates/create_post'](FeedIndex.providers);
-      $('#feed_content').before(div);
+      if (canCreatePost) {
+        canCreatePost = false;
+        var div = JST['templates/create_post'](FeedIndex.providers);
+        $('#feed_content').before($(div).fadeIn('slow'));
+      }
     });
 
     $(document).on('submit', '#create_post_form', function (event) {
@@ -42,16 +47,17 @@ FeedIndex = {
       var post = $(this)[0][2].value;
       var twitter;
       var facebook;
-      if ($(this).children('#provider_twitter').length > 0) {
-        twitter = $(this).children('#provider_twitter')[0].checked;
+      var postCheckboxContainer = $(this).find('#post_checkbox_container')
+      if (postCheckboxContainer.children('#provider_twitter').length > 0) {
+        twitter = postCheckboxContainer.children('#provider_twitter')[0].checked;
       }
 
-      if ($(this).children('#provider_facebook').length > 0) {
-        facebook = $(this).children('#provider_facebook')[0].checked;
+      if (postCheckboxContainer.children('#provider_facebook').length > 0) {
+        facebook = postCheckboxContainer.children('#provider_facebook')[0].checked;
       }
       var url = $(this).data('behavior');
       $.post(url + "?" + "post=" + post + "&" + "twitter=" + twitter + "&" + "facebook=" + facebook).success(function (response) {
-        $("#create_posts_container").remove();
+        $("#create_post_form").remove();
         if (response.tweet !== null) {
           var twitter_div = JST['templates/twitter_post'](response.tweet);
           $("#feed_container").prepend(twitter_div);
@@ -62,6 +68,7 @@ FeedIndex = {
         }
         $("abbr.timeago").timeago();
         $("abbr.timeago").css("border", "none")
+        canCreatePost = true;
       });
     });
 

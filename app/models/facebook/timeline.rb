@@ -16,10 +16,10 @@ module Facebook
       rescue Unauthorized
         @authed = false
       end
-      @poster_recipient_profile_hash = facebook_api.facebook_response.poster_recipient_profile_hash
-      @commenter_profile_hash = facebook_api.facebook_response.commenter_profile_hash
-      @pagination_id = facebook_api.facebook_response.pagination_id
-      facebook_api.facebook_response.posts
+      @poster_recipient_profile_hash = facebook_api.facebook_timeline_response.poster_recipient_profile_hash
+      @commenter_profile_hash = facebook_api.facebook_timeline_response.commenter_profile_hash
+      @pagination_id = facebook_api.facebook_timeline_response.pagination_id
+      facebook_api.facebook_timeline_response.posts
     end
 
     private

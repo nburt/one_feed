@@ -10,7 +10,7 @@ describe Facebook::Api do
 
     facebook_api = Facebook::Api.new('mock_token', nil)
     facebook_api.timeline
-    expect(facebook_api.facebook_response.posts[0]["id"]).to eq '10203694030092980_10203693777206658'
+    expect(facebook_api.facebook_timeline_response.posts[0]["id"]).to eq '10203694030092980_10203693777206658'
   end
 
   it 'will return true if successful' do
@@ -21,7 +21,7 @@ describe Facebook::Api do
 
     facebook_api = Facebook::Api.new('mock_token', nil)
     facebook_api.timeline
-    expect(facebook_api.facebook_response.success?).to eq true
+    expect(facebook_api.facebook_timeline_response.success?).to eq true
   end
 
   it 'will return an empty array if the users\'s token is no longer valid' do
@@ -32,7 +32,7 @@ describe Facebook::Api do
     begin
       facebook_api.timeline
     rescue Facebook::Unauthorized
-      expect(facebook_api.facebook_response.posts).to eq []
+      expect(facebook_api.facebook_timeline_response.posts).to eq []
     end
   end
 
@@ -45,7 +45,7 @@ describe Facebook::Api do
     begin
       facebook_api.timeline
     rescue Facebook::Unauthorized
-      expect(facebook_api.facebook_response.authed?).to eq false
+      expect(facebook_api.facebook_timeline_response.authed?).to eq false
     end
   end
 
@@ -57,7 +57,7 @@ describe Facebook::Api do
 
     facebook_api = Facebook::Api.new('mock_token', nil)
     facebook_api.timeline
-    expect(facebook_api.facebook_response.poster_recipient_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
+    expect(facebook_api.facebook_timeline_response.poster_recipient_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
   end
 
   it 'will return a commenter\'s profile picture' do
@@ -68,7 +68,7 @@ describe Facebook::Api do
 
     facebook_api = Facebook::Api.new('mock_token', nil)
     facebook_api.timeline
-    expect(facebook_api.facebook_response.commenter_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
+    expect(facebook_api.facebook_timeline_response.commenter_profile_hash['10203694030092980']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/t1.0-1/c10.0.50.50/p50x50/544089_10202552316910864_1418490882_s.jpg'
   end
 
   it 'can create a post' do
@@ -99,8 +99,8 @@ describe Facebook::Api do
       to_return(:status => 200, :body => File.read('./spec/support/facebook/facebook_profile_picture_request.json'))
     facebook_api = Facebook::Api.new('mock_token', nil)
     facebook_api.get_post('10201999791700227_10202101615725764')
-    expect(facebook_api.facebook_response.post['from']['id']).to eq '10201999791700227'
-    expect(facebook_api.facebook_response.poster_profile_picture).to eq({:profile_picture_url => 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/p50x50/10359166_10202087887622570_1663761395861545071_s.jpg'})
+    expect(facebook_api.facebook_post_response.post['from']['id']).to eq '10201999791700227'
+    expect(facebook_api.facebook_post_response.poster_profile_picture).to eq({:profile_picture_url => 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/p50x50/10359166_10202087887622570_1663761395861545071_s.jpg'})
   end
 
 end

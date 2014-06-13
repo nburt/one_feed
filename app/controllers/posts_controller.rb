@@ -17,7 +17,7 @@ class PostsController < ApplicationController
       facebook_api = Facebook::Api.new(token.access_token, nil)
       post_id = facebook_api.create_post(post)
       facebook_api.get_post(post_id)
-      facebook_response = facebook_api.facebook_response
+      facebook_response = facebook_api.facebook_timeline_response
       facebook_post = facebook_response.post
       facebook_profile_picture = facebook_response.poster_profile_picture
       full_facebook_post = facebook_post.merge(facebook_profile_picture)

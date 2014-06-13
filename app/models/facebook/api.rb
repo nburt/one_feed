@@ -5,7 +5,7 @@ module Facebook
 
   class Api
 
-    attr_reader :facebook_response
+    attr_reader :facebook_timeline_response, :facebook_post_response
 
     def initialize(access_token, pagination_id)
       @access_token = access_token
@@ -15,16 +15,16 @@ module Facebook
     def timeline
       hydra = Typhoeus::Hydra.hydra
 
-      @facebook_response = []
+      @facebook_timeline_response = []
 
       feed_request = create_feed_request
       feed_request.on_complete do |response|
-        @facebook_response = Response.new(response)
-        if @facebook_response.success?
-          @facebook_response.posts_response
+        @facebook_timeline_response = TimelineResponse.new(response)
+        if @facebook_timeline_response.success?
+          @facebook_timeline_response.posts_response
           create_poster_recipient_id_request(hydra)
           create_commenter_id_request(hydra)
-        elsif !@facebook_response.authed?
+        elsif !@facebook_timeline_response.authed?
           raise Unauthorized, "This user's token is no longer valid."
         else
           return []
@@ -48,12 +48,12 @@ module Facebook
     def get_post(post_id)
       hydra = Typhoeus::Hydra.hydra
 
-      @facebook_response = []
+      @facebook_post_response = []
 
       post_request = create_post_request(post_id)
       post_request.on_complete do |response|
-        @facebook_response = Response.new(response)
-        @facebook_response.single_post_response
+        @facebook_post_response = PostResponse.new(response)
+        @facebook_post_response.single_post_response
         create_poster_profile_request(hydra)
       end
       hydra.queue post_request
@@ -79,10 +79,10 @@ module Facebook
     end
 
     def create_poster_profile_request(hydra)
-      poster_id = @facebook_response.post["from"]["id"]
+      poster_id = @facebook_post_response.post["from"]["id"]
       profile_picture_request = create_profile_picture_request(poster_id)
       profile_picture_request.on_complete do |response|
-        @facebook_response.create_poster_profile_picture(response)
+        @facebook_post_response.create_poster_profile_picture(response)
       end
       hydra.queue profile_picture_request
     end
@@ -92,24 +92,24 @@ module Facebook
     end
 
     def create_poster_recipient_id_request(hydra)
-      poster_recipient_ids = @facebook_response.create_poster_recipient_ids
+      poster_recipient_ids = @facebook_timeline_response.create_poster_recipient_ids
 
       poster_recipient_ids.each do |poster_recipient_id|
         to_from_picture_request = create_profile_picture_request(poster_recipient_id)
         to_from_picture_request.on_complete do |poster_recipient_response|
-          @facebook_response.create_poster_recipient_hash(poster_recipient_id, poster_recipient_response)
+          @facebook_timeline_response.create_poster_recipient_hash(poster_recipient_id, poster_recipient_response)
         end
         hydra.queue to_from_picture_request
       end
     end
 
     def create_commenter_id_request(hydra)
-      commenter_ids = @facebook_response.create_commenter_ids
+      commenter_ids = @facebook_timeline_response.create_commenter_ids
 
       commenter_ids.each do |commenter_id|
         comment_picture_request = create_profile_picture_request(commenter_id)
         comment_picture_request.on_complete do |commenter_response|
-          @facebook_response.create_commenter_hash(commenter_id, commenter_response)
+          @facebook_timeline_response.create_commenter_hash(commenter_id, commenter_response)
         end
         hydra.queue comment_picture_request
       end

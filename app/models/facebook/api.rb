@@ -37,8 +37,14 @@ module Facebook
 
     def create_post(post_content)
       post_content.gsub!(" ", "+")
-      created_post = Typhoeus.post("https://graph.facebook.com/v2.0/me/feed?access_token=#{@access_token}&message=#{post_content}")
-      get_post_id(created_post)
+      @facebook_post_response = PostResponse.new(Typhoeus.post("https://graph.facebook.com/v2.0/me/feed?access_token=#{@access_token}&message=#{post_content}"))
+      if @facebook_post_response.success?
+        get_post_id(@facebook_post_response.created_post)
+      elsif !@facebook_post_response.authed?
+        raise Unauthorized, "This user's token is no longer valid."
+      else
+        false
+      end
     end
 
     def like_post(post_id)

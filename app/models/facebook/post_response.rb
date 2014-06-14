@@ -17,6 +17,10 @@ module Facebook
       @poster_profile_picture = {profile_picture_url: picture_url(response)}
     end
 
+    def created_post
+      @response
+    end
+
   end
 
 end

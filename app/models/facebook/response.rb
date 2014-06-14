@@ -6,7 +6,7 @@ module Facebook
     end
 
     def authed?
-      !(@response.code == 463 || @response.code == 467 || @response.code == 400)
+      !(@response.code == 463 || @response.code == 467 || @response.code == 400 || @response.code == 190)
     end
 
     def parse_json(data)

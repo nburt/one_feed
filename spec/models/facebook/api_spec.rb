@@ -78,11 +78,24 @@ describe Facebook::Api do
 }
     JSON
 
-    stub_request(:post, "https://graph.facebook.com/v2.0/me/feed?access_token=mock_token&message=hello%20there").
+    stub_request(:post, 'https://graph.facebook.com/v2.0/me/feed?access_token=mock_token&message=hello%20there').
       to_return(:status => 200, :body => json)
 
     facebook_api = Facebook::Api.new('mock_token', nil)
     expect(facebook_api.create_post('hello there')).to eq '10201957829522504_10202145730539912'
+  end
+
+  it 'will raise an exception if creating a post is not successful' do
+    stub_request(:post, 'https://graph.facebook.com/v2.0/me/feed?access_token=mock_token&message=hello%20there').
+      to_return(:status => 463)
+
+    facebook_api = Facebook::Api.new('mock_token', nil)
+    expect { facebook_api.create_post('hello there') }.to raise_exception(Facebook::Unauthorized)
+    begin
+      facebook_api.create_post('hello there')
+    rescue Facebook::Unauthorized
+      expect(facebook_api.facebook_post_response.authed?).to eq false
+    end
   end
 
   it 'can like a post' do

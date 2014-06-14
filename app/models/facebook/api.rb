@@ -53,9 +53,16 @@ module Facebook
       post_request = create_post_request(post_id)
       post_request.on_complete do |response|
         @facebook_post_response = PostResponse.new(response)
-        @facebook_post_response.single_post_response
-        create_poster_profile_request(hydra)
+        if @facebook_post_response.success?
+          @facebook_post_response.single_post_response
+          create_poster_profile_request(hydra)
+        elsif !@facebook_post_response.authed?
+          raise Unauthorized, "This user's token is no longer valid."
+        else
+          return []
+        end
       end
+
       hydra.queue post_request
       hydra.run
     end

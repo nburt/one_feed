@@ -6,6 +6,7 @@ module Facebook
 
     def initialize(response)
       @response = response
+      @post = []
     end
 
     def single_post_response

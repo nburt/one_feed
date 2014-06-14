@@ -103,4 +103,72 @@ describe Facebook::Api do
     expect(facebook_api.facebook_post_response.poster_profile_picture).to eq({:profile_picture_url => 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/p50x50/10359166_10202087887622570_1663761395861545071_s.jpg'})
   end
 
+  it 'will return true if successful' do
+    json = <<-JSON
+{
+  "id": "10201999791700227_10202101615725764"
+}
+    JSON
+
+    stub_request(:get, 'https://graph.facebook.com/v2.0/10201999791700227_10202101615725764?access_token=mock_token').
+      to_return(body: File.read('./spec/support/facebook/facebook_post.json'))
+    stub_request(:get, 'https://graph.facebook.com/10201999791700227/picture?redirect=false').
+      to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
+    stub_request(:post, "https://graph.facebook.com/v2.0/me/feed?access_token=mock_token&message=hello%20there").
+      to_return(:status => 200, :body => json)
+
+    facebook_api = Facebook::Api.new('mock_token', nil)
+    post_id = facebook_api.create_post('hello there')
+    facebook_api.get_post(post_id)
+    expect(facebook_api.facebook_post_response.success?).to eq true
+  end
+
+  it 'will return an empty array if the users\'s token is no longer valid' do
+    json = <<-JSON
+{
+  "id": "10201999791700227_10202101615725764"
+}
+    JSON
+
+    stub_request(:get, 'https://graph.facebook.com/v2.0/10201999791700227_10202101615725764?access_token=mock_token').
+      to_return(status: 463)
+    stub_request(:get, 'https://graph.facebook.com/10201999791700227/picture?redirect=false').
+      to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
+    stub_request(:post, "https://graph.facebook.com/v2.0/me/feed?access_token=mock_token&message=hello%20there").
+      to_return(:status => 200, :body => json)
+
+    facebook_api = Facebook::Api.new('mock_token', nil)
+    post_id = facebook_api.create_post('hello there')
+
+    begin
+      facebook_api.get_post(post_id)
+    rescue Facebook::Unauthorized
+      expect(facebook_api.facebook_post_response.post).to eq []
+    end
+  end
+
+  it 'will raise an exception if the user\'s token is no longer valid' do
+    json = <<-JSON
+{
+  "id": "10201999791700227_10202101615725764"
+}
+    JSON
+
+    stub_request(:get, 'https://graph.facebook.com/v2.0/10201999791700227_10202101615725764?access_token=mock_token').
+      to_return(status: 463)
+    stub_request(:get, 'https://graph.facebook.com/10201999791700227/picture?redirect=false').
+      to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
+    stub_request(:post, "https://graph.facebook.com/v2.0/me/feed?access_token=mock_token&message=hello%20there").
+      to_return(:status => 200, :body => json)
+
+    facebook_api = Facebook::Api.new('mock_token', nil)
+    post_id = facebook_api.create_post('hello there')
+    expect { facebook_api.get_post(post_id) }.to raise_exception(Facebook::Unauthorized)
+    begin
+      facebook_api.get_post(post_id)
+    rescue Facebook::Unauthorized
+      expect(facebook_api.facebook_post_response.authed?).to eq false
+    end
+  end
+
 end

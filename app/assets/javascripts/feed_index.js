@@ -47,7 +47,7 @@ FeedIndex = {
       var post = $(this)[0][2].value;
       var twitter;
       var facebook;
-      var postCheckboxContainer = $(this).find('#post_checkbox_container')
+      var postCheckboxContainer = $(this).find('#post_checkbox_container');
       if (postCheckboxContainer.children('#provider_twitter').length > 0) {
         twitter = postCheckboxContainer.children('#provider_twitter')[0].checked;
       }
@@ -57,17 +57,22 @@ FeedIndex = {
       }
       var url = $(this).data('behavior');
       $.post(url + "?" + "post=" + post + "&" + "twitter=" + twitter + "&" + "facebook=" + facebook).success(function (response) {
+        if (response.unauthed_accounts.length >= 1) {
+          var unauthed_accounts = JST['templates/unauthed_accounts'](response);
+          $("#feed_container").prepend(unauthed_accounts);
+        } else {
+          if (response.tweet !== null) {
+            var twitter_div = JST['templates/twitter_post'](response.tweet);
+            $("#feed_container").prepend(twitter_div);
+          }
+          if (response.facebook_post !== null) {
+            var facebook_div = JST['templates/facebook_post'](response.facebook_post);
+            $("#feed_container").prepend(facebook_div);
+          }
+          $("abbr.timeago").timeago();
+          $("abbr.timeago").css("border", "none")
+        }
         $("#create_post_form").remove();
-        if (response.tweet !== null) {
-          var twitter_div = JST['templates/twitter_post'](response.tweet);
-          $("#feed_container").prepend(twitter_div);
-        }
-        if (response.facebook_post !== null) {
-          var facebook_div = JST['templates/facebook_post'](response.facebook_post);
-          $("#feed_container").prepend(facebook_div);
-        }
-        $("abbr.timeago").timeago();
-        $("abbr.timeago").css("border", "none")
         canCreatePost = true;
       });
     });

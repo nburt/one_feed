@@ -23,7 +23,7 @@ class LikesController < ApplicationController
     facebook_api = Facebook::Api.new(token.access_token, nil)
     facebook_api.like_post(post_id)
     facebook_api.get_post(post_id)
-    post = facebook_api.facebook_timeline_response.post
+    post = facebook_api.facebook_post_response.post
     render json: post
   end
 

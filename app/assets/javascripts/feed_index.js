@@ -61,12 +61,13 @@ FeedIndex = {
           var unauthed_accounts = JST['templates/unauthed_accounts'](response);
           $("#feed_container").prepend(unauthed_accounts);
         } else {
+          response.images = FeedIndex.images;
           if (response.tweet !== null) {
-            var twitter_div = JST['templates/twitter_post'](response.tweet);
+            var twitter_div = JST['templates/twitter_post'](response);
             $("#feed_container").prepend(twitter_div);
           }
           if (response.facebook_post !== null) {
-            var facebook_div = JST['templates/facebook_post'](response.facebook_post);
+            var facebook_div = JST['templates/facebook_post'](response);
             $("#feed_container").prepend(facebook_div);
           }
           $("abbr.timeago").timeago();

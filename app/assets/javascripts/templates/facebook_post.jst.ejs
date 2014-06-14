@@ -1,35 +1,35 @@
 <div class="individual_post facebook_post">
   <div class="network_logo">
-    <img src="/assets/FB-f-Logo__blue_50.png" class="provider_logo">
+    <img src="<%= images.facebook %>" class="provider_logo"/>
   </div>
   <div class="post_main">
     <div class="post_header">
       <ul id="facebook_post_header">
         <li>
-          <a href="<%= "https://www.facebook.com/app_scoped_user_id/" + from.id %>" target="_blank"><img src="<%= profile_picture_url %>" class="user_profile_picture"></a>
+          <a href="<%= "https://www.facebook.com/app_scoped_user_id/" + facebook_post.from.id %>" target="_blank"><img src="<%= facebook_post.profile_picture_url %>" class="user_profile_picture"></a>
         </li>
-        <li><a href="<%= "https://www.facebook.com/app_scoped_user_id/" + from.id %>"
-               target="_blank"><%= from.name %></a></li>
-        <li><abbr class="timeago" title="<%= created_time %>"><%= created_time %></abbr></li>
+        <li><a href="<%= "https://www.facebook.com/app_scoped_user_id/" + facebook_post.from.id %>"
+               target="_blank"><%= facebook_post.from.name %></a></li>
+        <li><abbr class="timeago" title="<%= facebook_post.created_time %>"><%= facebook_post.created_time %></abbr></li>
       </ul>
       <div class="subheader">
         <ul>
-          <li>via <%= application.name %></li>
+          <li>via <%= facebook_post.application.name %></li>
         </ul>
       </div>
     </div>
     <div class="post_content">
       <ul>
-        <li><%= message %></li>
+        <li><%= facebook_post.message %></li>
       </ul>
       <div class="post_stats">
         <ul>
           <li>Comments: 0</li>
-          <li data-facebook-like-count="<%= id %>">
-            <a href="<%= "/facebook/like/" + id %>">Like:</a> <span class="js-facebook-like-count">0</span>
+          <li data-facebook-like-count="<%= facebook_post.id %>">
+            <a href="<%= "/facebook/like/" + facebook_post.id %>">Like:</a> <span class="js-facebook-like-count">0</span>
           </li>
           <li>
-            <a href="<%= actions[0].link %>" target="_blank">View on Facebook</a>
+            <a href="<%= facebook_post.actions[0].link %>" target="_blank">View on Facebook</a>
           </li>
         </ul>
       </div>

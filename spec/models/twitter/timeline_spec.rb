@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Twitter::Timeline do
 
   before do
-    @user = User.create!(:email => 'nate@example.com', :password => 'password')
+    @user = create_user
     @twitter_token = Token.create!(:provider => 'twitter', :uid => '23487234987234', :user_id => @user.id, :access_token => 'mock_token', :access_token_secret => 'secret_token')
   end
 

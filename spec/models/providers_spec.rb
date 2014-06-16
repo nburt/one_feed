@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Providers do
 
   it 'knows what providers are available for a user' do
-    user = User.create!(email: 'nate@example.com', password: 'password')
+    user = create_user
     Token.create!(user_id: user.id, provider: 'facebook', uid: '1', access_token: '11234', access_token_secret: '31413')
 
     providers = Providers.for(user)
@@ -14,7 +14,7 @@ describe Providers do
   end
 
   it 'knows if the user has any providers' do
-    user = User.create!(email: 'nate@example.com', password: 'password')
+    user = create_user
     providers = Providers.for(user)
 
     expect(providers.none?).to eq true

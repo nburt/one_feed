@@ -4,7 +4,7 @@ describe Feed do
 
   describe "#unauthed_accounts" do
 
-    let(:user) { User.create!(:email => 'nate@example.com', :password => 'password') }
+    let(:user) { User.create!(:first_name => 'Nate', :last_name => 'Burt', :email => 'nate@example.com', :password => 'password') }
 
     before do
       stub_request(:post, 'https://api.twitter.com/oauth2/token')

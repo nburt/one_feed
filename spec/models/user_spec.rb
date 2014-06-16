@@ -5,7 +5,7 @@ describe User do
   describe 'registration' do
 
     before do
-      @user = User.create!(:email => 'nate@example.com', :password => 'password')
+      @user = create_user
     end
 
     it 'cannot create a user without an email' do
@@ -19,8 +19,18 @@ describe User do
     end
 
     it 'cannot create a user with the same email' do
-      user = User.create(:email => 'nate@example.com', :password => 'password')
+      user = User.new(:email => 'nate@example.com', :password => 'password')
       expect(user).to_not be_valid
+    end
+
+    it 'cannot create a user without a first name' do
+      @user.first_name = nil
+      expect(@user).to_not be_valid
+    end
+
+    it 'cannot create a user without a last name' do
+      @user.last_name = nil
+      expect(@user).to_not be_valid
     end
   end
 

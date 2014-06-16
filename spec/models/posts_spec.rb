@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Posts do
 
   let(:params) { {post: 'what%20up', twitter: 'true', facebook: 'true'} }
-  let(:user) { User.create!(email: 'nate@example.com', password: 'password') }
+  let(:user) { create_user }
 
   it 'can begin the process of creating a twitter post' do
     stub_request(:post, 'https://api.twitter.com/1.1/statuses/update.json').

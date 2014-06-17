@@ -1,0 +1,9 @@
+<%= form_for @user, url: "/passwords", method: :put do |f| %>
+  <%= f.hidden_field :id, value: @message[0] %>
+  <%= f.hidden_field :token_expiration, value: @message[1] %>
+  <%= f.label :password %>
+  <%= f.text_field :password %>
+  <%= f.label :password_confirmation %>
+  <%= f.text_field :password_confirmation %>
+  <%= f.submit "Update Password" %>
+<% end %>

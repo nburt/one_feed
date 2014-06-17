@@ -8,7 +8,7 @@ FeedIndex = {
       loadingMessage.before(response);
       loadingMessage.hide();
     }).success(function () {
-      reloadOk = true
+      reloadOk = true;
       $("abbr.timeago").timeago();
       $("abbr.timeago").css("border", "none")
     });

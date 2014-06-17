@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   get '/auth/facebook/callback', to: 'facebook_registration#create'
   get '/auth/failure', to: 'twitter_registration#failure'
   get '/privacy-policy', to: 'welcome#privacy_policy'
+  get '/passwords/reset', to: 'passwords#reset', as: :forgot_password
+  post '/passwords', to: 'passwords#send_email'
+  put '/passwords', to: 'passwords#update'
+  get '/passwords/edit', to: 'passwords#edit', as: :edit_password
 
   resources :accounts do
     member do
@@ -18,8 +22,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :posts
-
+  post '/posts', to: 'posts#create', as: :new_post
   post '/twitter/favorite/:tweet_id', to: 'likes#twitter'
   post '/twitter/retweet/:tweet_id', to: 'shares#twitter'
   post '/instagram/like/:media_id', to: 'likes#instagram'

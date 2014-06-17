@@ -17,19 +17,25 @@ class PasswordsController < ApplicationController
   end
 
   def edit
-    @message = Rails.application.message_verifier(:message).verify(params[:message])
-    @user = User.find(@message[0])
+    begin
+      @message = Rails.application.message_verifier(:message).verify(params[:message])
+      @user = User.find(@message[0])
+    rescue ActiveSupport::MessageVerifier::InvalidSignature
+      render "public/404", layout: false
+    end
   end
 
   def update
-    if Time.now < params[:user][:token_expiration]
+    if Time.now > params[:user][:token_expiration]
+      @user = User.find(params[:user][:id])
+      flash[:expired_token] = "Your password reset token has expired. Please request a new one by filling out the form below."
+      redirect_to forgot_password_path
+    else
       @user = User.find(params[:user][:id])
       if @user.update_attributes(:password => params[:user][:password].presence, :password_confirmation => params[:user][:password_confirmation].presence)
         flash[:updated_password] = "Your password has been updated. You may now sign in with your email and updated password."
         redirect_to root_path
       end
-    else
-      render 'edit'
     end
   end
 

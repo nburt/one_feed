@@ -32,9 +32,14 @@ class PasswordsController < ApplicationController
       redirect_to forgot_password_path
     else
       @user = User.find(params[:user][:id])
-      if @user.update_attributes(:password => params[:user][:password].presence, :password_confirmation => params[:user][:password_confirmation].presence)
+      if @user.update_attributes(secure_params)
         flash[:updated_password] = "Your password has been updated. You may now sign in with your email and updated password."
         redirect_to root_path
+      else
+        @message = [params[:user][:id], params[:user][:token_expiration]]
+        @user = User.find(@message[0])
+        flash[:password_match] = "Your password and password confirmation do not match."
+        render 'edit'
       end
     end
   end
@@ -42,7 +47,7 @@ class PasswordsController < ApplicationController
   private
 
   def secure_params
-    params.require(:user).permit(:password)
+    params.require(:user).permit(:password, :password_confirmation)
   end
 
 end

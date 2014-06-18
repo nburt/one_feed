@@ -4,7 +4,7 @@ describe Facebook::Api do
 
   it 'can get the facebook timeline for a given user' do
     stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
-      to_return(body: File.read('./spec/support/facebook_timeline.json'))
+      to_return(body: File.read('./spec/support/facebook/facebook_timeline.json'))
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
@@ -15,7 +15,7 @@ describe Facebook::Api do
 
   it 'will return true if successful' do
     stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
-      to_return(body: File.read('./spec/support/facebook_timeline.json'))
+      to_return(body: File.read('./spec/support/facebook/facebook_timeline.json'))
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
@@ -51,7 +51,7 @@ describe Facebook::Api do
 
   it 'will return a user\'s profile picture' do
     stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
-      to_return(body: File.read('./spec/support/facebook_timeline.json'))
+      to_return(body: File.read('./spec/support/facebook/facebook_timeline.json'))
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 
@@ -62,7 +62,7 @@ describe Facebook::Api do
 
   it 'will return a commenter\'s profile picture' do
     stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
-      to_return(body: File.read('./spec/support/facebook_timeline.json'))
+      to_return(body: File.read('./spec/support/facebook/facebook_timeline.json'))
     stub_request(:get, 'https://graph.facebook.com/10203694030092980/picture?redirect=false').
       to_return(:body => File.read('./spec/support/facebook/picture_response_1.json'))
 

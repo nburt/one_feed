@@ -7,7 +7,7 @@ describe Posts do
 
   it 'can begin the process of creating a twitter post' do
     stub_request(:post, 'https://api.twitter.com/1.1/statuses/update.json').
-      to_return(:status => 200, :body => File.read('./spec/support/twitter_post_response.json'))
+      to_return(:status => 200, :body => File.read('./spec/support/twitter/twitter_post_response.json'))
 
     Token.create!(provider: 'twitter', uid: '132497', access_token: '123498', access_token_secret: '234513', user_id: user.id)
     posts = Posts.new(params, user)

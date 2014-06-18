@@ -1,11 +1,13 @@
-<%= flash[:password_match] %>
+<div id="reset_password_container">
+  <%= flash[:password_match] %>
 
-<%= form_for @user, url: "/passwords", method: :put do |f| %>
-  <%= f.hidden_field :id, value: @message[0] %>
-  <%= f.hidden_field :token_expiration, value: @message[1] %>
-  <%= f.label :password %>
-  <%= f.password_field :password %>
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
-  <%= f.submit "Update Password" %>
-<% end %>
+  <%= form_for @user, url: "/passwords", method: :put do |f| %>
+    <%= f.hidden_field :id, value: @message[0] %>
+    <%= f.hidden_field :token_expiration, value: @message[1] %>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+    <%= f.submit "Update Password", :id => "update_password_button" %>
+  <% end %>
+</div>

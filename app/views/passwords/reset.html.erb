@@ -1,7 +1,10 @@
-<%= flash[:expired_token] %>
+<div id="reset_password_container">
+  <%= flash[:expired_token] %>
 
-<%= form_tag "/passwords" do %>
-  <%= label_tag :email %>
-  <%= email_field_tag :email %>
-  <%= submit_tag "Reset Password" %>
-<% end %>
+  <%= form_tag "/passwords" do %>
+    <p>Enter your email for more instructions</p>
+    <p>on how to reset your password</p>
+    <%= email_field_tag :email %>
+    <%= submit_tag "Send Email" %>
+  <% end %>
+</div>

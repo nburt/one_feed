@@ -47,7 +47,7 @@ class PasswordsController < ApplicationController
   private
 
   def secure_params
-    params.require(:user).permit(:password, :password_confirmation)
+    params.require(:user).permit(:password.presence, :password_confirmation.presence)
   end
 
 end

@@ -31,6 +31,7 @@ $footer-height: 4em;
 @import "feed";
 @import "accounts";
 @import "posting";
+@import "password_reset";
 
 .loading_message {
   background-color: $white;

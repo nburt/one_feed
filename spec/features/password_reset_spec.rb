@@ -16,10 +16,10 @@ feature 'password reset' do
 
     emails_sent = ActionMailer::Base.deliveries.length
 
-    click_link 'Forgot Password?'
+    click_link 'Forgot Your Password?'
     within '.content_container' do
       fill_in 'email', :with => 'nate@example.com'
-      click_button 'Reset Password'
+      click_button 'Send Email'
     end
 
     expect(ActionMailer::Base.deliveries.length).to eq(emails_sent + 1)
@@ -34,7 +34,7 @@ feature 'password reset' do
 
     visit result
 
-    within '.content_container' do
+    within '#reset_password_container' do
       fill_in 'user[password]', :with => 'password2'
       fill_in 'user[password_confirmation]', :with => 'password2'
       click_button 'Update Password'
@@ -65,10 +65,10 @@ feature 'password reset' do
 
     emails_sent = ActionMailer::Base.deliveries.length
 
-    click_link 'Forgot Password?'
+    click_link 'Forgot Your Password?'
     within '.content_container' do
       fill_in 'email', :with => 'burt@example.com'
-      click_button 'Reset Password'
+      click_button 'Send Email'
     end
 
     expect(ActionMailer::Base.deliveries.length).to eq(emails_sent + 1)
@@ -95,7 +95,7 @@ feature 'password reset' do
 
     visit result
 
-    within '.content_container' do
+    within '#reset_password_container' do
       fill_in 'user[password]', :with => 'password2'
       fill_in 'user[password_confirmation]', :with => 'password2'
       click_button 'Update Password'

@@ -22,13 +22,13 @@
       <div class="post_stats">
         <ul>
           <li data-twitter-retweet-count>
-            <a href="<%= "/twitter/retweet/" + tweet.id %>">Retweet:</a> <span class="js-twitter-retweet-count"><%= tweet.retweet_count %></span>
+            <a href="<%= "/twitter/retweet/" + tweet.id_str %>">Retweet:</a> <span class="js-twitter-retweet-count"><%= tweet.retweet_count %></span>
           </li>
-          <li data-twitter-favorite-count="<%= tweet.id %>">
-            <a href="<%= "/twitter/favorite/" + tweet.id %>">Favorite:</a> <span class="js-twitter-favorite-count"><%= tweet.favorite_count %></span>
+          <li data-twitter-favorite-count="<%= tweet.id_str %>">
+            <a href="<%= "/twitter/favorite/" + tweet.id_str %>">Favorite:</a> <span class="js-twitter-favorite-count"><%= tweet.favorite_count %></span>
           </li>
           <li>
-            <a href="<%= "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id %>" target="_blank">View on Twitter</a>
+            <a href="<%= "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str %>" target="_blank">View on Twitter</a>
           </li>
         </ul>
       </div>

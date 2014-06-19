@@ -31,17 +31,17 @@
           <%= form_for @user, :url => {:controller => "sessions", :action => "create"} do |f| %>
             <li>
               <div class="login_form_fields">
-                <%= f.email_field :email, :autofocus => true, :placeholder => "Email" %>
+                <%= f.email_field :email, :autofocus => true, :placeholder => "Email", :tabindex => 1 %>
               </div>
             </li>
             <li>
-              <%= link_to "Forgot Your Password?", forgot_password_path, :id => "forgot_password_link" %>
+              <%= link_to "Forgot Your Password?", forgot_password_path, :id => "forgot_password_link", :tabindex => 4 %>
               <div class="login_form_fields">
-                <%= f.password_field :password, :placeholder => "Password" %>
+                <%= f.password_field :password, :placeholder => "Password", :tabindex => 2 %>
               </div>
             </li>
             <li>
-              <div class="homepage_form_button"><%= f.submit "Sign In" %></div>
+              <div class="homepage_form_button"><%= f.submit "Sign In", :tabindex => 3 %></div>
             </li>
           <% end %>
         </ul>

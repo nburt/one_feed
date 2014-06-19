@@ -10,14 +10,14 @@ OneFeed is an app that allows registered users to link their social media accoun
 ### Initial Setup
 
 1. Change scripts/create_databases.sql to create both your development and test databases.
-1. Create a `.env` file and add your apps API keys and API secrets. You will need to register your app for each social media site.
+1. Create a `.env` file and add your apps API keys and API secrets. You will need to register your app for each social media site. See the `.env.example` file.
 
-Here is an example for Twitter:
+You will also need to add a SendGrid username and password to your production environment variables in order to send emails. This will look something like this:
 
-TWITTER_API_KEY=\<your Twitter app's API key\>  
-TWITTER_API_SECRET=\<your Twitter app's API secret\>
-
-The `.env` is ignored by git, see the `.gitignore` file.
+`
+SENDGRID_PASSWORD:
+SENDGRID_USERNAME:
+`
 
 ### Development
 

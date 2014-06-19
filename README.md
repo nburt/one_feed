@@ -5,8 +5,7 @@ OneFeed is an app that allows registered users to link their social media accoun
 
 ### Links
 
-1. Tracker Project URL: https://www.pivotaltracker.com/n/projects/1071248
-1. Heroku staging url: http://one-feed-staging.herokuapp.com
+1. URL: http://onefeedapp.com
 
 ### Initial Setup
 

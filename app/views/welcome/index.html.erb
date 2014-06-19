@@ -1,7 +1,7 @@
 <div id="homepage_content">
-  <p class="login_failure"><%= flash[:login_failure] %></p>
-  <p><%= flash[:reset_password_email_sent] %></p>
-  <p><%= flash[:updated_password] %></p>
+  <p class="failure centered_text"><%= flash[:login_failure] %></p>
+  <p class="centered_text"><%= flash[:reset_password_email_sent] %></p>
+  <p class="centered_text"><%= flash[:updated_password] %></p>
   <% if @user.errors.present? %>
     <% @user.errors.full_messages.each do |message| %>
       <p class="login_failure"><%= message %></p>

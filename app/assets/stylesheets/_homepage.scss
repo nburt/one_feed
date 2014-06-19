@@ -99,8 +99,6 @@
   }
 }
 
-#auth_failure,
-.login_failure {
+.failure {
   color: $error_message_red;
-  text-align: center;
 }

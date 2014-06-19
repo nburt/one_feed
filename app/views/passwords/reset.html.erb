@@ -1,5 +1,5 @@
 <div id="reset_password_container">
-  <%= flash[:expired_token] %>
+  <p class="centered_text failure"><%= flash[:expired_token] %></p>
 
   <%= form_tag "/passwords" do %>
     <p>Enter your email for more instructions</p>

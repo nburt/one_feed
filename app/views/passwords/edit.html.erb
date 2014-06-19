@@ -1,5 +1,5 @@
 <div id="reset_password_container">
-  <%= flash[:password_match] %>
+  <p class="centered_text failure"><%= flash[:passwords_dont_match] %></p>
 
   <%= form_for @user, url: "/passwords", method: :put do |f| %>
     <%= f.hidden_field :id, value: @message[0] %>

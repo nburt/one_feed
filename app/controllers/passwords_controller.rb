@@ -38,7 +38,7 @@ class PasswordsController < ApplicationController
       else
         @message = [params[:user][:id], params[:user][:token_expiration]]
         @user = User.find(@message[0])
-        flash[:password_match] = "Your password and password confirmation do not match."
+        flash[:passwords_dont_match] = "Your password and password confirmation do not match."
         render 'edit'
       end
     end

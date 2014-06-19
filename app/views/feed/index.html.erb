@@ -15,12 +15,13 @@
   </div>
 </div>
 <script type="text/javascript">
-  FeedIndex.providers = {facebook: <%= @providers.facebook? %>, twitter: <%= @providers.twitter? %>};
-  FeedIndex.images = {
-    facebook: "<%= image_path("FB-f-Logo__blue_50.png") %>",
-    twitter: "<%= image_path("Twitter_logo_blue.png") %>"
-  };
   $(document).ready(function () {
-    FeedIndex.initialize();
+    var feedIndex = new FeedIndex(document);
+    feedIndex.providers = {facebook: <%= @providers.facebook? %>, twitter: <%= @providers.twitter? %>};
+    feedIndex.images = {
+      facebook: "<%= image_path("FB-f-Logo__blue_50.png") %>",
+      twitter: "<%= image_path("Twitter_logo_blue.png") %>"
+    };
+    feedIndex.initialize();
   });
 </script>

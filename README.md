@@ -14,10 +14,10 @@ OneFeed is an app that allows registered users to link their social media accoun
 
 You will also need to add a SendGrid username and password to your production environment variables in order to send emails. This will look something like this:
 
-`
+```
 SENDGRID_PASSWORD:
 SENDGRID_USERNAME:
-`
+```
 
 ### Development
 

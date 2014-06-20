@@ -26,5 +26,6 @@ Rails.application.routes.draw do
   post '/twitter/favorite/:tweet_id', to: 'likes#twitter'
   post '/twitter/retweet/:tweet_id', to: 'shares#twitter'
   post '/instagram/like/:media_id', to: 'likes#instagram'
+  get '/instagram/comment/:media_id', to: 'comments#instagram_display'
   post '/facebook/like/:post_id', to: 'likes#facebook'
 end

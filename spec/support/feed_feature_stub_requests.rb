@@ -11,6 +11,9 @@ module FeedFeatureStubs
 
     stub_request(:post, 'https://api.instagram.com/oauth2/token')
 
+    stub_request(:get, 'https://api.instagram.com/v1/media/718251048817234649_42804963/comments?access_token=mock_token').
+      to_return(body: File.read('./spec/support/instagram/instagram_post_comments.json'))
+
     stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5').
       to_return(body: File.read('./spec/support/instagram/instagram_timeline.json'))
 

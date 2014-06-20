@@ -17,6 +17,8 @@ FeedIndex = function () {
     self.twitterRetweet();
     self.instagramLike();
     self.facebookLike();
+    self.showInstagramComments();
+    self.hideInstagramComments();
   };
 
   FeedIndex.prototype.getInitialFeed = function () {
@@ -147,6 +149,35 @@ FeedIndex = function () {
       $.post(endpoint).success(function (response) {
         target.find('.js-facebook-like-count').html(response.likes.data.length);
       });
+    });
+  };
+
+  FeedIndex.prototype.showInstagramComments = function () {
+    var self = this;
+    $(self.el).on('click', '.instagram_show_comments_link', function (event) {
+      event.preventDefault();
+      var target = $(event.target).closest('li');
+      var endpoint = target.find('a').attr('href');
+      $.get(endpoint).success(function (response) {
+        $(target).closest('li').hide();
+        target.parent().children('.instagram_hide_comments').css('display', 'inline-block');
+        var post_stats = target.closest('.post_stats');
+        var instagram_comments = JST['templates/instagram_comments'](response);
+        $(post_stats).after(instagram_comments);
+        self.getInstagramComments = false;
+      });
+    });
+  };
+
+  FeedIndex.prototype.hideInstagramComments = function () {
+    var self = this;
+    $(self.el).on('click', '.instagram_hide_comments', function (event) {
+      event.preventDefault();
+      var target = $(event.target).closest('li');
+
+      target.hide();
+      target.parent().children('[data-instagram-comments]').show();
+      $(target).parent().parent().parent().find('.post_comments').remove();
     });
   };
 

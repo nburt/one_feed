@@ -47,4 +47,15 @@ describe Instagram::Api do
     expect(instagram_api.like_post(1).body).to eq File.read('./spec/support/instagram/instagram_like_response.json')
   end
 
+  it 'can get comments for a given media post' do
+    stub_request(:get, 'https://api.instagram.com/v1/media/717696748386385949_54975383/comments?access_token=mock_token').
+      to_return(body: File.read('./spec/support/instagram/instagram_post_comments.json'))
+
+    instagram_api = Instagram::Api.new('mock_token', nil)
+    comments_response = instagram_api.get_comments('717696748386385949_54975383')
+    result = comments_response.parse
+
+    expect(result[2]['text']).to eq 'Yeah'
+    expect(result[1]['created_time']).to eq '1399776401'
+  end
 end

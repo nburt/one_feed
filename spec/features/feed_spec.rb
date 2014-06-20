@@ -8,7 +8,7 @@ feature 'can display feeds from various social media accounts', js: true do
     login_user(user)
   end
 
-  context "associating accounts" do
+  context "associating accounts/ viewing feeds" do
     scenario 'a user can associate a Twitter account' do
       mock_auth_hash
       click_link 'Account Settings'
@@ -25,7 +25,11 @@ feature 'can display feeds from various social media accounts', js: true do
       click_link 'Link Instagram'
       expect(page).to have_content 'Account Settings'
       expect(page).to have_content 'The girls #pumped #herewego'
-      expect(page).to have_content 'Yesss'
+      expect(page).to_not have_content 'Nice thats a good one love the stash'
+      page.all(:link,"View Comments")[0].click
+      expect(page).to have_content 'Nice thats a good one love the stash'
+      click_on 'Hide Comments'
+      expect(page).to_not have_content 'Nice thats a good one love the stash'
     end
 
     scenario 'a user can login without associating a social media account' do

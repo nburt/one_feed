@@ -5,7 +5,7 @@ module Instagram
 
   class Api
 
-    def initialize(access_token, max_id)
+    def initialize(access_token, max_id = nil)
       @access_token = access_token
       @max_id = max_id
     end
@@ -13,6 +13,12 @@ module Instagram
     def get_timeline
       Response.new(
         Faraday.get("#{create_url}")
+      )
+    end
+
+    def get_comments(media_id)
+      Response.new(
+        Typhoeus.get("https://api.instagram.com/v1/media/#{media_id}/comments?access_token=#{@access_token}")
       )
     end
 

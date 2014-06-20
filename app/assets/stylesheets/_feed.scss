@@ -61,6 +61,9 @@
     list-style: none;
     display: inline;
     padding-right: 1.5em;
+    &.instagram_hide_comments {
+      display: none;
+    }
   }
 }
 

@@ -1,0 +1,13 @@
+<div class="post_comments">
+  <ul>
+    <% for (i = 0; i < comments.length; i++) { %>
+    <li class="commenter_profile_picture">
+      <a href="<%= 'http://www.instagram.com/' + comments[i].from.username %>" target="_blank"><img src="<%= comments[i].from.profile_picture %>"></a>
+    </li>
+    <li class="commenter_username">
+      <a href="<%= 'http://www.instagram.com/' + comments[i].from.username %>" target="_blank">@<%= comments[i].from.username %></a>
+    </li>
+    <li><%= comments[i].text %></li>
+    <% } %>
+  </ul>
+</div>

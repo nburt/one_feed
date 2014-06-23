@@ -46,6 +46,10 @@ feature 'can display feeds from various social media accounts', js: true do
 
       expect(page).to have_content 'Account Settings'
       expect(page).to have_content 'Any good food in San Fran?'
+      page.all(:link,"View Comments")[0].click
+      expect(page).to have_content 'Surround yourself with people who make you a better person.'
+      click_on 'Hide Comments'
+      expect(page).to_not have_content 'Surround yourself with people who make you a better person.'
     end
   end
 

@@ -1,0 +1,13 @@
+<div class="post_comments">
+  <ul>
+    <% for (i = 0; i < comments.length; i++) { %>
+    <li class="commenter_profile_picture">
+      <a href="<%= "https://www.facebook.com/app_scoped_user_id/" + comments[i].from.id %>" target="_blank"><img src="<%= commenter_profile_pictures[comments[i].from.id] %>"></a>
+    </li>
+    <li class="commenter_username">
+      <a href="<%= "https://www.facebook.com/app_scoped_user_id/" + comments[i].from.id %>" target="_blank"><%= comments[i].from.name %></a>
+    </li>
+    <li><%= comments[i].message %></li>
+    <% } %>
+  </ul>
+</div>

@@ -63,7 +63,6 @@ class Feed
 
       auth_facebook(facebook_timeline)
       @poster_recipient_profile_hash = facebook_timeline.poster_recipient_profile_hash
-      @commenter_profile_hash = facebook_timeline.commenter_profile_hash
       @facebook_pagination_id = facebook_timeline.pagination_id
       facebook_posts
     else

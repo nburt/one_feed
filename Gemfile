@@ -33,6 +33,7 @@ group :test do
   gem 'webmock', '~> 1.17.4'
   gem 'database_cleaner', '~> 1.2.0'
   gem 'selenium-webdriver', '~> 2.42.0'
+  gem 'launchy', '~> 2.4.2'
 end
 
 group :production do

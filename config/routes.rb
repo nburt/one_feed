@@ -28,4 +28,5 @@ Rails.application.routes.draw do
   post '/instagram/like/:media_id', to: 'likes#instagram'
   get '/instagram/comment/:media_id', to: 'comments#instagram_display'
   post '/facebook/like/:post_id', to: 'likes#facebook'
+  get '/facebook/comment/:post_id', to: 'comments#facebook_display'
 end

@@ -17,6 +17,15 @@ module FeedFeatureStubs
     stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5').
       to_return(body: File.read('./spec/support/instagram/instagram_timeline.json'))
 
+    stub_request(:get, 'https://graph.facebook.com/v2.0/10202029985566360_10202029328989946/comments?access_token=mock_token').
+      to_return(body: File.read('./spec/support/facebook/facebook_comments_request.json'))
+
+    stub_request(:get, 'https://graph.facebook.com/10154126526645244/picture?redirect=false').
+      to_return(body: File.read('./spec/support/facebook/picture_response_1.json'))
+
+    stub_request(:get, 'https://graph.facebook.com/10152071074642001/picture?redirect=false').
+      to_return(body: File.read('./spec/support/facebook/picture_response_1.json'))
+
     stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
       to_return(body: File.read('./spec/support/facebook/facebook_timeline.json'))
 

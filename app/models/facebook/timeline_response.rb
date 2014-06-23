@@ -2,11 +2,10 @@ module Facebook
 
   class TimelineResponse < Response
 
-    attr_reader :posts, :pagination_id, :poster_recipient_profile_hash, :commenter_profile_hash
+    attr_reader :posts, :pagination_id, :poster_recipient_profile_hash
 
     def initialize(response)
       @response = response
-      @commenter_profile_hash = {}
       @poster_recipient_profile_hash = {}
       @posts = []
     end
@@ -19,23 +18,6 @@ module Facebook
 
     def create_poster_recipient_hash(id, response)
       @poster_recipient_profile_hash[id] = picture_url(response)
-    end
-
-    def create_commenter_hash(id, response)
-      @commenter_profile_hash[id] = picture_url(response)
-    end
-
-    def create_commenter_ids
-      commenter_ids = []
-      @posts.map do |post|
-        if post["comments"]
-          comments = post["comments"]["data"]
-          comments.each do |comment|
-            commenter_ids << comment["from"]["id"]
-          end
-        end
-      end
-      commenter_ids
     end
 
     def create_poster_recipient_ids

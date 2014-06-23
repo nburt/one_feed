@@ -1,7 +1,7 @@
 module Facebook
   class Timeline
 
-    attr_reader :authed, :poster_recipient_profile_hash, :commenter_profile_hash, :pagination_id
+    attr_reader :authed, :poster_recipient_profile_hash, :pagination_id
 
     def initialize(user)
       @user = user
@@ -17,7 +17,6 @@ module Facebook
         @authed = false
       end
       @poster_recipient_profile_hash = facebook_api.facebook_timeline_response.poster_recipient_profile_hash
-      @commenter_profile_hash = facebook_api.facebook_timeline_response.commenter_profile_hash
       @pagination_id = facebook_api.facebook_timeline_response.pagination_id
       facebook_api.facebook_timeline_response.posts
     end

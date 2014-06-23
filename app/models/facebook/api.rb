@@ -7,7 +7,7 @@ module Facebook
 
     attr_reader :facebook_timeline_response, :facebook_post_response
 
-    def initialize(access_token, pagination_id)
+    def initialize(access_token, pagination_id = nil)
       @access_token = access_token
       @pagination_id = pagination_id
     end
@@ -23,7 +23,6 @@ module Facebook
         if @facebook_timeline_response.success?
           @facebook_timeline_response.posts_response
           create_poster_recipient_id_request(hydra)
-          create_commenter_id_request(hydra)
         elsif !@facebook_timeline_response.authed?
           raise Unauthorized, "This user's token is no longer valid."
         else
@@ -73,6 +72,22 @@ module Facebook
       hydra.run
     end
 
+    def get_comments(post_id)
+      hydra = Typhoeus::Hydra.hydra
+
+      @facebook_post_response = []
+
+      comments_request = create_comments_request(post_id)
+      comments_request.on_complete do |response|
+        @facebook_post_response = PostResponse.new(response)
+        @facebook_post_response.parse_data
+        create_commenter_id_request(hydra)
+      end
+
+      hydra.queue comments_request
+      hydra.run
+    end
+
     private
 
     def get_post_id(created_post)
@@ -100,6 +115,10 @@ module Facebook
       hydra.queue profile_picture_request
     end
 
+    def create_comments_request(post_id)
+      Typhoeus::Request.new("https://graph.facebook.com/v2.0/#{post_id}/comments?access_token=#{@access_token}")
+    end
+
     def create_profile_picture_request(id)
       Typhoeus::Request.new("https://graph.facebook.com/#{id}/picture?redirect=false")
     end
@@ -117,12 +136,12 @@ module Facebook
     end
 
     def create_commenter_id_request(hydra)
-      commenter_ids = @facebook_timeline_response.create_commenter_ids
+      commenter_ids = @facebook_post_response.create_commenter_ids
 
       commenter_ids.each do |commenter_id|
         comment_picture_request = create_profile_picture_request(commenter_id)
         comment_picture_request.on_complete do |commenter_response|
-          @facebook_timeline_response.create_commenter_hash(commenter_id, commenter_response)
+          @facebook_post_response.create_commenter_hash(commenter_id, commenter_response)
         end
         hydra.queue comment_picture_request
       end

@@ -13,7 +13,6 @@ class FeedController < ApplicationController
     @timeline = feed.posts(params[:twitter_pagination], params[:facebook_pagination_id], params[:instagram_max_id])
     @unauthed_accounts = feed.unauthed_accounts
     @poster_recipient_profile_hash = feed.poster_recipient_profile_hash
-    @commenter_profile_hash = feed.commenter_profile_hash
 
     @load_more_url = feed_content_path(
       :twitter_pagination => feed.twitter_pagination_id,

@@ -2,6 +2,10 @@ require 'spec_helper'
 
 feature 'password reset' do
 
+  before do
+    ActionMailer::Base.deliveries.clear
+  end
+
   scenario 'a user can reset their password' do
     visit '/'
     within '#onefeed_registration_container' do

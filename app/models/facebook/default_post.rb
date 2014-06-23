@@ -77,7 +77,7 @@ module Facebook
     end
 
     def story_tags
-      if @post["story"]
+      if @post["story_tags"]
         @post["story_tags"].map { |story_tag| StoryTag.from(story_tag) }
       end
     end

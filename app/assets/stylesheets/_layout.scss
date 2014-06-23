@@ -52,7 +52,7 @@ header {
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: $main_font, $default_font;
   font-weight: 400;
   background-color: $background-gray;
   font-size: .7em;

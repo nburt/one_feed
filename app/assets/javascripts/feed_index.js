@@ -163,10 +163,9 @@ FeedIndex = function () {
       $.get(endpoint).success(function (response) {
         $(target).closest('li').hide();
         target.parent().children('.instagram_hide_comments').css('display', 'inline-block');
-        var post_stats = target.closest('.post_stats');
-        var instagram_comments = JST['templates/instagram_comments'](response);
-        $(post_stats).after(instagram_comments);
-        self.getInstagramComments = false;
+        var postStats = target.closest('.post_stats');
+        var instagramComments = JST['templates/instagram_comments'](response);
+        $(postStats).after(instagramComments);
       });
     });
   };
@@ -176,7 +175,6 @@ FeedIndex = function () {
     $(self.el).on('click', '.instagram_hide_comments', function (event) {
       event.preventDefault();
       var target = $(event.target).closest('li');
-
       target.hide();
       target.parent().children('[data-instagram-comments]').show();
       $(target).parent().parent().parent().find('.post_comments').remove();
@@ -190,12 +188,19 @@ FeedIndex = function () {
       var target = $(event.target).closest('li');
       var endpoint = target.find('a').attr('href');
       $.get(endpoint).success(function (response) {
-        $(target).closest('li').hide();
+        var commentsInformation = Object.create(Object);
+        commentsInformation.commentsCount = response.comments.length;
+        commentsInformation.postId = target.data('facebookComments');
+        var postStats = target.closest('.post_stats');
+        var facebookComments = JST['templates/facebook_comments'](response);
+        var facebookViewStats = JST['templates/facebook_view_comments_count'](commentsInformation);
+        var facebookHideStats = JST['templates/facebook_hide_comments_count'](commentsInformation);
+        target.parent().children('.facebook_hide_comments').replaceWith(facebookHideStats);
         target.parent().children('.facebook_hide_comments').css('display', 'inline-block');
-        var post_stats = target.closest('.post_stats');
-        var facebook_comments = JST['templates/facebook_comments'](response);
-        $(post_stats).after(facebook_comments);
-        self.getInstagramComments = false;
+        target.parent().children('.facebook_hide_comments').show();
+        $(postStats).find('[data-facebook-comments]').replaceWith(facebookViewStats);
+        $(postStats).find('[data-facebook-comments]').hide();
+        $(postStats).after(facebookComments);
       });
     });
   };
@@ -205,7 +210,6 @@ FeedIndex = function () {
     $(self.el).on('click', '.facebook_hide_comments', function (event) {
       event.preventDefault();
       var target = $(event.target).closest('li');
-
       target.hide();
       target.parent().children('[data-facebook-comments]').show();
       $(target).parent().parent().parent().find('.post_comments').remove();

@@ -47,7 +47,7 @@ FeedIndex = function () {
     $(self.el).scroll(function () {
       var scrollbarPosition = $(this).scrollTop();
       var documentHeight = $(this).height();
-      if (documentHeight - scrollbarPosition < 7500 && self.reloadOk === true) {
+      if (documentHeight - scrollbarPosition < 7500 && self.reloadOk === true && (!self.instagramToggle || !self.facebookToggle || !self.twitterToggle)) {
         $(".loading_message").show();
         var nextPageUrl = $(".load_posts_link a").attr("href");
         self.reloadOk = false;
@@ -59,15 +59,12 @@ FeedIndex = function () {
           $("abbr.timeago").css("border", "none");
           if (self.instagramToggle) {
             $('.instagram_post').hide();
-            self.toggleInstagramPosts();
           }
           if (self.facebookToggle) {
             $('.facebook_post').hide();
-            self.toggleFacebookPosts();
           }
           if (self.twitterToggle) {
             $('.twitter_post').hide();
-            self.toggleTwitterPosts();
           }
         });
       }
@@ -270,7 +267,6 @@ FeedIndex = function () {
     var self = this;
     $(self.el).on('click', '#instagram_toggle', function (event) {
       event.preventDefault();
-      console.log(self.instagramToggle);
       $('.instagram_post').toggle(function () {
         self.instagramToggle = !self.instagramToggle;
       }, function () {

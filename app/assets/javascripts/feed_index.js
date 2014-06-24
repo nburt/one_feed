@@ -161,10 +161,18 @@ FeedIndex = function () {
       var target = $(event.target).closest('li');
       var endpoint = target.find('a').attr('href');
       $.get(endpoint).success(function (response) {
-        $(target).closest('li').hide();
-        target.parent().children('.instagram_hide_comments').css('display', 'inline-block');
+        var commentsInformation = Object.create(Object);
+        commentsInformation.commentsCount = response.comments.length;
+        commentsInformation.postId = target.data('instagramComments');
         var postStats = target.closest('.post_stats');
         var instagramComments = JST['templates/instagram_comments'](response);
+        var instagramViewStats = JST['templates/instagram_view_comments_count'](commentsInformation);
+        var instagramHideStats = JST['templates/instagram_hide_comments_count'](commentsInformation);
+        target.parent().children('.instagram_hide_comments').replaceWith(instagramHideStats);
+        target.parent().children('.instagram_hide_comments').css('display', 'inline-block');
+        target.parent().children('.instagram_hide_comments').show();
+        $(postStats).find('[data-instagram-comments]').replaceWith(instagramViewStats);
+        $(postStats).find('[data-instagram-comments]').hide();
         $(postStats).after(instagramComments);
       });
     });

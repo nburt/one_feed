@@ -16,6 +16,10 @@ feature 'can display feeds from various social media accounts', js: true do
       click_link 'Link Twitter'
       expect(page).to have_content 'Account Settings'
       expect(page).to have_content 'Gillmor Gang Live'
+      click_on 'Toggle Twitter'
+      expect(page).to_not have_content 'Gillmor Gang Live'
+      click_on 'Toggle Twitter'
+      expect(page).to have_content 'Gillmor Gang Live'
     end
 
     scenario 'a user can associate an Instagram account' do
@@ -30,6 +34,10 @@ feature 'can display feeds from various social media accounts', js: true do
       expect(page).to have_content 'Nice thats a good one love the stash'
       click_on 'Hide Comments'
       expect(page).to_not have_content 'Nice thats a good one love the stash'
+      click_on 'Toggle Instagram'
+      expect(page).to_not have_content 'The girls #pumped #herewego'
+      click_on 'Toggle Instagram'
+      expect(page).to have_content 'The girls #pumped #herewego'
     end
 
     scenario 'a user can login without associating a social media account' do
@@ -50,6 +58,10 @@ feature 'can display feeds from various social media accounts', js: true do
       expect(page).to have_content 'Surround yourself with people who make you a better person.'
       click_on 'Hide Comments'
       expect(page).to_not have_content 'Surround yourself with people who make you a better person.'
+      click_on 'Toggle Facebook'
+      expect(page).to_not have_content 'Any good food in San Fran?'
+      click_on 'Toggle Facebook'
+      expect(page).to have_content 'Any good food in San Fran?'
     end
   end
 

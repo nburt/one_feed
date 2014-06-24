@@ -5,6 +5,9 @@ FeedIndex = function () {
     this.el = element;
     this.reloadOk = false;
     this.canCreatePost = true;
+    this.instagramToggle = false;
+    this.facebookToggle = false;
+    this.twitterToggle = false;
   }
 
   FeedIndex.prototype.initialize = function () {
@@ -21,6 +24,9 @@ FeedIndex = function () {
     self.hideInstagramComments();
     self.showFacebookComments();
     self.hideFacebookComments();
+    self.toggleFacebookPosts();
+    self.toggleTwitterPosts();
+    self.toggleInstagramPosts();
   };
 
   FeedIndex.prototype.getInitialFeed = function () {
@@ -50,7 +56,19 @@ FeedIndex = function () {
           $(".load_posts_link").replaceWith(response);
           $(".loading_message").hide();
           $("abbr.timeago").timeago();
-          $("abbr.timeago").css("border", "none")
+          $("abbr.timeago").css("border", "none");
+          if (self.instagramToggle) {
+            $('.instagram_post').hide();
+            self.toggleInstagramPosts();
+          }
+          if (self.facebookToggle) {
+            $('.facebook_post').hide();
+            self.toggleFacebookPosts();
+          }
+          if (self.twitterToggle) {
+            $('.twitter_post').hide();
+            self.toggleTwitterPosts();
+          }
         });
       }
     });
@@ -221,6 +239,43 @@ FeedIndex = function () {
       target.hide();
       target.parent().children('[data-facebook-comments]').show();
       $(target).parent().parent().parent().find('.post_comments').remove();
+    });
+  };
+
+  FeedIndex.prototype.toggleFacebookPosts = function () {
+    var self = this;
+    $(self.el).on('click', '#facebook_toggle', function (event) {
+      event.preventDefault();
+      $('.facebook_post').toggle(function () {
+        self.facebookToggle = !self.facebookToggle;
+      }, function () {
+        self.facebookToggle = !self.facebookToggle;
+      });
+    });
+  };
+
+  FeedIndex.prototype.toggleTwitterPosts = function () {
+    var self = this;
+    $(self.el).on('click', '#twitter_toggle', function (event) {
+      event.preventDefault();
+      $('.twitter_post').toggle(function () {
+        self.twitterToggle = !self.twitterToggle;
+      }, function () {
+        self.twitterToggle = !self.twitterToggle;
+      });
+    });
+  };
+
+  FeedIndex.prototype.toggleInstagramPosts = function () {
+    var self = this;
+    $(self.el).on('click', '#instagram_toggle', function (event) {
+      event.preventDefault();
+      console.log(self.instagramToggle);
+      $('.instagram_post').toggle(function () {
+        self.instagramToggle = !self.instagramToggle;
+      }, function () {
+        self.instagramToggle = !self.instagramToggle;
+      });
     });
   };
 

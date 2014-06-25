@@ -35,12 +35,6 @@ $main_font: 'Lora';
 @import "posting";
 @import "password_reset";
 
-.loading_message {
-  background-color: $white;
-  padding: 1.5em;
-  text-align: center;
-}
-
 .loading_text {
   color: $logo-green
 }

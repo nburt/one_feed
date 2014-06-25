@@ -70,27 +70,6 @@ body {
   }
 }
 
-#feed_content {
-  margin: 0 auto;
-  padding: .5em;
-  overflow: hidden;
-  #secondary_nav {
-    display: block;
-  }
-  @include media($large-screen) {
-    padding: 2em 0;
-    aside {
-      @include span-columns(3);
-    }
-    #feed_container {
-      @include span-columns(9);
-    }
-    #secondary_nav {
-      display: block;
-    }
-  }
-}
-
 html, body {
   height: 100%;
 }

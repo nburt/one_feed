@@ -2,6 +2,28 @@
   text-align: left;
 }
 
+#feed_content {
+  margin: 0 auto;
+  padding: .5em;
+  overflow: hidden;
+  #secondary_nav {
+    display: block;
+  }
+  @include media($large-screen) {
+    padding: 2em 0;
+    aside {
+      @include span-columns(3);
+    }
+    #feed_container {
+      @include span-columns(9);
+      margin-right: 0;
+    }
+    #secondary_nav {
+      display: block;
+    }
+  }
+}
+
 .network_logo {
   float: left;
 }
@@ -139,4 +161,13 @@
 
 .load_posts_link {
   display: none;
+}
+
+.loading_message {
+  background-color: $white;
+  padding: 1.5em;
+  text-align: center;
+  @include span-columns(9);
+  margin-right: 0;
+  float: right;
 }

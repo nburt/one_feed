@@ -8,16 +8,16 @@
     </ul>
   </aside>
   <div id="feed_container">
-    <div class="loading_message">
-      <%= image_tag "ajax-loader.gif" %>
-      <p class="loading_text">Loading...</p>
-    </div>
+  </div>
+  <div class="loading_message">
+    <%= image_tag "ajax-loader.gif" %>
+    <p class="loading_text">Loading...</p>
   </div>
 </div>
 <script type="text/javascript">
   $(document).ready(function () {
     var feedIndex = new FeedIndex(document);
-    feedIndex.providers = {facebook: <%= @providers.facebook? %>, twitter: <%= @providers.twitter? %>};
+    feedIndex.providers = {facebook: <%= @providers.facebook? %>, twitter: <%= @providers.twitter? %>, instagram: <%= @providers.instagram? %>};
     feedIndex.images = {
       facebook: "<%= image_path("FB-f-Logo__blue_50.png") %>",
       twitter: "<%= image_path("Twitter_logo_blue.png") %>"

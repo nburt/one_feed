@@ -65,7 +65,7 @@
           <% if post.comments_count > 0 %>
             <li data-facebook-comments="<%= post.id %>"><%= link_to "View Comments:", "/facebook/comment/#{post.id}", :class => "facebook_show_comments_link" %> <%= post.comments_count %></li>
           <% else %>
-            <li data-facebook-comments="<%= post.id %>">View Comments: <%= post.comments_count %></li>
+            <li data-facebook-comments="<%= post.id %>">Comments: <%= post.comments_count %></li>
           <% end %>
           <li class="facebook_hide_comments"><%= link_to "Hide Comments:", "/facebook/comment/#{post.id}", :class => "facebook_hide_comments_link" %> <%= post.comments_count %></li>
           <li data-facebook-like-count="<%= post.id %>"><%= link_to "Like:", "/facebook/like/#{post.id}" %> <span class="js-facebook-like-count"><%= post.likes_count %></span></li>

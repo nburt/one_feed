@@ -223,14 +223,13 @@ FeedIndex = function () {
   };
 
   FeedIndex.prototype.hideInstagramComments = function (hideProviderComments) {
-    $(this.el).on('click', '.instagram_hide_comments', function (event) {
+    $(this.el).on('click', '.instagram_hide_comments_link', function (event) {
       hideProviderComments('[data-instagram-comments]', event);
     });
   };
 
   FeedIndex.prototype.showFacebookComments = function (showFacebookCommentsSuccess) {
     $(this.el).on('click', '.facebook_show_comments_link', function (event) {
-      debugger;
       event.preventDefault();
       var target = $(event.target).closest('li');
       var endpoint = target.find('a').attr('href');
@@ -257,7 +256,7 @@ FeedIndex = function () {
   };
 
   FeedIndex.prototype.hideFacebookComments = function (hideProviderComments) {
-    $(this.el).on('click', '.facebook_hide_comments', function (event) {
+    $(this.el).on('click', '.facebook_hide_comments_link', function (event) {
       hideProviderComments('[data-facebook-comments]', event);
     });
   };

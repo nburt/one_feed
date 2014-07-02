@@ -31,6 +31,63 @@ var TestResponses = {
   }
 };
 
+var FacebookShowCommentsResponse = {
+  commenter_profile_pictures: {
+    1385629225056642: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/c10.0.50.50/p50x50/10339716_1385777661708465_5955368705953093888_n.jpg",
+    1396087480675877: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/t1.0-1/c5.0.50.50/p50x50/10298929_1426091331008825_4981210231336248758_n.jpg"
+  },
+  comments: [
+    {
+      created_time: "2014-07-02T18:30:09+0000",
+      from: {
+        id: "1396087480675877",
+        name: "Tom Amhbciaegaeb Lauescu"
+      },
+      id: "1437097303241561_1437097613241530",
+      like_count: 0,
+      message: "hey!"
+    },
+    {
+      created_time: "2014-07-02T18:40:46+0000",
+      from: {
+        id: "1385629225056642",
+        name: "Barbara Amhbhgccaaae Sadansen"
+      },
+      id: "1437097303241561_1437100816574543",
+      like_count: 0,
+      message: "yooo"
+    }
+  ]
+
+};
+
+var InstagramShowCommentsResponse = {
+  comments: [
+    {
+      created_time: "1404180064",
+      from: {
+        full_name: "Rodrigo Luz.",
+        id: "238715728",
+        profile_picture: "http://photos-a.ak.instagram.com/hphotos-ak-xpf1/10424543_463736443729416_754644228_a.jpg",
+        username: "kikoluzz"
+      },
+      id: "754639535394687540",
+      text: "Awesome pic"
+    },
+    {
+      created_time: "1404180109",
+      from: {
+        full_name: "Kennett Mohrman",
+        id: "5911880",
+        profile_picture: "http://images.ak.instagram.com/profiles/profile_5911880_75sq_1399554389.jpg",
+        username: "kennett_mohrman"
+      },
+      id: "754639909266557513",
+      text: "👍👍"
+    }
+  ]
+};
+
 var TwitterFavoriteResponse = {
   created_at: "Tue Jul 01 18:45:35 +0000 2014",
   id: 484045165879758850,

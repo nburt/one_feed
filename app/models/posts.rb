@@ -1,6 +1,6 @@
 class Posts
 
-  attr_reader :unauthed_accounts
+    attr_reader :unauthed_accounts
 
   def initialize(params, user)
     @params = params

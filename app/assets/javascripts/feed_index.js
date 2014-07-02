@@ -52,7 +52,7 @@ FeedIndex = function () {
     $(this.el).scroll(function () {
       var scrollbarPosition = $(this.el).scrollTop();
       var documentHeight = $(this.el).height();
-      if (this.isReloadAvailable(scrollbarPosition, documentHeight)) {
+      if (this.isReloadAvailable(documentHeight, scrollbarPosition)) {
         $(".loading_message").show();
         var nextPageUrl = $(".load_posts_link a").attr("href");
         this.reloadOk = false;
@@ -61,7 +61,7 @@ FeedIndex = function () {
     }.bind(this));
   };
 
-  FeedIndex.prototype.isReloadAvailable = function (scrollbarPosition, documentHeight) {
+  FeedIndex.prototype.isReloadAvailable = function (documentHeight, scrollbarPosition) {
     return (documentHeight - scrollbarPosition < 7500 && this.reloadOk === true && (this.instagramShow || this.facebookShow || this.twitterShow));
   };
 
@@ -138,16 +138,16 @@ FeedIndex = function () {
   FeedIndex.prototype.twitterFavorite = function (twitterFavoriteSuccess) {
     $(this.el).on('click', '[data-twitter-favorite-count]', function (event) {
       event.preventDefault();
-      var target = $(event.target).closest('li');
-      var endpoint = target.find('a').attr('href');
+      var $target = $(event.target).closest('li');
+      var endpoint = $target.find('a').attr('href');
       $.post(endpoint).success(function (response) {
-        twitterFavoriteSuccess(target, response);
+        twitterFavoriteSuccess($target, response);
       });
     }.bind(this));
   };
 
-  FeedIndex.prototype.twitterFavoriteSuccess = function (target, response) {
-    target.find('.js-twitter-favorite-count').html(response.favorite_count);
+  FeedIndex.prototype.twitterFavoriteSuccess = function ($target, response) {
+    $target.find('.js-twitter-favorite-count').html(response.favorite_count);
   };
 
   FeedIndex.prototype.twitterRetweet = function (twitterRetweetSuccess) {

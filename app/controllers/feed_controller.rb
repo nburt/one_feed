@@ -20,7 +20,8 @@ class FeedController < ApplicationController
       :instagram_max_id => feed.instagram_max_id
     )
 
-    render 'feed/feed', layout: false
+    fragment = render_to_string 'feed/feed', layout: false
+    render json: { unauthed_accounts: @unauthed_accounts, fragment: fragment }
   end
 
 end

@@ -1,7 +1,7 @@
 <div class="unauthed_accounts">
   <% if (unauthed_accounts.length === 1) { %>
   <h4>
-    Authorization for <%= unauthed_accounts[0] %> has expired. Please click the below link to reauthorize
+    Authorization for <%= unauthed_accounts[0].charAt(0).toUpperCase() + unauthed_accounts[0].slice(1) %> has expired. Please click the below link to reauthorize
     your account so that you can create a post.
   </h4>
   <% } else { %>
@@ -13,9 +13,10 @@
   <ul>
     <% for (var i = 0; i < unauthed_accounts.length; i++) { %>
     <li>
-      <%= unauthed_accounts[i] %>: <a href="<%= '/auth/' + unauthed_accounts[i].toLowerCase() %>">Click here to
+      <%= unauthed_accounts[i].charAt(0).toUpperCase() + unauthed_accounts[i].slice(1) %>: <a href="<%= '/auth/' + unauthed_accounts[i] %>">Click here to
         reauthorize</a>
     </li>
     <% } %>
   </ul>
 </div>
+

@@ -88,6 +88,7 @@ feature 'can display feeds from various social media accounts', js: true do
 
       within '#create_posts_container' do
         expect(page).to have_content 'Choose which networks to post to:'
+        expect(page).to have_content 'Twitter'
         expect(page).to_not have_content 'Facebook'
       end
 

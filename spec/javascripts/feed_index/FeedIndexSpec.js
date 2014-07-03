@@ -4,13 +4,14 @@ describe("FeedIndex", function () {
   it("should have variables set when created", function () {
     var $content = $("<div>");
     feedIndex = new FeedIndex($content);
+    feedIndex.providers = {facebook: true, twitter: false, instagram: true};
 
     expect(feedIndex.el).toEqual($content);
     expect(feedIndex.reloadOk).toEqual(false);
     expect(feedIndex.canCreatePost).toEqual(true);
-    expect(feedIndex.instagramShow).toEqual(true);
-    expect(feedIndex.facebookShow).toEqual(true);
-    expect(feedIndex.twitterShow).toEqual(true);
+    expect(feedIndex.providers.instagram).toEqual(true);
+    expect(feedIndex.providers.facebook).toEqual(true);
+    expect(feedIndex.providers.twitter).toEqual(false);
     $('#jasmine_content').empty();
   });
 
@@ -41,6 +42,7 @@ describe("FeedIndex", function () {
       $('#jasmine_content').append(fixture);
       var initialFeedResponse = TestResponses.initialFeedResponse.success.responseText;
       feedIndex = new FeedIndex();
+      feedIndex.providers = {facebook: true, twitter: true, instagram: true};
       expect(feedIndex.reloadOk).toEqual(false);
 
       feedIndex.initialFeedSuccess(initialFeedResponse);
@@ -58,15 +60,16 @@ describe("FeedIndex", function () {
 
     it("can tell if a reload is available", function () {
       feedIndex = new FeedIndex();
+      feedIndex.providers = {facebook: true, twitter: true, instagram: true};
       expect(feedIndex.isReloadAvailable(500, 500)).toEqual(false);
       feedIndex.reloadOk = true;
       expect(feedIndex.isReloadAvailable(500, 500)).toEqual(true);
       expect(feedIndex.isReloadAvailable(8000, 100)).toEqual(false);
-      feedIndex.instagramShow = false;
-      feedIndex.twitterShow = false;
-      feedIndex.facebookShow = false;
+      feedIndex.providers.instagram = false;
+      feedIndex.providers.twitter = false;
+      feedIndex.providers.facebook = false;
       expect(feedIndex.isReloadAvailable(500, 500)).toEqual(false);
-      feedIndex.instagramShow = true;
+      feedIndex.providers.instagram = true;
       expect(feedIndex.isReloadAvailable(500, 500)).toEqual(true);
     });
 
@@ -75,6 +78,7 @@ describe("FeedIndex", function () {
       $('#jasmine_content').append(fixture);
       var subsequentFeedRequest = TestResponses.subsequentFeedResponse.success.responseText;
       feedIndex = new FeedIndex();
+      feedIndex.providers = {facebook: true, twitter: true, instagram: true};
       feedIndex.nextFeedSuccess(subsequentFeedRequest);
 
       expect(feedIndex.reloadOk).toEqual(true);
@@ -101,6 +105,20 @@ describe("FeedIndex", function () {
       $('.create_post_link').click();
       expect(feedIndex.canCreatePost).toEqual(false);
       expect($('#jasmine_content')).toContainText('Choose which networks to post to:');
+      expect($('#jasmine_content')).toContainText('Twitter');
+      expect($('#jasmine_content')).toContainText('Facebook');
+    });
+
+    it("can show the create post form with only one provider", function () {
+      var fixture = $('<div class="content_container"><div id="feed_content"><aside><ul id="secondary_nav"><li><a class="create_post_link" href="/posts">Create Post</a></li></ul></aside></div></div>');
+      $('#jasmine_content').append(fixture);
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      feedIndex.providers = {facebook: true, twitter: false, instagram: false};
+      feedIndex.setupCreatingPost();
+      $('.create_post_link').click();
+      expect(feedIndex.canCreatePost).toEqual(false);
+      expect($('#jasmine_content')).toContainText('Choose which networks to post to:');
+      expect($('#jasmine_content')).toContainText('Facebook');
     });
 
     it("cannot create posts if canCreatePost is false", function () {
@@ -141,8 +159,7 @@ describe("FeedIndex", function () {
       var fixture = $('<div id="feed_container"></div>');
       $('#jasmine_content').append(fixture);
       feedIndex = new FeedIndex($('#jasmine_content'));
-      feedIndex.unauthed_accounts = ["Facebook", "Twitter"];
-      feedIndex.createPostSuccess(feedIndex);
+      feedIndex.createPostSuccess(TestResponses.initialFeedResponse.unauthed.responseText);
       expect($('#jasmine_content')).toContainText("Facebook:");
       expect($('#jasmine_content')).toContainText("Twitter:");
       expect($('#jasmine_content')).toContainText("Authorization for the following accounts has expired");
@@ -150,7 +167,6 @@ describe("FeedIndex", function () {
   });
 
   describe("favoriting/liking posts", function () {
-
     beforeEach(function () {
       jasmine.Ajax.install();
     });
@@ -180,7 +196,7 @@ describe("FeedIndex", function () {
     });
 
     it("makes an ajax call to like a facebook post", function () {
-      var fixture = TestResponses.facebookPost.success.responseText;
+      var fixture = TestResponses.facebookPost.success.responseText.fragment;
       $('#jasmine_content').append(fixture);
       feedIndex = new FeedIndex($('#jasmine_content'));
       feedIndex.facebookLike(feedIndex.facebookLikeSuccess);
@@ -199,7 +215,7 @@ describe("FeedIndex", function () {
     });
 
     it("makes an ajax call to like an instagram post", function () {
-      var fixture = TestResponses.instagramPost.success.responseText;
+      var fixture = TestResponses.instagramPost.success.responseText.fragment;
       $('#jasmine_content').append(fixture);
       feedIndex = new FeedIndex($('#jasmine_content'));
       feedIndex.instagramLike(feedIndex.instagramLikeSuccess);
@@ -219,7 +235,6 @@ describe("FeedIndex", function () {
   });
 
   describe("sharing posts", function () {
-
     beforeEach(function () {
       jasmine.Ajax.install();
     });
@@ -230,7 +245,7 @@ describe("FeedIndex", function () {
     });
 
     it("makes an ajax call to retweet a tweet", function () {
-      var fixture = TestResponses.twitterPost.success.responseText;
+      var fixture = TestResponses.twitterPost.success.responseText.fragment;
       $('#jasmine_content').append(fixture);
       feedIndex = new FeedIndex($('#jasmine_content'));
       feedIndex.twitterRetweet(feedIndex.twitterFavoriteSuccess);
@@ -251,7 +266,6 @@ describe("FeedIndex", function () {
   });
 
   describe("viewing and hiding comments", function () {
-
     beforeEach(function () {
       jasmine.Ajax.install();
     });
@@ -261,7 +275,7 @@ describe("FeedIndex", function () {
       $('#jasmine_content').empty();
     });
 
-    it("makes an ajax request when you click view comments for an instagram post", function() {
+    it("makes an ajax request when you click view comments for an instagram post", function () {
       var fixture = '<div class="individual_post instagram_post"><div class="network_logo"><img alt="Instagram icon large" class="provider_logo" src="/assets/Instagram_Icon_Large.png"></div><div class="post_main"><div class="post_header"><ul><li><a href="http://www.instagram.com/adamsenatori" target="_blank"><img alt="Profile 152721 75sq 1392851165" class="user_profile_picture" src="http://images.ak.instagram.com/profiles/profile_152721_75sq_1392851165.jpg"></a></li><li><a href="http://www.instagram.com/adamsenatori" target="_blank">@adamsenatori</a></li><li><abbr class="timeago" title="2014-06-30 20:00:02 -0600" style="border: none;">a day ago</abbr></li></ul></div><div class="post_content"><ul><li><img alt="10488786 1507205686159375 2107952782 a" src="http://scontent-a.cdninstagram.com/hphotos-xaf1/t51.2885-15/10488786_1507205686159375_2107952782_a.jpg"></li><li>Fly helicopters not drones / Montana USA</li></ul><div class="post_stats"><ul><li>Comment</li><li data-instagram-comments="754639014445353936_152721"><a class="instagram_show_comments_link" href="/instagram/comment/754639014445353936_152721">View Comments:</a> 64</li><li class="instagram_hide_comments"><a class="instagram_hide_comments_link" href="/instagram/comment/754639014445353936_152721">Hide Comments:</a> 64</li><li data-instagram-like-count="754639014445353936_152721"><a href="/instagram/like/754639014445353936_152721">Like:</a><span class="js-instagram-like-count">7976</span></li><li><a href="http://instagram.com/p/p5BC91qovQ/" target="_blank">View on Instagram</a></li></ul></div></div></div></div>'
       $('#jasmine_content').append(fixture);
       feedIndex = new FeedIndex($('#jasmine_content'));
@@ -329,72 +343,106 @@ describe("FeedIndex", function () {
   });
 
   describe("toggling posts", function () {
-
     afterEach(function () {
       $('#jasmine_content').empty();
     });
 
     it("can toggle twitter posts", function () {
       var fixture1 = $('<aside><ul id="secondary_nav"><li><a href="#" id="twitter_toggle">Toggle Twitter</a></li></ul></aside>');
-      var fixture2 = $(TestResponses.initialFeedResponse.success.responseText);
+      var fixture2 = $(TestResponses.initialFeedResponse.success.responseText.fragment);
       $('#jasmine_content').append(fixture1);
       $('#jasmine_content').append(fixture2);
 
       feedIndex = new FeedIndex($('#jasmine_content'));
-      expect(feedIndex.twitterShow).toEqual(true);
+      feedIndex.providers = {facebook: true, twitter: true, instagram: true};
+      expect(feedIndex.providers.twitter).toEqual(true);
       feedIndex.toggleTwitterPosts(feedIndex.toggleProvider);
 
       $('#twitter_toggle').click();
-      expect(feedIndex.twitterShow).toEqual(false);
+      expect(feedIndex.providers.twitter).toEqual(false);
       expect($('.twitter_post')[0]).toBeHidden();
     });
 
     it("can toggle facebook posts", function () {
       var fixture1 = $('<aside><ul id="secondary_nav"><li><a href="#" id="facebook_toggle">Toggle Facebook</a></li></ul></aside>');
-      var fixture2 = $(TestResponses.facebookPost.success.responseText);
+      var fixture2 = $(TestResponses.facebookPost.success.responseText.fragment);
       $('#jasmine_content').append(fixture1);
       $('#jasmine_content').append(fixture2);
 
       feedIndex = new FeedIndex($('#jasmine_content'));
-      expect(feedIndex.facebookShow).toEqual(true);
+      feedIndex.providers = {facebook: true, twitter: true, instagram: true};
+      expect(feedIndex.providers.facebook).toEqual(true);
       feedIndex.toggleFacebookPosts(feedIndex.toggleProvider);
 
       $('#facebook_toggle').click();
-      expect(feedIndex.facebookShow).toEqual(false);
+      expect(feedIndex.providers.facebook).toEqual(false);
       expect($('.facebook_post')[0]).toBeHidden();
     });
 
     it("can toggle instagram posts", function () {
       var fixture1 = $('<aside><ul id="secondary_nav"><li><a href="#" id="instagram_toggle">Toggle Instagram</a></li></ul></aside>');
-      var fixture2 = $(TestResponses.instagramPost.success.responseText);
+      var fixture2 = $(TestResponses.instagramPost.success.responseText.fragment);
       $('#jasmine_content').append(fixture1);
       $('#jasmine_content').append(fixture2);
 
       feedIndex = new FeedIndex($('#jasmine_content'));
-      expect(feedIndex.instagramShow).toEqual(true);
+      feedIndex.providers = {facebook: true, twitter: true, instagram: true};
+      expect(feedIndex.providers.instagram).toEqual(true);
       feedIndex.toggleInstagramPosts(feedIndex.toggleProvider);
 
       $('#instagram_toggle').click();
-      expect(feedIndex.instagramShow).toEqual(false);
+      expect(feedIndex.providers.instagram).toEqual(false);
       expect($('.instagram_post')[0]).toBeHidden();
     });
 
     it("can hide posts", function () {
-      var fixture1 = $(TestResponses.facebookPost.success.responseText);
-      var fixture2 = $(TestResponses.instagramPost.success.responseText);
-      var fixture3 = $(TestResponses.twitterPost.success.responseText);
+      var fixture1 = $(TestResponses.facebookPost.success.responseText.fragment);
+      var fixture2 = $(TestResponses.instagramPost.success.responseText.fragment);
+      var fixture3 = $(TestResponses.twitterPost.success.responseText.fragment);
       $('#jasmine_content').append(fixture1);
       $('#jasmine_content').append(fixture2);
       $('#jasmine_content').append(fixture3);
 
       feedIndex = new FeedIndex($('#jasmine_content'));
-      feedIndex.instagramShow = false;
-      feedIndex.twitterShow = false;
-      feedIndex.facebookShow = false;
+      feedIndex.providers = {facebook: false, twitter: false, instagram: false};
       feedIndex.hidePosts();
       expect($('.instagram_post')[0]).toBeHidden();
       expect($('.facebook_post')[0]).toBeHidden();
       expect($('.twitter_post')[0]).toBeHidden();
+    });
+
+    it("can hide the toggle buttons", function () {
+      var fixture = '<ul id="secondary_nav"><li><a href="#" id="facebook_toggle">Toggle Facebook</a></li><li><a href="#" id="twitter_toggle">Toggle Twitter</a></li><li><a href="#" id="instagram_toggle">Toggle Instagram</a></li></ul>'
+      $('#jasmine_content').append(fixture);
+      feedIndex = new FeedIndex();
+      feedIndex.providers = {facebook: false, twitter: false, instagram: false};
+      feedIndex.toggleProviderButtons();
+      expect($('#facebook_toggle')).toBeHidden();
+      expect($('#twitter_toggle')).toBeHidden();
+      expect($('#instagram_toggle')).toBeHidden();
+    });
+
+    it("will hide the toggle buttons if a user's account is unauthed", function () {
+      var fixture = $('<div id="feed_container"> </div> <div class="loading_message"> <p class="loading_text">Loading...</p> </div>');
+      $('#jasmine_content').append(fixture);
+      var initialFeedResponse = TestResponses.initialFeedResponse.unauthed.responseText;
+      feedIndex = new FeedIndex();
+      feedIndex.providers = {facebook: true, twitter: true, instagram: true};
+      feedIndex.render(initialFeedResponse);
+      expect(feedIndex.providers.facebook).toEqual(false);
+      expect(feedIndex.providers.twitter).toEqual(false);
+      expect(feedIndex.providers.instagram).toEqual(false);
+    });
+  });
+
+  describe("setting providers", function () {
+    it("sets instagramShow, facebookShow, and twitterShow", function () {
+      feedIndex = new FeedIndex();
+      feedIndex.providers = {facebook: true, instagram: true, twitter: true};
+      feedIndex.setProviders({facebook: false, instagram: false, twitter: false});
+      expect(feedIndex.providers.facebook).toEqual(false);
+      expect(feedIndex.providers.instagram).toEqual(false);
+      expect(feedIndex.providers.twitter).toEqual(false);
     });
   });
 });

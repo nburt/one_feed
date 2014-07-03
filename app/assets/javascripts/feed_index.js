@@ -5,9 +5,6 @@ FeedIndex = function () {
     this.el = element;
     this.reloadOk = false;
     this.canCreatePost = true;
-    this.instagramShow = true;
-    this.facebookShow = true;
-    this.twitterShow = true;
   }
 
   FeedIndex.prototype.initialize = function () {
@@ -28,6 +25,30 @@ FeedIndex = function () {
     this.toggleInstagramPosts(this.toggleProvider);
   };
 
+  FeedIndex.prototype.setProviders = function (providers) {
+    if (providers.facebook !== undefined) {
+      this.providers.facebook = providers.facebook;
+    }
+    if (providers.twitter !== undefined) {
+      this.providers.twitter = providers.twitter;
+    }
+    if (providers.instagram !== undefined) {
+      this.providers.instagram = providers.instagram;
+    }
+  };
+
+  FeedIndex.prototype.toggleProviderButtons = function () {
+    if (!this.providers.twitter) {
+      $('#twitter_toggle').hide();
+    }
+    if (!this.providers.instagram) {
+      $('#instagram_toggle').hide();
+    }
+    if (!this.providers.facebook) {
+      $('#facebook_toggle').hide();
+    }
+  };
+
   FeedIndex.prototype.getInitialFeed = function (initialFeedSuccess) {
     $.get("/feed_content").success(initialFeedSuccess.bind(this));
   };
@@ -39,7 +60,12 @@ FeedIndex = function () {
   };
 
   FeedIndex.prototype.render = function (response) {
-    $('#feed_container').append(response);
+    $('#feed_container').append(response.fragment);
+    var providers = {};
+    for (var i = 0; i < response.unauthed_accounts.length; i++) {
+      providers[response.unauthed_accounts[i]] = false;
+    }
+    this.setProviders(providers);
     $(".loading_message").hide();
   };
 
@@ -62,25 +88,25 @@ FeedIndex = function () {
   };
 
   FeedIndex.prototype.isReloadAvailable = function (documentHeight, scrollbarPosition) {
-    return (documentHeight - scrollbarPosition < 7500 && this.reloadOk === true && (this.instagramShow || this.facebookShow || this.twitterShow));
+    return (documentHeight - scrollbarPosition < 7500 && this.reloadOk === true && (this.providers.instagram || this.providers.facebook || this.providers.twitter ));
   };
 
   FeedIndex.prototype.nextFeedSuccess = function (response) {
     this.reloadOk = true;
-    $(".load_posts_link").replaceWith(response);
+    $(".load_posts_link").replaceWith(response.fragment);
     $(".loading_message").hide();
     this.addTimeagoPlugin();
     this.hidePosts();
   };
 
   FeedIndex.prototype.hidePosts = function () {
-    if (!this.instagramShow) {
+    if (!this.providers.instagram) {
       $('.instagram_post').hide();
     }
-    if (!this.facebookShow) {
+    if (!this.providers.facebook) {
       $('.facebook_post').hide();
     }
-    if (!this.twitterShow) {
+    if (!this.providers.twitter) {
       $('.twitter_post').hide();
     }
   };
@@ -270,28 +296,28 @@ FeedIndex = function () {
   };
 
   FeedIndex.prototype.toggleProvider = function (className, providerVisibility) {
-    this[providerVisibility] = !this[providerVisibility];
+    this.providers[providerVisibility] = !this.providers[providerVisibility];
     $(className).toggle();
   };
 
   FeedIndex.prototype.toggleFacebookPosts = function (toggleProvider) {
     $(this.el).on('click', '#facebook_toggle', function (event) {
       event.preventDefault();
-      toggleProvider.apply(this, [$('.facebook_post'), 'facebookShow']);
+      toggleProvider.apply(this, [$('.facebook_post'), 'facebook']);
     }.bind(this));
   };
 
   FeedIndex.prototype.toggleTwitterPosts = function (toggleProvider) {
     $(this.el).on('click', '#twitter_toggle', function (event) {
       event.preventDefault();
-      toggleProvider.apply(this, [$('.twitter_post'), 'twitterShow']);
+      toggleProvider.apply(this, [$('.twitter_post'), 'twitter']);
     }.bind(this));
   };
 
   FeedIndex.prototype.toggleInstagramPosts = function (toggleProvider) {
     $(this.el).on('click', '#instagram_toggle', function (event) {
       event.preventDefault();
-      toggleProvider.apply(this, [$('.instagram_post'), 'instagramShow']);
+      toggleProvider.apply(this, [$('.instagram_post'), 'instagram']);
     }.bind(this));
   };
 

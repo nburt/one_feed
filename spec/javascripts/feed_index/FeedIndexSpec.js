@@ -132,12 +132,14 @@ describe("FeedIndex", function () {
     });
 
     it("makes an ajax call on submit of the create post form", function () {
-      var fixture = '<form id="create_post_form" action="#" data-behavior="/posts" style="display: block;"><div id="create_posts_container"><div style="display:none"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="sx9Uqe9Rt0WYna5MBqHA/bDQmJJfrE8c/sIUjiQJN/w="></div><div id="post_content_container"><label for="post_content">Post content</label><textarea id="post_content" name="post" placeholder="Share something awesome!"></textarea></div><div id="post_checkbox_container"><label>Choose which networks to post to:</label><label for="provider_twitter">Twitter</label><input id="provider_twitter" name="provider[twitter]" type="checkbox" value="0"><label for="provider_facebook">Facebook</label><input id="provider_facebook" name="provider[facebook]" type="checkbox" value="0"></div><div id="create_post_button_container"><button type="submit">Create Post</button><button id="js-cancel-button">Cancel</button></div></div></form>'
+      var fixture = '<form id="create_post_form" action="#" name="create_post_form" data-behavior="/posts"><div id="create_posts_container"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;"/><input name="authenticity_token" type="hidden" value="sx9Uqe9Rt0WYna5MBqHA/bDQmJJfrE8c/sIUjiQJN/w="/></div><div id="post_content_container"><label for="post_content">Post content</label><textarea id="post_content" name="post" placeholder="Share something awesome!"></textarea></div><div id="post_checkbox_container"><label>Choose which networks to post to:</label><label for="provider_twitter">Twitter</label><input id="provider_twitter" name="provider[twitter]" type="checkbox" value="0"/><label for="provider_facebook">Facebook</label><input id="provider_facebook" name="provider[facebook]" type="checkbox" value="0"/></div><div id="create_post_button_container"><button type="submit">Create Post</button><button id="js-cancel-button">Cancel</button></div></div></form>'
       $('#jasmine_content').append(fixture);
       feedIndex = new FeedIndex($('#jasmine_content'));
-      feedIndex.createPost(feedIndex.createPostSuccess);
+      feedIndex.createPost(feedIndex.createPostSuccess, feedIndex.validatePostTextarea, feedIndex.validatePostCheckboxes);
+      document.forms.create_post_form.post.value = "foo";
+      $(document.forms.create_post_form).find('input[type=checkbox]')[0].checked = true;
       $('button[type=submit]').click();
-      expect(jasmine.Ajax.requests.mostRecent().url).toBe("/posts?post=&twitter=false&facebook=false");
+      expect(jasmine.Ajax.requests.mostRecent().url).toBe("/posts?post=foo&twitter=true&facebook=false");
     });
 
     it("adds a post to the DOM when it has been successfully created", function () {
@@ -163,6 +165,56 @@ describe("FeedIndex", function () {
       expect($('#jasmine_content')).toContainText("Facebook:");
       expect($('#jasmine_content')).toContainText("Twitter:");
       expect($('#jasmine_content')).toContainText("Authorization for the following accounts has expired");
+    });
+
+    it("allows you to click 'Cancel' and it will remove the create post form from the DOM", function () {
+      var fixture = '<form id="create_post_form" action="#" name="create_post_form" data-behavior="/posts"><div id="create_posts_container"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;"/><input name="authenticity_token" type="hidden" value="sx9Uqe9Rt0WYna5MBqHA/bDQmJJfrE8c/sIUjiQJN/w="/></div><div id="post_content_container"><label for="post_content">Post content</label><textarea id="post_content" name="post" placeholder="Share something awesome!"></textarea></div><div id="post_checkbox_container"><label>Choose which networks to post to:</label><label for="provider_twitter">Twitter</label><input id="provider_twitter" name="provider[twitter]" type="checkbox" value="0"/><label for="provider_facebook">Facebook</label><input id="provider_facebook" name="provider[facebook]" type="checkbox" value="0"/></div><div id="create_post_button_container"><button type="submit">Create Post</button><button id="js-cancel-button">Cancel</button></div></div></form>'
+      $('#jasmine_content').append(fixture);
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      feedIndex.cancelCreatePost();
+      $('#js-cancel-button').click();
+      expect($('#jasmine_content')).not.toContainText('Choose which networks to post to:');
+      expect($('#jasmine_content')).not.toContainText('Facebook');
+    });
+  });
+
+  describe("validations for creating a post", function () {
+
+    afterEach(function () {
+      $('#jasmine_content').empty();
+    });
+
+    it("returns false if the text field is empty", function () {
+      var fixture = '<form id="create_post_form" action="#" name="create_post_form" data-behavior="/posts"><div id="create_posts_container"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;"/><input name="authenticity_token" type="hidden" value="sx9Uqe9Rt0WYna5MBqHA/bDQmJJfrE8c/sIUjiQJN/w="/></div><div id="post_content_container"><label for="post_content">Post content</label><textarea id="post_content" name="post" placeholder="Share something awesome!"></textarea></div><div id="post_checkbox_container"><label>Choose which networks to post to:</label><label for="provider_twitter">Twitter</label><input id="provider_twitter" name="provider[twitter]" type="checkbox" value="0"/><label for="provider_facebook">Facebook</label><input id="provider_facebook" name="provider[facebook]" type="checkbox" value="0"/></div><div id="create_post_button_container"><button type="submit">Create Post</button><button id="js-cancel-button">Cancel</button></div></div></form>'
+      $('#jasmine_content').append(fixture);
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      expect(feedIndex.validatePostTextarea()).toEqual(false);
+    });
+
+    it("returns true if the text field is filled", function () {
+      var fixture = '<form id="create_post_form" action="#" name="create_post_form" data-behavior="/posts"><div id="create_posts_container"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;"/><input name="authenticity_token" type="hidden" value="sx9Uqe9Rt0WYna5MBqHA/bDQmJJfrE8c/sIUjiQJN/w="/></div><div id="post_content_container"><label for="post_content">Post content</label><textarea id="post_content" name="post" placeholder="Share something awesome!"></textarea></div><div id="post_checkbox_container"><label>Choose which networks to post to:</label><label for="provider_twitter">Twitter</label><input id="provider_twitter" name="provider[twitter]" type="checkbox" value="0"/><label for="provider_facebook">Facebook</label><input id="provider_facebook" name="provider[facebook]" type="checkbox" value="0"/></div><div id="create_post_button_container"><button type="submit">Create Post</button><button id="js-cancel-button">Cancel</button></div></div></form>'
+      $('#jasmine_content').append(fixture);
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      document.forms.create_post_form.post.value = "foo";
+      expect(feedIndex.validatePostTextarea()).toEqual(true);
+    });
+
+    it("returns false if you haven't checked a provider", function () {
+      var fixture = '<form id="create_post_form" action="#" name="create_post_form" data-behavior="/posts"><div id="create_posts_container"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;"/><input name="authenticity_token" type="hidden" value="sx9Uqe9Rt0WYna5MBqHA/bDQmJJfrE8c/sIUjiQJN/w="/></div><div id="post_content_container"><label for="post_content">Post content</label><textarea id="post_content" name="post" placeholder="Share something awesome!"></textarea></div><div id="post_checkbox_container"><label>Choose which networks to post to:</label><label for="provider_twitter">Twitter</label><input id="provider_twitter" name="provider[twitter]" type="checkbox" value="0"/><label for="provider_facebook">Facebook</label><input id="provider_facebook" name="provider[facebook]" type="checkbox" value="0"/></div><div id="create_post_button_container"><button type="submit">Create Post</button><button id="js-cancel-button">Cancel</button></div></div></form>'
+      $('#jasmine_content').append(fixture);
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      expect(feedIndex.validatePostCheckboxes()).toEqual(false);
+    });
+
+    it("returns true if you have checked a provider", function () {
+      var fixture = '<form id="create_post_form" action="#" name="create_post_form" data-behavior="/posts"><div id="create_posts_container"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;"/><input name="authenticity_token" type="hidden" value="sx9Uqe9Rt0WYna5MBqHA/bDQmJJfrE8c/sIUjiQJN/w="/></div><div id="post_content_container"><label for="post_content">Post content</label><textarea id="post_content" name="post" placeholder="Share something awesome!"></textarea></div><div id="post_checkbox_container"><label>Choose which networks to post to:</label><label for="provider_twitter">Twitter</label><input id="provider_twitter" name="provider[twitter]" type="checkbox" value="0"/><label for="provider_facebook">Facebook</label><input id="provider_facebook" name="provider[facebook]" type="checkbox" value="0"/></div><div id="create_post_button_container"><button type="submit">Create Post</button><button id="js-cancel-button">Cancel</button></div></div></form>'
+      $('#jasmine_content').append(fixture);
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      $(document.forms.create_post_form).find('input[type=checkbox]')[0].checked = true;
+      expect(feedIndex.validatePostCheckboxes()).toEqual(true);
+      $(document.forms.create_post_form).find('input[type=checkbox]')[0].checked = false;
+      expect(feedIndex.validatePostCheckboxes()).toEqual(false);
+      $(document.forms.create_post_form).find('input[type=checkbox]')[1].checked = true;
     });
   });
 

@@ -11,7 +11,8 @@ FeedIndex = function () {
     this.getInitialFeed(this.initialFeedSuccess);
     this.trackScrolling(this.nextFeedSuccess);
     this.setupCreatingPost();
-    this.createPost(this.createPostSuccess.bind(this));
+    this.createPost(this.createPostSuccess.bind(this), this.validatePostTextarea, this.validatePostCheckboxes);
+    this.cancelCreatePost();
     this.twitterFavorite(this.twitterFavoriteSuccess);
     this.twitterRetweet(this.twitterRetweetSuccess);
     this.instagramLike(this.instagramLikeSuccess);
@@ -122,22 +123,51 @@ FeedIndex = function () {
     }.bind(this));
   };
 
-  FeedIndex.prototype.createPost = function (createPostSuccess) {
+  FeedIndex.prototype.createPost = function (createPostSuccess, validatePostTextarea, validatePostCheckboxes) {
     $(this.el).on('submit', '#create_post_form', function (event) {
       event.preventDefault();
-      var post = $(this)[0][2].value;
-      var twitter;
-      var facebook;
-      var postCheckboxContainer = $(this).find('#post_checkbox_container');
-      if (postCheckboxContainer.children('#provider_twitter').length > 0) {
-        twitter = postCheckboxContainer.children('#provider_twitter')[0].checked;
+      if (validatePostTextarea() && validatePostCheckboxes()) {
+        var post = $(this)[0][2].value;
+        var twitter;
+        var facebook;
+        var postCheckboxContainer = $(this).find('#post_checkbox_container');
+        if (postCheckboxContainer.children('#provider_twitter').length > 0) {
+          twitter = postCheckboxContainer.children('#provider_twitter')[0].checked;
+        }
+        if (postCheckboxContainer.children('#provider_facebook').length > 0) {
+          facebook = postCheckboxContainer.children('#provider_facebook')[0].checked;
+        }
+        var url = $(this).data('behavior');
+        $.post(url + "?" + "post=" + post + "&" + "twitter=" + twitter + "&" + "facebook=" + facebook).success(createPostSuccess);
       }
-      if (postCheckboxContainer.children('#provider_facebook').length > 0) {
-        facebook = postCheckboxContainer.children('#provider_facebook')[0].checked;
-      }
-      var url = $(this).data('behavior');
-      $.post(url + "?" + "post=" + post + "&" + "twitter=" + twitter + "&" + "facebook=" + facebook).success(createPostSuccess);
     });
+  };
+
+  FeedIndex.prototype.cancelCreatePost = function () {
+    $(this.el).on('click', '#js-cancel-button', function (event) {
+      event.preventDefault();
+      $("#create_post_form").remove();
+    });
+  };
+
+  FeedIndex.prototype.validatePostTextarea = function () {
+    var textareaValue = document.forms.create_post_form.post.value;
+    if (textareaValue == null || textareaValue == "") {
+      alert("Post body cannot be blank.");
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  FeedIndex.prototype.validatePostCheckboxes = function () {
+    var checkboxes = $(document.forms.create_post_form).find('input[type=checkbox]');
+    if (!checkboxes[0].checked && !checkboxes[1].checked) {
+      alert("You must check at least one provider.");
+      return false;
+    } else {
+      return true;
+    }
   };
 
   FeedIndex.prototype.createPostSuccess = function (response) {

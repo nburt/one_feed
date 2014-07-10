@@ -50,6 +50,15 @@ var TestResponses = {
         fragment: '<div class="individual_post twitter_post" data-id="481919606580207616"><div class="network_logo"><img alt="Twitter logo blue" class="provider_logo" src="/assets/Twitter_logo_blue.png" /></div><div class="post_main"><div class="post_header"><ul><li><a href="https://twitter.com/TechCrunch" target="_blank"><img alt="Rkzr1jih normal" class="user_profile_picture" src="https://pbs.twimg.com/profile_images/469171480832380928/rkZR1jIh_normal.png" /></a></li><li><a href="https://twitter.com/TechCrunch" target="_blank">TechCrunch</a></li><li>@TechCrunch</li><li><abbr class="timeago" title="2014-06-25 15:59:22 -0600">2014-06-25 15:59:22 -0600</abbr></li></ul></div><div class="post_content"><ul><li>Hands On With Google&#39;s Incredibly Clever Cardboard Virtual Reality Headset http://t.co/MAU9pSTg25 by @grg</li></ul><div class="post_stats"><ul><li data-twitter-retweet-count><a href="/twitter/retweet/481919606580207616">Retweet:</a><span class="js-twitter-retweet-count">53</span></li><li data-twitter-favorite-count="481919606580207616"><a href="/twitter/favorite/481919606580207616">Favorite:</a><span class="js-twitter-favorite-count">6</span></li><li><a href="https://twitter.com/TechCrunch/status/481919606580207616" target="_blank">View on Twitter</a></li></ul></div></div></div></div>'
       }
     }
+  },
+  partialUnauthed: {
+    success: {
+      status: 200,
+      responseText: {
+        unauthed_accounts: ["twitter"],
+        fragment: '<div class="unauthed_accounts"><h4>Authorization for Twitter has expired. Please click the below link to reauthorize your account.</h4><ul><li data-unauthed="twitter">Twitter: <a href="/auth/twitter">Click here to reauthorize</a></li></ul></div><div class="individual_post facebook_post"><div class="network_logo"><img src="/assets/FB-f-Logo__blue_50.png" class="provider_logo"></div><div class="post_main"><div class="post_header"><ul id="facebook_post_header"><li><a href="https://www.facebook.com/app_scoped_user_id/1396087480675877" target="_blank"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/t1.0-1/c5.0.50.50/p50x50/10298929_1426091331008825_4981210231336248758_s.jpg" class="user_profile_picture"></a></li><li><a href="https://www.facebook.com/app_scoped_user_id/1396087480675877" target="_blank">Tom Amhbciaegaeb Lauescu</a></li><li><abbr class="timeago" title="2014-06-30T15:14:41+0000" style="border: none;">less than a minute ago</abbr></li></ul><div class="subheader"><ul><li>via OneFeed Staging - local dev</li></ul></div></div><div class="post_content"><ul><li>hello</li></ul><div class="post_stats"><ul><li>Comments: 0</li><li data-facebook-like-count="1396087480675877_1435904106694214"><a href="/facebook/like/1396087480675877_1435904106694214">Like:</a> <span class="js-facebook-like-count">0</span></li><li><a href="https://www.facebook.com/1396087480675877/posts/1435904106694214" target="_blank">View on Facebook</a></li></ul></div></div></div></div>'
+      }
+    }
   }
 };
 

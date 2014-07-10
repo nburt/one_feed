@@ -94,10 +94,26 @@ FeedIndex = function () {
 
   FeedIndex.prototype.nextFeedSuccess = function (response) {
     this.reloadOk = true;
-    $(".load_posts_link").replaceWith(response.fragment);
+    if ($('.unauthed_accounts').length == 1) {
+      this.nextFeedUnauthedAccounts(response);
+    } else {
+      $(".load_posts_link").replaceWith(response.fragment);
+    }
     $(".loading_message").hide();
     this.addTimeagoPlugin();
     this.hidePosts();
+  };
+
+  FeedIndex.prototype.nextFeedUnauthedAccounts = function (response) {
+    $(".load_posts_link").replaceWith(response.fragment);
+    if ($('.unauthed_accounts').length == 1) {
+      for (var i = 0; i < $('[data-unauthed]').length; i++) {
+        this.providers[$('[data-unauthed]')[i].data('unauthed')] = true;
+      }
+      $('.unauthed_accounts').remove();
+    } else {
+      $('.unauthed_accounts:last').remove();
+    }
   };
 
   FeedIndex.prototype.hidePosts = function () {

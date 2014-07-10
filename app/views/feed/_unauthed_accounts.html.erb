@@ -12,7 +12,7 @@
   <% end %>
   <ul>
     <% @unauthed_accounts.each do |account| %>
-      <li>
+      <li data-unauthed=<%= account %>>
         <%= account.capitalize %>: <%= link_to "Click here to reauthorize", "/auth/#{account}" %>
       </li>
     <% end %>

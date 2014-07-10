@@ -74,15 +74,36 @@ describe("FeedIndex", function () {
     });
 
     it("will add a successful response to the DOM", function () {
-      var fixture = $('<div id="feed_container"><div class="load_posts_link"><a href="/feed_content?facebook_pagination_id=738694135382969310_152721" id="load-more">Load more posts</a></div></div>');
+      var fixture = '<div id="feed_container"><div class="load_posts_link"><a href="/feed_content?facebook_pagination_id=738694135382969310_152721" id="load-more">Load more posts</a></div></div>';
       $('#jasmine_content').append(fixture);
       var subsequentFeedRequest = TestResponses.subsequentFeedResponse.success.responseText;
       feedIndex = new FeedIndex();
       feedIndex.providers = {facebook: true, twitter: true, instagram: true};
       feedIndex.nextFeedSuccess(subsequentFeedRequest);
-
       expect(feedIndex.reloadOk).toEqual(true);
       expect($('#feed_container')).toContainText('hello');
+    });
+
+    it("will not add unauthed accounts div if it is already in the DOM", function () {
+      var fixture = '<div class="unauthed_accounts"><h4>Authorization for Twitter has expired. Please click the below link to reauthorize your account.</h4><ul><li>Twitter: <a href="/auth/twitter">Click here to reauthorize</a></li></ul></div><div id="feed_container"><div class="load_posts_link"><a href="/feed_content?facebook_pagination_id=738694135382969310_152721" id="load-more">Load more posts</a></div></div>';
+      $('#jasmine_content').append(fixture);
+      var subsequentFeedRequest = TestResponses.partialUnauthed.success.responseText;
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      feedIndex.providers = {facebook: true, twitter: false, instagram: true};
+      expect($('.unauthed_accounts').length).toEqual(1);
+      feedIndex.nextFeedSuccess(subsequentFeedRequest);
+      expect($('.unauthed_accounts').length).toEqual(1);
+    });
+
+    it("will remove all unauthed accounts if all the user's accounts are now authed", function () {
+      var fixture = '<div class="unauthed_accounts"><h4>Authorization for Twitter has expired. Please click the below link to reauthorize your account.</h4><ul><li>Twitter: <a href="/auth/twitter">Click here to reauthorize</a></li></ul></div><div id="feed_container"><div class="load_posts_link"><a href="/feed_content?facebook_pagination_id=738694135382969310_152721" id="load-more">Load more posts</a></div></div>';
+      $('#jasmine_content').append(fixture);
+      var subsequentFeedRequest = TestResponses.twitterPost.success.responseText;
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      feedIndex.providers = {facebook: true, twitter: false, instagram: true};
+      expect($('.unauthed_accounts').length).toEqual(1);
+      feedIndex.nextFeedSuccess(subsequentFeedRequest);
+      expect($('.unauthed_accounts').length).toEqual(0);
     });
   });
 

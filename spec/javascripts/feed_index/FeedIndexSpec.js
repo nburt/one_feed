@@ -31,7 +31,7 @@ describe("FeedIndex", function () {
     it("should make a feed request on initialize", function () {
       $content = $('<div class="loading_message"><p class="loading_text">Loading...</p></div>');
       feedIndex = new FeedIndex($content);
-
+      feedIndex.providers = {facebook: true, twitter: false, instagram: true};
       feedIndex.initialize();
 
       expect(jasmine.Ajax.requests.mostRecent().url).toBe("/feed_content");
@@ -49,6 +49,17 @@ describe("FeedIndex", function () {
 
       expect(feedIndex.reloadOk).toEqual(true);
       expect($('#feed_container')).toContainText('@TechCrunch');
+    });
+
+    it("should toggle provider buttons based on if the accounts are authed or not", function () {
+      var fixture = '<ul id="secondary_nav"><li><a href="#" id="facebook_toggle" style="display: block;">Toggle Facebook</a></li><li><a href="#" id="twitter_toggle" style="display: block;">Toggle Twitter</a></li><li><a href="#" id="instagram_toggle">Toggle Instagram</a></li></ul><div id="feed_container"> </div> <div class="loading_message"> <p class="loading_text">Loading...</p> </div>';
+      $('#jasmine_content').append(fixture);
+      var initialFeedResponse = TestResponses.partialUnauthed.success.responseText;
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      feedIndex.providers = {facebook: true, twitter: true, instagram: false};
+      feedIndex.initialFeedSuccess(initialFeedResponse);
+      expect($('#twitter_toggle')).toBeHidden();
+      expect($('#instagram_toggle')).toBeHidden();
     });
   });
 
@@ -104,6 +115,28 @@ describe("FeedIndex", function () {
       expect($('.unauthed_accounts').length).toEqual(1);
       feedIndex.nextFeedSuccess(subsequentFeedRequest);
       expect($('.unauthed_accounts').length).toEqual(0);
+    });
+
+    it("if there are multiple unauthed accounts and one is reauthed, it will remove the li for that reauthed account", function () {
+      var fixture = '<div class="unauthed_accounts"><h4>Authorization for the following accounts has expired. Please click the below links to reauthorize youraccounts.</h4><ul><li data-unauthed="twitter">Twitter: <a href="/auth/twitter">Click here to reauthorize</a></li><li data-unauthed="facebook">Facebook: <a href="/auth/facebook">Click here to reauthorize</a></li></ul></div><div id="feed_container"><div class="load_posts_link"><a href="/feed_content?facebook_pagination_id=738694135382969310_152721" id="load-more">Load more posts</a></div></div>'
+      $('#jasmine_content').append(fixture);
+      var subsequentFeedRequestResponse = TestResponses.partialUnauthed.success.responseText;
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      feedIndex.providers = {facebook: false, twitter: false, instagram: true};
+      expect($('[data-unauthed]').length).toEqual(2);
+      feedIndex.nextFeedSuccess(subsequentFeedRequestResponse);
+      expect($('[data-unauthed]').length).toEqual(1);
+    });
+
+    it("displays posts if they are reauthed", function () {
+      var fixture = '<div class="unauthed_accounts"><h4>Authorization for the following accounts has expired. Please click the below links to reauthorize youraccounts.</h4><ul><li data-unauthed="twitter">Twitter: <a href="/auth/twitter">Click here to reauthorize</a></li><li data-unauthed="facebook">Facebook: <a href="/auth/facebook">Click here to reauthorize</a></li></ul></div><div id="feed_container"><div class="load_posts_link"><a href="/feed_content?facebook_pagination_id=738694135382969310_152721" id="load-more">Load more posts</a></div></div>'
+      $('#jasmine_content').append(fixture);
+      var subsequentFeedRequestResponse = TestResponses.partialUnauthed.success.responseText;
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      feedIndex.providers = {facebook: false, twitter: false, instagram: true};
+      expect($('#jasmine_content')).not.toContainText('Tom Amhbciaegaeb Lauescu');
+      feedIndex.nextFeedSuccess(subsequentFeedRequestResponse);
+      expect($('#jasmine_content')).toContainText('Tom Amhbciaegaeb Lauescu');
     });
   });
 
@@ -496,7 +529,7 @@ describe("FeedIndex", function () {
     });
 
     it("will hide the toggle buttons if a user's account is unauthed", function () {
-      var fixture = $('<div id="feed_container"> </div> <div class="loading_message"> <p class="loading_text">Loading...</p> </div>');
+      var fixture = $('<ul id="secondary_nav"><li><a href="#" id="facebook_toggle" style="display: block;">Toggle Facebook</a></li><li><a href="#" id="twitter_toggle" style="display: block;">Toggle Twitter</a></li><li><a href="#" id="instagram_toggle">Toggle Instagram</a></li></ul><div id="feed_container"> </div> <div class="loading_message"> <p class="loading_text">Loading...</p> </div>');
       $('#jasmine_content').append(fixture);
       var initialFeedResponse = TestResponses.initialFeedResponse.unauthed.responseText;
       feedIndex = new FeedIndex();
@@ -505,6 +538,9 @@ describe("FeedIndex", function () {
       expect(feedIndex.providers.facebook).toEqual(false);
       expect(feedIndex.providers.twitter).toEqual(false);
       expect(feedIndex.providers.instagram).toEqual(false);
+      expect($('#facebook_toggle')).toBeHidden();
+      expect($('#twitter_toggle')).toBeHidden();
+      expect($('#instagram_toggle')).toBeHidden();
     });
   });
 

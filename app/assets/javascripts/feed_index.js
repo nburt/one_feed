@@ -8,6 +8,7 @@ FeedIndex = function () {
   }
 
   FeedIndex.prototype.initialize = function () {
+    this.toggleProviderButtons();
     this.getInitialFeed(this.initialFeedSuccess);
     this.trackScrolling(this.nextFeedSuccess);
     this.setupCreatingPost();
@@ -39,13 +40,19 @@ FeedIndex = function () {
   };
 
   FeedIndex.prototype.toggleProviderButtons = function () {
-    if (!this.providers.twitter) {
+    if (this.providers.twitter) {
+      $('#twitter_toggle').show();
+    } else {
       $('#twitter_toggle').hide();
     }
-    if (!this.providers.instagram) {
+    if (this.providers.instagram) {
+      $('#instagram_toggle').show();
+    } else {
       $('#instagram_toggle').hide();
     }
-    if (!this.providers.facebook) {
+    if (this.providers.facebook) {
+      $('#facebook_toggle').show();
+    } else {
       $('#facebook_toggle').hide();
     }
   };
@@ -67,6 +74,7 @@ FeedIndex = function () {
       providers[response.unauthed_accounts[i]] = false;
     }
     this.setProviders(providers);
+    this.toggleProviderButtons();
     $(".loading_message").hide();
   };
 
@@ -94,25 +102,35 @@ FeedIndex = function () {
 
   FeedIndex.prototype.nextFeedSuccess = function (response) {
     this.reloadOk = true;
-    if ($('.unauthed_accounts').length == 1) {
+    if ($('.unauthed_accounts').length === 1) {
       this.nextFeedUnauthedAccounts(response);
     } else {
       $(".load_posts_link").replaceWith(response.fragment);
     }
+    this.toggleProviderButtons();
     $(".loading_message").hide();
     this.addTimeagoPlugin();
     this.hidePosts();
   };
 
   FeedIndex.prototype.nextFeedUnauthedAccounts = function (response) {
+    var originalUnauthedAccountsCount = $('.unauthed_accounts').find('li').length;
     $(".load_posts_link").replaceWith(response.fragment);
-    if ($('.unauthed_accounts').length == 1) {
-      for (var i = 0; i < $('[data-unauthed]').length; i++) {
-        this.providers[$('[data-unauthed]')[i].data('unauthed')] = true;
-      }
+    if ($('.unauthed_accounts').length === 1) {
+      this.providers = {facebook: true, twitter: true, instagram: true};
       $('.unauthed_accounts').remove();
     } else {
-      $('.unauthed_accounts:last').remove();
+      if (originalUnauthedAccountsCount === $('.unauthed_accounts:last').find('li').length) {
+        $('.unauthed_accounts:last').remove();
+      } else {
+        $('.unauthed_accounts:last').remove();
+        this.providers = {facebook: true, twitter: true, instagram: true};
+        $('.unauthed_accounts').replaceWith(JST['templates/unauthed_accounts'](response));
+        for (var i = 0; i < $('[data-unauthed]').length; i++) {
+          var unauthedProvider = $($('[data-unauthed]')[i]).data('unauthed');
+          this.providers[unauthedProvider] = false;
+        }
+      }
     }
   };
 

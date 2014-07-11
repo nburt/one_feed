@@ -12,7 +12,7 @@
   <% } %>
   <ul>
     <% for (var i = 0; i < unauthed_accounts.length; i++) { %>
-    <li>
+    <li data-unauthed="<%= unauthed_accounts[i] %>">
       <%= unauthed_accounts[i].charAt(0).toUpperCase() + unauthed_accounts[i].slice(1) %>: <a href="<%= '/auth/' + unauthed_accounts[i] %>">Click here to
         reauthorize</a>
     </li>

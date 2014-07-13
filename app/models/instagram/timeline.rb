@@ -16,7 +16,7 @@ module Instagram
       begin
         timeline = instagram_api.get_timeline
         posts = timeline.posts
-          @pagination_max_id = timeline.pagination_max_id
+        @pagination_max_id = timeline.pagination_max_id
       rescue Unauthorized
         @authed = false
       end

@@ -21,4 +21,4 @@ SENDGRID_USERNAME:<YOUR SENDGRID USERNAME>
 1. Create the databases by running `psql -d postgres -f scripts/create_databases.sql`
 1. Run migrations using `rake db:migrate` and `RAILS_ENV=test rake db:migrate`
 1. Run Ruby tests using `rspec` or `rake spec`
-1. Run Javascript tests using `rake jasmine` from the command line and then opening your browser to localhost:8888
+1. Run Javascript tests using `rake jasmine` and opening your browser to localhost:8888

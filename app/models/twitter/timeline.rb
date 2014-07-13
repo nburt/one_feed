@@ -10,40 +10,40 @@ module Twitter
     end
 
     def posts(max_id = nil)
-      tokens = user_tokens
-      client = configure_twitter(tokens)
+      token = user_token
+      client = configure_twitter(token)
       timeline = get_timeline(client, max_id)
       store_last_post_id(timeline)
       timeline
     end
 
     def get_tweet(tweet_id)
-      tokens = user_tokens
-      client = configure_twitter(tokens)
+      token = user_token
+      client = configure_twitter(token)
       client.status(tweet_id)
     end
 
     def create_tweet(tweet)
-      tokens = user_tokens
-      client = configure_twitter(tokens)
+      token = user_token
+      client = configure_twitter(token)
       client.update(tweet)
     end
 
     def favorite_tweet(tweet_id)
-      tokens = user_tokens
-      client = configure_twitter(tokens)
+      token = user_token
+      client = configure_twitter(token)
       client.favorite(tweet_id)
     end
 
     def retweet_tweet(tweet_id)
-      tokens = user_tokens
-      client = configure_twitter(tokens)
+      token = user_token
+      client = configure_twitter(token)
       client.retweet(tweet_id)
     end
 
     private
 
-    def user_tokens
+    def user_token
       @user.tokens.find_by(provider: 'twitter')
     end
 
@@ -62,10 +62,10 @@ module Twitter
     end
 
     def store_last_post_id(timeline)
-      if last = timeline.last
-        @last_post_id = last.id
-      else
+      if timeline.last.nil?
         @last_post_id = nil
+      else
+        @last_post_id = timeline.last.id
       end
     end
 

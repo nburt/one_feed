@@ -6,5 +6,4 @@ namespace :timelines do
       Cache::Providers.fetch_and_save_timelines(user)
     end
   end
-
 end

@@ -6,9 +6,9 @@ module Cache
       facebook_token = tokens.find_by(provider: 'facebook')
       twitter_token = tokens.find_by(provider: 'twitter')
 
-      instagram_timeline = fetch_and_save_instagram(instagram_token)
-      facebook_timeline = fetch_and_save_facebook(facebook_token)
-      twitter_timeline = fetch_and_save_twitter(twitter_token)
+      instagram_timeline = fetch_instagram(instagram_token)
+      facebook_timeline = fetch_facebook(facebook_token)
+      twitter_timeline = fetch_twitter(twitter_token)
 
       post_array = create_post_array(instagram_timeline, facebook_timeline, twitter_timeline)
 
@@ -24,28 +24,28 @@ module Cache
     def self.create_post_array(instagram_timeline, facebook_timeline, twitter_timeline)
       array = []
       if instagram_timeline == []
-        array << {provider: 'instagram', body: instagram_timeline, status: 401}
+        array << {provider: 'instagram', body: instagram_timeline, code: 401}
       else
-        array << {provider: 'instagram', body: instagram_timeline.body, status: instagram_timeline.code}
+        array << {provider: 'instagram', body: instagram_timeline.body, code: instagram_timeline.code}
       end
 
       if facebook_timeline == []
-        array << {provider: 'facebook', body: facebook_timeline, status: 190}
+        array << {provider: 'facebook', body: facebook_timeline, code: 190}
       else
-        array << {provider: 'facebook', body: facebook_timeline.body, status: facebook_timeline.code}
+        array << {provider: 'facebook', body: facebook_timeline.body, code: facebook_timeline.code, profile_pictures: facebook_timeline.profile_pictures}
       end
 
       if twitter_timeline == []
-        array << {provider: 'twitter', body: twitter_timeline, status: 401}
+        array << {provider: 'twitter', body: twitter_timeline, code: 401}
       elsif twitter_timeline.code == 400
-        array << {provider: 'twitter', body: twitter_timeline.body, status: 400}
+        array << {provider: 'twitter', body: twitter_timeline.body, code: 400}
       else
-        array << {provider: 'twitter', body: twitter_timeline, status: 200}
+        array << {provider: 'twitter', body: twitter_timeline, code: 200}
       end
       array
     end
 
-    def self.fetch_and_save_instagram(token)
+    def self.fetch_instagram(token)
       if token.nil?
         []
       else
@@ -53,20 +53,25 @@ module Cache
       end
     end
 
-    def self.fetch_and_save_facebook(token)
+    def self.fetch_facebook(token)
       if token.nil?
         []
       else
-        Cache::FacebookApi.get_timeline(token.access_token)
+        cache_facebook_api = Cache::FacebookApi.new(token.access_token)
+        cache_facebook_api.get_timeline
+        Struct.new("FacebookCache", :body, :code, :profile_pictures)
+        Struct::FacebookCache.new(cache_facebook_api.timeline_response.body, cache_facebook_api.timeline_response.code, cache_facebook_api.profile_pictures)
       end
     end
 
-    def self.fetch_and_save_twitter(token)
+    def self.fetch_twitter(token)
       if token.nil?
         []
       else
         begin
-          Cache::TwitterApi.get_timeline(token)
+          timeline = Cache::TwitterApi.get_timeline(token)
+          Struct.new("Twitter", :body, :code)
+          Struct::Twitter.new(timeline, 200)
         rescue Twitter::Error::BadRequest, Twitter::Error::Unauthorized
           body = {
             "errors" => [
@@ -76,8 +81,8 @@ module Cache
               }
             ]
           }.to_json
-          Struct.new("Twitter", :body, :code)
-          Struct::Twitter.new(body, 400)
+          Struct.new("TwitterCache", :body, :code)
+          Struct::TwitterCache.new(body, 400)
         end
       end
     end

@@ -29,11 +29,11 @@ module Instagram
     end
 
     def success?
-      @response.status == 200
+      @response.code == 200
     end
 
     def authed?
-      !(@response.status == 400)
+      !(@response.code == 400)
     end
 
     private

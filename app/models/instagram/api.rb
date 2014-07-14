@@ -12,7 +12,7 @@ module Instagram
 
     def get_timeline
       Response.new(
-        Faraday.get("#{create_url}")
+        Typhoeus.get("#{create_url}")
       )
     end
 

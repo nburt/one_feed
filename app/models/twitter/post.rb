@@ -10,7 +10,7 @@ module Twitter
     end
 
     def created_time
-      @tweet.created_at
+      @tweet["created_at"]
     end
 
     def provider

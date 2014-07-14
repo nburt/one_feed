@@ -19,7 +19,7 @@ describe Cache::Providers do
     post = Post.last
     expect(post.post_array.first['provider']).to eq 'instagram'
     expect(post.post_array.first['body']).to eq body
-    expect(post.post_array.first['status']).to eq 401
+    expect(post.post_array.first['code']).to eq 401
   end
 
   it 'can handle unauthorized responses from facebook' do
@@ -38,7 +38,8 @@ describe Cache::Providers do
     post = Post.last
     expect(post.post_array[1]['provider']).to eq 'facebook'
     expect(post.post_array[1]['body']).to eq body
-    expect(post.post_array[1]['status']).to eq 190
+    expect(post.post_array[1]['code']).to eq 190
+    expect(post.post_array[1]['profile_pictures']).to eq({})
   end
 
   it 'can handle unauthorized responses from twitter' do
@@ -58,16 +59,34 @@ describe Cache::Providers do
     post = Post.last
     expect(post.post_array[2]['provider']).to eq 'twitter'
     expect(post.post_array[2]['body']).to eq body
-    expect(post.post_array[2]['status']).to eq 400
+    expect(post.post_array[2]['code']).to eq 400
   end
 
   it 'can clear out posts for a user' do
     stub_request(:get, 'https://api.instagram.com/v1/users/self/feed?access_token=mock_token&count=5').
-      to_return(body: File.read(File.expand_path('./spec/support/instagram/instagram_timeline.json')))
+      to_return(body: File.read('./spec/support/instagram/instagram_timeline.json'))
     user = User.create!(email: 'nate@example.com', password_digest: 'password', first_name: 'Nate', last_name: 'Burt')
     Post.create!(post_array: [], user_id: user.id)
     expect(Post.count).to eq 1
     Cache::Providers.clear_user_posts(user)
     expect(Post.count).to eq 0
+  end
+
+  it 'can create a post including facebook profile pictures' do
+    response = {
+      "data" => {
+        "url" => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/p50x50/10359166_10202087887622570_1663761395861545071_n.jpg",
+        "is_silhouette" => false
+      }
+    }.to_json
+    stub_request(:get, 'https://graph.facebook.com/v2.0/me/home?access_token=mock_token&limit=5').
+      to_return(status: 200, body: File.read('./spec/support/facebook/one_post_facebook_timeline.json'))
+    stub_request(:get, 'https://graph.facebook.com/10201999791700227/picture?redirect=false').
+      to_return(:body => response)
+    user = User.create!(email: 'nate@example.com', password_digest: 'password', first_name: 'Nate', last_name: 'Burt')
+    Token.create!(provider: 'facebook', uid: '23948734', access_token: 'mock_token', access_token_secret: 'mock_secret_token', user_id: user.id)
+    Cache::Providers.fetch_and_save_timelines(user)
+    post = Post.last
+    expect(post.post_array[1]['profile_pictures']['10201999791700227']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/p50x50/10359166_10202087887622570_1663761395861545071_n.jpg'
   end
 end

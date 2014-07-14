@@ -10,7 +10,7 @@ class FeedController < ApplicationController
 
   def feed
     post = Post.find_by(user_id: current_user.id)
-    if post && post.created_at > 10.minutes.ago
+    if post && post.created_at > 10.minutes.ago && params[:twitter_pagination].nil? && params[:facebook_pagination_id].nil? && params[:instagram_max_id].nil?
       cached_timeline = Cache::TimelineFormatter.new(post)
       cached_timeline.format
       @timeline = cached_timeline.timeline

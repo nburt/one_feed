@@ -2,7 +2,7 @@ class Feed
 
   include ApplicationHelper
 
-  attr_reader :poster_recipient_profile_hash,
+  attr_reader :facebook_profile_pictures,
               :commenter_profile_hash,
               :unauthed_accounts,
               :twitter_pagination_id,
@@ -62,7 +62,7 @@ class Feed
       facebook_posts = facebook_timeline.posts(facebook_pagination_id).map { |post| Facebook::Post.from(post) }
 
       auth_facebook(facebook_timeline)
-      @poster_recipient_profile_hash = facebook_timeline.poster_recipient_profile_hash
+      @facebook_profile_pictures = facebook_timeline.facebook_profile_pictures
       @facebook_pagination_id = facebook_timeline.pagination_id
       facebook_posts
     else

@@ -15,7 +15,7 @@ class FeedController < ApplicationController
       cached_timeline.format
       @timeline = cached_timeline.timeline
       @unauthed_accounts = cached_timeline.unauthed_accounts
-      @poster_recipient_profile_hash = cached_timeline.facebook_profile_pictures
+      @facebook_profile_pictures = cached_timeline.facebook_profile_pictures
       @load_more_url = feed_content_path(
         :twitter_pagination => cached_timeline.twitter_pagination_id,
         :facebook_pagination_id => cached_timeline.facebook_pagination_id,
@@ -25,8 +25,7 @@ class FeedController < ApplicationController
       feed = Feed.new(current_user)
       @timeline = feed.posts(params[:twitter_pagination], params[:facebook_pagination_id], params[:instagram_max_id])
       @unauthed_accounts = feed.unauthed_accounts
-      @poster_recipient_profile_hash = feed.poster_recipient_profile_hash
-
+      @facebook_profile_pictures = feed.facebook_profile_pictures
       @load_more_url = feed_content_path(
         :twitter_pagination => feed.twitter_pagination_id,
         :facebook_pagination_id => feed.facebook_pagination_id,

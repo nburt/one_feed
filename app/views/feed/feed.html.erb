@@ -8,7 +8,7 @@
     <% elsif post.provider == "instagram" %>
       <%= render partial: "instagram_post", locals: {post: post} %>
     <% elsif post.provider == "facebook" %>
-      <%= render partial: "facebook_post", locals: {post: post, poster_recipient_profile_hash: @poster_recipient_profile_hash, commenter_profile_hash: @commenter_profile_hash} %>
+      <%= render partial: "facebook_post", locals: {post: post, facebook_profile_pictures: @facebook_profile_pictures} %>
     <% end %>
   <% end %>
   <div class="load_posts_link">

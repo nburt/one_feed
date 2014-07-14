@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Cache::Providers do
-
   it 'can handle unauthorized responses from instagram' do
     body = {
       "meta" => {

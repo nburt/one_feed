@@ -36,7 +36,7 @@ module Cache
       end
 
       if twitter_timeline == []
-        array << {provider: 'twitter', body: twitter_timeline, code: 401}
+        array << {provider: 'twitter', body: twitter_timeline, code: 400}
       elsif twitter_timeline.code == 400
         array << {provider: 'twitter', body: twitter_timeline.body, code: 400}
       else
@@ -59,8 +59,8 @@ module Cache
       else
         cache_facebook_api = Cache::FacebookApi.new(token.access_token)
         cache_facebook_api.get_timeline
-        Struct.new("FacebookCache", :body, :code, :profile_pictures)
-        Struct::FacebookCache.new(cache_facebook_api.timeline_response.body, cache_facebook_api.timeline_response.code, cache_facebook_api.profile_pictures)
+        facebook = Struct.new(:body, :code, :profile_pictures)
+        facebook.new(cache_facebook_api.timeline_response.body, cache_facebook_api.timeline_response.code, cache_facebook_api.profile_pictures)
       end
     end
 
@@ -70,8 +70,8 @@ module Cache
       else
         begin
           timeline = Cache::TwitterApi.get_timeline(token)
-          Struct.new("Twitter", :body, :code)
-          Struct::Twitter.new(timeline, 200)
+          twitter = Struct.new(:body, :code)
+          twitter.new(timeline, 200)
         rescue Twitter::Error::BadRequest, Twitter::Error::Unauthorized
           body = {
             "errors" => [
@@ -81,8 +81,8 @@ module Cache
               }
             ]
           }.to_json
-          Struct.new("TwitterCache", :body, :code)
-          Struct::TwitterCache.new(body, 400)
+          twitter = Struct.new(:body, :code)
+          twitter.new(body, 400)
         end
       end
     end

@@ -156,11 +156,17 @@ describe("FeedIndex", function () {
       feedIndex = new FeedIndex($('#jasmine_content'));
       feedIndex.providers = {facebook: true, twitter: true };
       feedIndex.setupCreatingPost();
+      feedIndex.cancelCreatePost();
       $('.create_post_link').click();
       expect(feedIndex.canCreatePost).toEqual(false);
       expect($('#jasmine_content')).toContainText('Choose which networks to post to:');
       expect($('#jasmine_content')).toContainText('Twitter');
       expect($('#jasmine_content')).toContainText('Facebook');
+      $('#js-cancel-button').click();
+      expect($('#jasmine_content')).not.toContainText('Choose which networks to post to:');
+      $('.create_post_link').click();
+      expect($('#jasmine_content')).toContainText('Choose which networks to post to:');
+
     });
 
     it("can show the create post form with only one provider", function () {
@@ -230,6 +236,7 @@ describe("FeedIndex", function () {
       expect($('#jasmine_content')).not.toContainText('Choose which networks to post to:');
       expect($('#jasmine_content')).not.toContainText('Facebook');
     });
+
   });
 
   describe("validations for creating a post", function () {

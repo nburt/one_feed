@@ -181,7 +181,8 @@ FeedIndex = function () {
     $(this.el).on('click', '#js-cancel-button', function (event) {
       event.preventDefault();
       $("#create_post_form").remove();
-    });
+      this.canCreatePost = true;
+    }.bind(this));
   };
 
   FeedIndex.prototype.validatePostTextarea = function () {

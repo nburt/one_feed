@@ -9,32 +9,16 @@ class FeedController < ApplicationController
   end
 
   def feed
-    post = Post.find_by(user_id: current_user.id)
-    if post && post.created_at > 10.minutes.ago && params[:twitter_pagination].nil? && params[:facebook_pagination_id].nil? && params[:instagram_max_id].nil?
-      cached_timeline = Cache::TimelineFormatter.new(post)
-      cached_timeline.format
-      @timeline = cached_timeline.timeline
-      @unauthed_accounts = cached_timeline.unauthed_accounts
-      @facebook_profile_pictures = cached_timeline.facebook_profile_pictures
-      @load_more_url = feed_content_path(
-        :twitter_pagination => cached_timeline.twitter_pagination_id,
-        :facebook_pagination_id => cached_timeline.facebook_pagination_id,
-        :instagram_max_id => cached_timeline.instagram_max_id
-      )
-    else
-      feed = Feed.new(current_user)
-      @timeline = feed.posts(params[:twitter_pagination], params[:facebook_pagination_id], params[:instagram_max_id])
-      @unauthed_accounts = feed.unauthed_accounts
-      @facebook_profile_pictures = feed.facebook_profile_pictures
-      @load_more_url = feed_content_path(
-        :twitter_pagination => feed.twitter_pagination_id,
-        :facebook_pagination_id => feed.facebook_pagination_id,
-        :instagram_max_id => feed.instagram_max_id
-      )
-    end
-
+    @feed_presenter = FeedPresenter.new(current_user, params)
     fragment = render_to_string 'feed/feed', layout: false
-    render json: { unauthed_accounts: @unauthed_accounts, fragment: fragment }
+    render json: {unauthed_accounts: @feed_presenter.unauthed_accounts, fragment: fragment}
   end
+
+  private
+
+  def load_more_url
+    feed_content_path(@feed_presenter.load_more_url_options)
+  end
+  helper_method :load_more_url
 
 end

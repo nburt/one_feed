@@ -25,8 +25,8 @@ describe Feed do
     end
 
     it 'will return a list of unauthed accounts' do
-      feed = Feed.new(user)
-      feed.posts(nil, nil, nil)
+      feed = Feed.new(user, nil, nil, nil)
+      feed.timeline
       expect(feed.unauthed_accounts).to eq ['twitter', 'instagram', 'facebook']
     end
 

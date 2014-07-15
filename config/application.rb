@@ -28,5 +28,8 @@ module OneFeed
     # config.i18n.default_locale = :de
 
     config.action_mailer.default_url_options = {:host => "example.com"}
+
+    # Add additional paths to autoload
+    config.autoload_paths = %W(#{config.root}/app/presenters)
   end
 end

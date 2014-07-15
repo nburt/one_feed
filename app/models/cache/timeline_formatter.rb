@@ -7,15 +7,16 @@ module Cache
       @post = post
       @unauthed_accounts = []
       @facebook_profile_pictures = {}
+      format!
     end
 
-    def format
+    private
+
+    def format!
       structs = create_structs(@post)
       set_facebook_profile_pictures
       @timeline = TimelineConcatenator.new.merge(twitter_posts(structs[2]), instagram_posts(structs[0]), facebook_posts(structs[1]))
     end
-
-    private
 
     def set_facebook_profile_pictures
       @facebook_profile_pictures = @post.post_array[1]["profile_pictures"]

@@ -9,15 +9,18 @@ class Feed
               :facebook_pagination_id,
               :instagram_max_id
 
-  def initialize(current_user)
+  def initialize(current_user, twitter_pagination_id, facebook_pagination_id, instagram_max_id)
     @current_user = current_user
     @unauthed_accounts = []
+    @twitter_pagination_id = twitter_pagination_id
+    @facebook_pagination_id = facebook_pagination_id
+    @instagram_max_id = instagram_max_id
   end
 
-  def posts(twitter_pagination_id, facebook_pagination_id, instagram_max_id)
-    TimelineConcatenator.new.merge(twitter_posts(twitter_pagination_id),
-                                   instagram_posts(instagram_max_id),
-                                   facebook_posts(facebook_pagination_id))
+  def timeline
+    TimelineConcatenator.new.merge(twitter_posts(@twitter_pagination_id),
+                                   instagram_posts(@instagram_max_id),
+                                   facebook_posts(@facebook_pagination_id))
   end
 
   private
@@ -60,7 +63,6 @@ class Feed
     if current_user_has_provider?('facebook', @current_user)
       facebook_timeline = Facebook::Timeline.new(@current_user)
       facebook_posts = facebook_timeline.posts(facebook_pagination_id).map { |post| Facebook::Post.from(post) }
-
       auth_facebook(facebook_timeline)
       @facebook_profile_pictures = facebook_timeline.facebook_profile_pictures
       @facebook_pagination_id = facebook_timeline.pagination_id

@@ -39,6 +39,18 @@ FeedIndex = function () {
     }
   };
 
+  FeedIndex.prototype.setShow = function (providers) {
+    if (providers.facebook !== undefined) {
+      this.show.facebook = providers.facebook;
+    }
+    if (providers.twitter !== undefined) {
+      this.show.twitter = providers.twitter;
+    }
+    if (providers.instagram !== undefined) {
+      this.show.instagram = providers.instagram;
+    }
+  };
+
   FeedIndex.prototype.toggleProviderButtons = function () {
     if (this.providers.twitter) {
       $('#twitter_toggle').show();
@@ -74,6 +86,7 @@ FeedIndex = function () {
       providers[response.unauthed_accounts[i]] = false;
     }
     this.setProviders(providers);
+    this.setShow(providers);
     this.toggleProviderButtons();
     $(".loading_message").hide();
   };
@@ -135,13 +148,13 @@ FeedIndex = function () {
   };
 
   FeedIndex.prototype.hidePosts = function () {
-    if (!this.providers.instagram) {
+    if (!this.show.instagram) {
       $('.instagram_post').hide();
     }
-    if (!this.providers.facebook) {
+    if (!this.show.facebook) {
       $('.facebook_post').hide();
     }
-    if (!this.providers.twitter) {
+    if (!this.show.twitter) {
       $('.twitter_post').hide();
     }
   };
@@ -361,7 +374,7 @@ FeedIndex = function () {
   };
 
   FeedIndex.prototype.toggleProvider = function (className, providerVisibility) {
-    this.providers[providerVisibility] = !this.providers[providerVisibility];
+    this.show[providerVisibility] = !this.show[providerVisibility];
     $(className).toggle();
   };
 

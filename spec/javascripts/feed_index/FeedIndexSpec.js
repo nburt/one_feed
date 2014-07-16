@@ -32,6 +32,7 @@ describe("FeedIndex", function () {
       $content = $('<div class="loading_message"><p class="loading_text">Loading...</p></div>');
       feedIndex = new FeedIndex($content);
       feedIndex.providers = {facebook: true, twitter: false, instagram: true};
+      feedIndex.show = {facebook: true, twitter: false, instagram: true};
       feedIndex.initialize();
 
       expect(jasmine.Ajax.requests.mostRecent().url).toBe("/feed_content");
@@ -43,6 +44,7 @@ describe("FeedIndex", function () {
       var initialFeedResponse = TestResponses.initialFeedResponse.success.responseText;
       feedIndex = new FeedIndex();
       feedIndex.providers = {facebook: true, twitter: true, instagram: true};
+      feedIndex.show = {facebook: true, twitter: true, instagram: true};
       expect(feedIndex.reloadOk).toEqual(false);
 
       feedIndex.initialFeedSuccess(initialFeedResponse);
@@ -57,6 +59,7 @@ describe("FeedIndex", function () {
       var initialFeedResponse = TestResponses.partialUnauthed.success.responseText;
       feedIndex = new FeedIndex($('#jasmine_content'));
       feedIndex.providers = {facebook: true, twitter: true, instagram: false};
+      feedIndex.show = {facebook: true, twitter: true, instagram: false};
       feedIndex.initialFeedSuccess(initialFeedResponse);
       expect($('#twitter_toggle')).toBeHidden();
       expect($('#instagram_toggle')).toBeHidden();
@@ -90,6 +93,7 @@ describe("FeedIndex", function () {
       var subsequentFeedRequest = TestResponses.subsequentFeedResponse.success.responseText;
       feedIndex = new FeedIndex();
       feedIndex.providers = {facebook: true, twitter: true, instagram: true};
+      feedIndex.show = {facebook: true, twitter: true, instagram: true};
       feedIndex.nextFeedSuccess(subsequentFeedRequest);
       expect(feedIndex.reloadOk).toEqual(true);
       expect($('#feed_container')).toContainText('hello');
@@ -101,6 +105,7 @@ describe("FeedIndex", function () {
       var subsequentFeedRequest = TestResponses.partialUnauthed.success.responseText;
       feedIndex = new FeedIndex($('#jasmine_content'));
       feedIndex.providers = {facebook: true, twitter: false, instagram: true};
+      feedIndex.show = {facebook: true, twitter: false, instagram: true};
       expect($('.unauthed_accounts').length).toEqual(1);
       feedIndex.nextFeedSuccess(subsequentFeedRequest);
       expect($('.unauthed_accounts').length).toEqual(1);
@@ -112,6 +117,7 @@ describe("FeedIndex", function () {
       var subsequentFeedRequest = TestResponses.twitterPost.success.responseText;
       feedIndex = new FeedIndex($('#jasmine_content'));
       feedIndex.providers = {facebook: true, twitter: false, instagram: true};
+      feedIndex.show = {facebook: true, twitter: false, instagram: true};
       expect($('.unauthed_accounts').length).toEqual(1);
       feedIndex.nextFeedSuccess(subsequentFeedRequest);
       expect($('.unauthed_accounts').length).toEqual(0);
@@ -123,6 +129,7 @@ describe("FeedIndex", function () {
       var subsequentFeedRequestResponse = TestResponses.partialUnauthed.success.responseText;
       feedIndex = new FeedIndex($('#jasmine_content'));
       feedIndex.providers = {facebook: false, twitter: false, instagram: true};
+      feedIndex.show = {facebook: false, twitter: false, instagram: true};
       expect($('[data-unauthed]').length).toEqual(2);
       feedIndex.nextFeedSuccess(subsequentFeedRequestResponse);
       expect($('[data-unauthed]').length).toEqual(1);
@@ -134,6 +141,7 @@ describe("FeedIndex", function () {
       var subsequentFeedRequestResponse = TestResponses.partialUnauthed.success.responseText;
       feedIndex = new FeedIndex($('#jasmine_content'));
       feedIndex.providers = {facebook: false, twitter: false, instagram: true};
+      feedIndex.show = {facebook: false, twitter: false, instagram: true};
       expect($('#jasmine_content')).not.toContainText('Tom Amhbciaegaeb Lauescu');
       feedIndex.nextFeedSuccess(subsequentFeedRequestResponse);
       expect($('#jasmine_content')).toContainText('Tom Amhbciaegaeb Lauescu');
@@ -467,12 +475,12 @@ describe("FeedIndex", function () {
       $('#jasmine_content').append(fixture2);
 
       feedIndex = new FeedIndex($('#jasmine_content'));
-      feedIndex.providers = {facebook: true, twitter: true, instagram: true};
-      expect(feedIndex.providers.twitter).toEqual(true);
+      feedIndex.show = {facebook: true, twitter: true, instagram: true};
+      expect(feedIndex.show.twitter).toEqual(true);
       feedIndex.toggleTwitterPosts(feedIndex.toggleProvider);
 
       $('#twitter_toggle').click();
-      expect(feedIndex.providers.twitter).toEqual(false);
+      expect(feedIndex.show.twitter).toEqual(false);
       expect($('.twitter_post')[0]).toBeHidden();
     });
 
@@ -483,12 +491,12 @@ describe("FeedIndex", function () {
       $('#jasmine_content').append(fixture2);
 
       feedIndex = new FeedIndex($('#jasmine_content'));
-      feedIndex.providers = {facebook: true, twitter: true, instagram: true};
-      expect(feedIndex.providers.facebook).toEqual(true);
+      feedIndex.show = {facebook: true, twitter: true, instagram: true};
+      expect(feedIndex.show.facebook).toEqual(true);
       feedIndex.toggleFacebookPosts(feedIndex.toggleProvider);
 
       $('#facebook_toggle').click();
-      expect(feedIndex.providers.facebook).toEqual(false);
+      expect(feedIndex.show.facebook).toEqual(false);
       expect($('.facebook_post')[0]).toBeHidden();
     });
 
@@ -499,12 +507,12 @@ describe("FeedIndex", function () {
       $('#jasmine_content').append(fixture2);
 
       feedIndex = new FeedIndex($('#jasmine_content'));
-      feedIndex.providers = {facebook: true, twitter: true, instagram: true};
-      expect(feedIndex.providers.instagram).toEqual(true);
+      feedIndex.show = {facebook: true, twitter: true, instagram: true};
+      expect(feedIndex.show.instagram).toEqual(true);
       feedIndex.toggleInstagramPosts(feedIndex.toggleProvider);
 
       $('#instagram_toggle').click();
-      expect(feedIndex.providers.instagram).toEqual(false);
+      expect(feedIndex.show.instagram).toEqual(false);
       expect($('.instagram_post')[0]).toBeHidden();
     });
 
@@ -517,7 +525,8 @@ describe("FeedIndex", function () {
       $('#jasmine_content').append(fixture3);
 
       feedIndex = new FeedIndex($('#jasmine_content'));
-      feedIndex.providers = {facebook: false, twitter: false, instagram: false};
+      feedIndex.show = {facebook: false, twitter: false, instagram: false};
+      expect($('.instagram_post')[0]).toBeVisible();
       feedIndex.hidePosts();
       expect($('.instagram_post')[0]).toBeHidden();
       expect($('.facebook_post')[0]).toBeHidden();
@@ -529,7 +538,8 @@ describe("FeedIndex", function () {
       $('#jasmine_content').append(fixture);
       feedIndex = new FeedIndex();
       feedIndex.providers = {facebook: false, twitter: false, instagram: false};
-      feedIndex.toggleProviderButtons();
+      expect($('#facebook_toggle')).toBeVisible();
+      feedIndex.initialize();
       expect($('#facebook_toggle')).toBeHidden();
       expect($('#twitter_toggle')).toBeHidden();
       expect($('#instagram_toggle')).toBeHidden();
@@ -541,10 +551,11 @@ describe("FeedIndex", function () {
       var initialFeedResponse = TestResponses.initialFeedResponse.unauthed.responseText;
       feedIndex = new FeedIndex();
       feedIndex.providers = {facebook: true, twitter: true, instagram: true};
+      feedIndex.show = {facebook: true, twitter: true, instagram: true};
       feedIndex.render(initialFeedResponse);
-      expect(feedIndex.providers.facebook).toEqual(false);
-      expect(feedIndex.providers.twitter).toEqual(false);
-      expect(feedIndex.providers.instagram).toEqual(false);
+      expect(feedIndex.show.facebook).toEqual(false);
+      expect(feedIndex.show.twitter).toEqual(false);
+      expect(feedIndex.show.instagram).toEqual(false);
       expect($('#facebook_toggle')).toBeHidden();
       expect($('#twitter_toggle')).toBeHidden();
       expect($('#instagram_toggle')).toBeHidden();

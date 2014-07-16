@@ -18,6 +18,7 @@
   $(document).ready(function () {
     var feedIndex = new FeedIndex(document);
     feedIndex.providers = <%= { facebook: @providers.facebook?, twitter: @providers.twitter?, instagram: @providers.instagram? }.to_json.html_safe %>;
+    feedIndex.show = <%= { facebook: @providers.facebook?, twitter: @providers.twitter?, instagram: @providers.instagram? }.to_json.html_safe %>;
     feedIndex.images = {
       facebook: "<%= image_path("FB-f-Logo__blue_50.png") %>",
       twitter: "<%= image_path("Twitter_logo_blue.png") %>"

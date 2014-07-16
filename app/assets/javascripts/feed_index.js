@@ -166,8 +166,33 @@ FeedIndex = function () {
         this.canCreatePost = false;
         var div = JST['templates/create_post'](this.providers);
         $('#feed_content').before($(div).fadeIn('slow'));
+        this.toggleCharacterCount();
+        this.trackCharacterCount();
       }
     }.bind(this));
+  };
+
+  FeedIndex.prototype.toggleCharacterCount = function () {
+    $(this.el).on('click', '#provider_twitter', function () {
+      if ($(document.forms.create_post_form).find('#provider_twitter')[0].checked) {
+        $('#character_count_container').show();
+      } else {
+        $('#character_count_container').hide();
+      }
+    });
+  };
+
+  FeedIndex.prototype.trackCharacterCount = function () {
+    $('#post_content').keyup(function () {
+      var textareaCharacterCount = document.forms.create_post_form.post.value.length;
+      var remainingCharacters = 140 - textareaCharacterCount;
+      if (remainingCharacters < 0) {
+        $('#character_count_container').addClass('red')
+      } else {
+        $('#character_count_container').removeClass('red')
+      }
+      $('#character_count').text(remainingCharacters);
+    });
   };
 
   FeedIndex.prototype.createPost = function (createPostSuccess) {

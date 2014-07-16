@@ -259,6 +259,56 @@ describe("FeedIndex", function () {
       expect(jasmine.Ajax.requests.mostRecent().url).not.toBe("/posts?post=hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello wor&twitter=true&facebook=false");
     });
 
+    it("tracks the character count of the post if a user has checked twitter as a provider", function () {
+      var fixture = '<div class="content_container"><div id="feed_content"><aside><ul id="secondary_nav"><li><a class="create_post_link" href="/posts">Create Post</a></li></ul></aside></div></div>';
+      $('#jasmine_content').append(fixture);
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      feedIndex.providers = {facebook: true, twitter: true};
+      feedIndex.initialize();
+      $(".create_post_link").click();
+      expect($('#jasmine_content #character_count').length).toEqual(1);
+      document.forms.create_post_form.post.value = "hello world";
+      $(document.forms.create_post_form.post).keyup();
+      $('#provider_twitter').click();
+      expect($('#jasmine_content #character_count')).toHaveText("129");
+      document.forms.create_post_form.post.value = "hellooo world";
+      $(document.forms.create_post_form.post).keyup();
+      expect($('#jasmine_content #character_count')).toHaveText("127");
+    });
+
+    it("toggles the character count div when a user checks/unchecks twitter as a provider", function () {
+      var fixture = '<div class="content_container"><div id="feed_content"><aside><ul id="secondary_nav"><li><a class="create_post_link" href="/posts">Create Post</a></li></ul></aside></div></div>';
+      $('#jasmine_content').append(fixture);
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      feedIndex.providers = {facebook: true, twitter: true};
+      feedIndex.initialize();
+      $(".create_post_link").click();
+      document.forms.create_post_form.post.value = "hello world";
+      expect($('#character_count_container')).toBeHidden();
+      $('#provider_twitter').click();
+      expect($('#character_count_container')).not.toBeHidden();
+      $('#provider_twitter').click();
+      expect($('#character_count_container')).toBeHidden();
+    });
+
+    it("changes the character count color to red if the number is negative", function () {
+      var fixture = '<div class="content_container"><div id="feed_content"><aside><ul id="secondary_nav"><li><a class="create_post_link" href="/posts">Create Post</a></li></ul></aside></div></div>';
+      $('#jasmine_content').append(fixture);
+      feedIndex = new FeedIndex($('#jasmine_content'));
+      feedIndex.providers = {facebook: true, twitter: true};
+      feedIndex.initialize();
+      $(".create_post_link").click();
+      $('#provider_twitter').click();
+      document.forms.create_post_form.post.value = "hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello w";
+      $(document.forms.create_post_form.post).keyup();
+      expect($('#character_count_container')).not.toHaveClass("red");
+      document.forms.create_post_form.post.value = "hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello wor";
+      $(document.forms.create_post_form.post).keyup();
+      expect($('#character_count_container')).toHaveClass("red");
+      document.forms.create_post_form.post.value = "hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello w";
+      $(document.forms.create_post_form.post).keyup();
+      expect($('#character_count_container')).not.toHaveClass("red");
+    });
   });
 
   describe("favoriting/liking posts", function () {

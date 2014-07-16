@@ -12,7 +12,7 @@ FeedIndex = function () {
     this.getInitialFeed(this.initialFeedSuccess);
     this.trackScrolling(this.nextFeedSuccess);
     this.setupCreatingPost();
-    this.createPost(this.createPostSuccess.bind(this), this.validatePostTextarea, this.validatePostCheckboxes);
+    this.createPost(this.createPostSuccess.bind(this));
     this.cancelCreatePost();
     this.twitterFavorite(this.twitterFavoriteSuccess);
     this.twitterRetweet(this.twitterRetweetSuccess);
@@ -170,10 +170,15 @@ FeedIndex = function () {
     }.bind(this));
   };
 
-  FeedIndex.prototype.createPost = function (createPostSuccess, validatePostTextarea, validatePostCheckboxes) {
+  FeedIndex.prototype.createPost = function (createPostSuccess) {
     $(this.el).on('submit', '#create_post_form', function (event) {
       event.preventDefault();
-      if (validatePostTextarea() && validatePostCheckboxes()) {
+      if (PostValidator.validatePostTextarea(document.forms.create_post_form.post.value) && PostValidator.validatePostCheckboxes($(document.forms.create_post_form).find('input[type=checkbox]'))) {
+        if ($('#provider_twitter')[0].checked) {
+          if (!PostValidator.validateTweetLength(document.forms.create_post_form.post.value))    {
+            return;
+          }
+        }
         var post = $(this)[0][2].value;
         var twitter;
         var facebook;
@@ -196,26 +201,6 @@ FeedIndex = function () {
       $("#create_post_form").remove();
       this.canCreatePost = true;
     }.bind(this));
-  };
-
-  FeedIndex.prototype.validatePostTextarea = function () {
-    var textareaValue = document.forms.create_post_form.post.value;
-    if (textareaValue == null || textareaValue == "") {
-      alert("Post body cannot be blank.");
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  FeedIndex.prototype.validatePostCheckboxes = function () {
-    var checkboxes = $(document.forms.create_post_form).find('input[type=checkbox]');
-    if (!checkboxes[0].checked && !checkboxes[1].checked) {
-      alert("You must check at least one provider.");
-      return false;
-    } else {
-      return true;
-    }
   };
 
   FeedIndex.prototype.createPostSuccess = function (response) {
@@ -381,21 +366,21 @@ FeedIndex = function () {
   FeedIndex.prototype.toggleFacebookPosts = function (toggleProvider) {
     $(this.el).on('click', '#facebook_toggle', function (event) {
       event.preventDefault();
-      toggleProvider.apply(this, [$('.facebook_post'), 'facebook']);
+      toggleProvider.apply(this, ['.facebook_post', 'facebook']);
     }.bind(this));
   };
 
   FeedIndex.prototype.toggleTwitterPosts = function (toggleProvider) {
     $(this.el).on('click', '#twitter_toggle', function (event) {
       event.preventDefault();
-      toggleProvider.apply(this, [$('.twitter_post'), 'twitter']);
+      toggleProvider.apply(this, ['.twitter_post', 'twitter']);
     }.bind(this));
   };
 
   FeedIndex.prototype.toggleInstagramPosts = function (toggleProvider) {
     $(this.el).on('click', '#instagram_toggle', function (event) {
       event.preventDefault();
-      toggleProvider.apply(this, [$('.instagram_post'), 'instagram']);
+      toggleProvider.apply(this, ['.instagram_post', 'instagram']);
     }.bind(this));
   };
 

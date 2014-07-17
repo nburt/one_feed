@@ -16,6 +16,7 @@ describe Cache::Providers do
     Token.create!(provider: 'instagram', uid: '23948734', access_token: 'mock_token', user_id: user.id)
     Cache::Providers.fetch_and_save_timelines(user)
     post = Post.last
+    expect(post.post_array.length).to eq 1
     expect(post.post_array.first['provider']).to eq 'instagram'
     expect(post.post_array.first['body']).to eq body
     expect(post.post_array.first['code']).to eq 401
@@ -35,10 +36,11 @@ describe Cache::Providers do
     Token.create!(provider: 'facebook', uid: '23948734', access_token: 'mock_token', access_token_secret: 'mock_secret_token', user_id: user.id)
     Cache::Providers.fetch_and_save_timelines(user)
     post = Post.last
-    expect(post.post_array[1]['provider']).to eq 'facebook'
-    expect(post.post_array[1]['body']).to eq body
-    expect(post.post_array[1]['code']).to eq 190
-    expect(post.post_array[1]['profile_pictures']).to eq({})
+    expect(post.post_array.length).to eq 1
+    expect(post.post_array.first['provider']).to eq 'facebook'
+    expect(post.post_array.first['body']).to eq body
+    expect(post.post_array.first['code']).to eq 190
+    expect(post.post_array.first['profile_pictures']).to eq({})
   end
 
   it 'can handle unauthorized responses from twitter' do
@@ -56,9 +58,10 @@ describe Cache::Providers do
     Token.create!(provider: 'twitter', uid: '23948734', access_token: 'mock_token', access_token_secret: 'mock_token', user_id: user.id)
     Cache::Providers.fetch_and_save_timelines(user)
     post = Post.last
-    expect(post.post_array[2]['provider']).to eq 'twitter'
-    expect(post.post_array[2]['body']).to eq body
-    expect(post.post_array[2]['code']).to eq 400
+    expect(post.post_array.length).to eq 1
+    expect(post.post_array.first['provider']).to eq 'twitter'
+    expect(post.post_array.first['body']).to eq body
+    expect(post.post_array.first['code']).to eq 400
   end
 
   it 'can clear out posts for a user' do
@@ -86,6 +89,6 @@ describe Cache::Providers do
     Token.create!(provider: 'facebook', uid: '23948734', access_token: 'mock_token', access_token_secret: 'mock_secret_token', user_id: user.id)
     Cache::Providers.fetch_and_save_timelines(user)
     post = Post.last
-    expect(post.post_array[1]['profile_pictures']['10201999791700227']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/p50x50/10359166_10202087887622570_1663761395861545071_n.jpg'
+    expect(post.post_array.first['profile_pictures']['10201999791700227']).to eq 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/p50x50/10359166_10202087887622570_1663761395861545071_n.jpg'
   end
 end

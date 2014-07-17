@@ -1,5 +1,5 @@
 <% unless @feed_presenter.unauthed_accounts.empty? %>
-  <%= render partial: "unauthed_accounts" %>
+  <%= render partial: "unauthed_accounts", locals: {unauthed_accounts: @feed_presenter.unauthed_accounts} %>
 <% end %>
 <% if @feed_presenter.timeline.present? %>
   <% @feed_presenter.timeline.each do |post| %>

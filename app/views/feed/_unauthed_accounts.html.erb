@@ -1,7 +1,7 @@
 <div class="unauthed_accounts">
-  <% if @unauthed_accounts.length == 1 %>
+  <% if unauthed_accounts.length == 1 %>
     <h4>
-      Authorization for <%= @unauthed_accounts[0].capitalize %> has expired. Please click the below link to reauthorize
+      Authorization for <%= unauthed_accounts[0].capitalize %> has expired. Please click the below link to reauthorize
       your account.
     </h4>
   <% else %>
@@ -11,7 +11,7 @@
     </h4>
   <% end %>
   <ul>
-    <% @unauthed_accounts.each do |account| %>
+    <% unauthed_accounts.each do |account| %>
       <li data-unauthed=<%= account %>>
         <%= account.capitalize %>: <%= link_to "Click here to reauthorize", "/auth/#{account}" %>
       </li>

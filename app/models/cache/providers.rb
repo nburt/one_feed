@@ -24,19 +24,19 @@ module Cache
     def self.create_post_array(instagram_timeline, facebook_timeline, twitter_timeline)
       array = []
       if instagram_timeline == []
-        array << {provider: 'instagram', body: instagram_timeline, code: 401}
+        array
       else
         array << {provider: 'instagram', body: instagram_timeline.body, code: instagram_timeline.code}
       end
 
       if facebook_timeline == []
-        array << {provider: 'facebook', body: facebook_timeline, code: 190}
+        array
       else
         array << {provider: 'facebook', body: facebook_timeline.body, code: facebook_timeline.code, profile_pictures: facebook_timeline.profile_pictures}
       end
 
       if twitter_timeline == []
-        array << {provider: 'twitter', body: twitter_timeline, code: 400}
+        array
       elsif twitter_timeline.code == 400
         array << {provider: 'twitter', body: twitter_timeline.body, code: 400}
       else

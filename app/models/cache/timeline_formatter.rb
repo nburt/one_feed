@@ -14,21 +14,25 @@ module Cache
 
     def format!
       structs = create_structs(@post)
-      set_facebook_profile_pictures
-      @timeline = TimelineConcatenator.new.merge(twitter_posts(structs[2]), instagram_posts(structs[0]), facebook_posts(structs[1]))
+      if structs[2] != []
+        set_facebook_profile_pictures
+      end
+      @timeline = TimelineConcatenator.new.merge(twitter_posts(structs[0]), instagram_posts(structs[1]), facebook_posts(structs[2]))
     end
 
     def set_facebook_profile_pictures
-      @facebook_profile_pictures = @post.post_array[1]["profile_pictures"]
+      @facebook_profile_pictures = @post.post_hash["facebook"]["profile_pictures"]
     end
 
     def twitter_posts(post_structs)
       posts = []
-      if post_structs.code == 400
+      if post_structs == []
+        []
+      elsif post_structs.code == 400
         @unauthed_accounts << "twitter"
       else
-        set_twitter_pagination_id(post_structs.body["body"])
-        post_structs.body["body"].map do |post|
+        set_twitter_pagination_id(post_structs.body)
+        post_structs.body.map do |post|
           posts << Twitter::Post.from(post)
         end
       end
@@ -45,7 +49,9 @@ module Cache
 
     def instagram_posts(post_structs)
       posts = []
-      if post_structs.code == 401
+      if post_structs == []
+        []
+      elsif post_structs.code == 401
         @unauthed_accounts << "instagram"
       else
         response = Instagram::Response.new(post_structs)
@@ -63,11 +69,13 @@ module Cache
     end
 
     def facebook_posts(post_structs)
-      response = Facebook::TimelineResponse.new(post_structs)
       posts = []
-      if !response.authed?
+      if post_structs == []
+        []
+      elsif post_structs.code == 190
         @unauthed_accounts << "facebook"
       else
+        response = Facebook::TimelineResponse.new(post_structs)
         posts = response.posts_response
         @facebook_pagination_id = response.pagination_id
       end
@@ -83,25 +91,37 @@ module Cache
 
     def create_structs(post)
       [
-        instagram_struct(post.post_array[0]),
-        facebook_struct(post.post_array[1]),
-        twitter_struct(post.post_array[2])
+        twitter_struct(post.post_hash["twitter"]),
+        instagram_struct(post.post_hash["instagram"]),
+        facebook_struct(post.post_hash["facebook"])
       ]
     end
 
-    def instagram_struct(post_array)
-      instagram = Struct.new(:body, :code)
-      instagram.new(post_array["body"], post_array["code"])
+    def instagram_struct(post_hash)
+      if post_hash
+        instagram = Struct.new(:body, :code)
+        instagram.new(post_hash["body"], post_hash["code"])
+      else
+        []
+      end
     end
 
-    def facebook_struct(post_array)
-      facebook = Struct.new(:body, :code)
-      facebook.new(post_array["body"], post_array["code"])
+    def facebook_struct(post_hash)
+      if post_hash
+        facebook = Struct.new(:body, :code)
+        facebook.new(post_hash["body"], post_hash["code"])
+      else
+        []
+      end
     end
 
-    def twitter_struct(post_array)
-      twitter = Struct.new(:body, :code)
-      twitter.new(post_array["body"], post_array["code"])
+    def twitter_struct(post_hash)
+      if post_hash
+        twitter = Struct.new(:body, :code)
+        twitter.new(post_hash["body"], post_hash["code"])
+      else
+        []
+      end
     end
   end
 end

@@ -10,9 +10,9 @@ module Cache
       facebook_timeline = fetch_facebook(facebook_token)
       twitter_timeline = fetch_twitter(twitter_token)
 
-      post_array = create_post_array(instagram_timeline, facebook_timeline, twitter_timeline)
+      post_hash = create_post_hash(instagram_timeline, facebook_timeline, twitter_timeline)
 
-      Post.create!(post_array: post_array, user_id: user.id)
+      Post.create!(post_hash: post_hash, user_id: user.id)
     end
 
     def self.clear_user_posts(user)
@@ -21,28 +21,28 @@ module Cache
 
     private
 
-    def self.create_post_array(instagram_timeline, facebook_timeline, twitter_timeline)
-      array = []
+    def self.create_post_hash(instagram_timeline, facebook_timeline, twitter_timeline)
+      hash = {}
       if instagram_timeline == []
-        array
+        hash
       else
-        array << {provider: 'instagram', body: instagram_timeline.body, code: instagram_timeline.code}
+        hash['instagram'] = {body: instagram_timeline.body, code: instagram_timeline.code}
       end
 
       if facebook_timeline == []
-        array
+        hash
       else
-        array << {provider: 'facebook', body: facebook_timeline.body, code: facebook_timeline.code, profile_pictures: facebook_timeline.profile_pictures}
+        hash['facebook'] = {body: facebook_timeline.body, code: facebook_timeline.code, profile_pictures: facebook_timeline.profile_pictures}
       end
 
       if twitter_timeline == []
-        array
+        hash
       elsif twitter_timeline.code == 400
-        array << {provider: 'twitter', body: twitter_timeline.body, code: 400}
+        hash['twitter'] = {body: twitter_timeline.body, code: 400}
       else
-        array << {provider: 'twitter', body: twitter_timeline, code: 200}
+        hash['twitter'] = {body: twitter_timeline.body, code: 200}
       end
-      array
+      hash
     end
 
     def self.fetch_instagram(token)

@@ -17,36 +17,9 @@
       <a href="/"><img id="logo" src="<%= asset_url("one_feed_logo_white.png") %>" alt="OneFeed Logo"></a>
     </div>
     <% if logged_in? %>
-      <nav id="logged_in">
-        <div id="menu_button_container">
-          <ul>
-            <li id="menu_button">Menu</li>
-            <li class="mobile_menu"><%= link_to "Account Settings", account_path(session[:user_id]) %></li>
-            <li class="mobile_menu"><%= link_to "Sign Out", "/destroy" %></li>
-          </ul>
-        </div>
-      </nav>
+      <%= render partial: "layouts/logged_in_navbar" %>
     <% else %>
-      <nav id="onefeed_login">
-        <ul>
-          <%= form_for @user, :url => {:controller => "sessions", :action => "create"} do |f| %>
-            <li>
-              <div class="login_form_fields">
-                <%= f.email_field :email, :autofocus => true, :placeholder => "Email", :tabindex => 1 %>
-              </div>
-            </li>
-            <li>
-              <%= link_to "Forgot Your Password?", forgot_password_path, :id => "forgot_password_link", :tabindex => 4 %>
-              <div class="login_form_fields">
-                <%= f.password_field :password, :placeholder => "Password", :tabindex => 2 %>
-              </div>
-            </li>
-            <li>
-              <div class="homepage_form_button"><%= f.submit "Sign In", :tabindex => 3 %></div>
-            </li>
-          <% end %>
-        </ul>
-      </nav>
+      <%= render partial: "layouts/login_navbar" %>
     <% end %>
   </div>
 </header>

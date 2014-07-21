@@ -1,0 +1,9 @@
+<nav id="logged_in">
+  <div id="menu_button_container">
+    <ul>
+      <li id="menu_button">Menu</li>
+      <li class="mobile_menu"><%= link_to "Account Settings", account_path(session[:user_id]) %></li>
+      <li class="mobile_menu"><%= link_to "Sign Out", "/destroy" %></li>
+    </ul>
+  </div>
+</nav>

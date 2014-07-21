@@ -58,4 +58,10 @@
       }
     }
   }
+  #textarea_validation_error,
+  #checkbox_validation_error,
+  #tweet_length_validation_error {
+    display: none;
+    color: red;
+  }
 }

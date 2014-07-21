@@ -8,11 +8,13 @@
 
     <div id="post_content_container">
       <label for="post_content">Post content</label>
+      <p id="textarea_validation_error">Post body cannot be blank.</p>
       <textarea id="post_content" name="post" placeholder="Share something awesome!"></textarea>
     </div>
 
     <div id="post_checkbox_container">
       <label>Choose which networks to post to:</label>
+      <p id="checkbox_validation_error">You must check at least one provider.</p>
       <% if (twitter) { %>
       <label for="provider_twitter">Twitter</label>
       <input id="provider_twitter" name="provider[twitter]" type="checkbox" value="0"/>
@@ -25,6 +27,7 @@
     </div>
 
     <div id='character_count_container'>
+      <p id="tweet_length_validation_error">Tweet cannot be longer than 140 characters.</p>
       <p>Characters Remaining: <span id='character_count'>140</span></p>
     </div>
 

@@ -1,27 +1,37 @@
 PostValidator = {
   validatePostTextarea: function (textareaValue) {
     if (textareaValue === null || textareaValue === "") {
-      alert("Post body cannot be blank.");
+      $('#textarea_validation_error').show();
+      $('#tweet_length_validation_error').hide();
       return false;
     } else {
+      $('#textarea_validation_error').hide();
       return true;
     }
   },
 
   validatePostCheckboxes: function (checkboxes) {
-    if (!checkboxes[0].checked && !checkboxes[1].checked) {
-      alert("You must check at least one provider.");
-      return false;
-    } else {
+    var counter = 0;
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        counter += 1;
+      }
+    }
+    if (counter > 0) {
+      $('#checkbox_validation_error').hide();
       return true;
+    } else {
+      $('#checkbox_validation_error').show();
+      return false;
     }
   },
 
   validateTweetLength: function (tweetText) {
     if (tweetText.length > 140) {
-      alert("Tweet cannot be longer than 140 characters.");
+      $('#tweet_length_validation_error').show();
       return false;
     } else {
+      $('#tweet_length_validation_error').hide();
       return true;
     }
   }
